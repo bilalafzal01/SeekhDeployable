@@ -1,0 +1,96 @@
+<% include partials/header %>
+<% var newUser = newUser;  %>
+<div class="wrapper">
+    <div class="page-header page-header-xs settings-background" style="background-image: url('https://images.unsplash.com/photo-1547499417-61a435d27cb3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+        <div class="filter"></div>
+    </div>
+    <div class="profile-content section">
+        <div class="container">
+            <div class="row">
+                <div class="profile-picture">
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-new img-no-padding">
+                            <img src="default_avatar.png" alt="...">
+                        </div>
+                    <div class="fileinput-preview fileinput-exists img-no-padding"></div>
+                    <div>
+                        <span class="btn btn-outline-default btn-file btn-round">
+                            <span class="fileinput-new">Change Photo</span>
+                            <span class="fileinput-exists">Change Photo</span>
+                            <input type="file" name="...">
+                        </span>
+                        <br/>
+                        <a href="#paper-kit" class="btn btn-link btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-10 ml-auto mr-auto">
+                    <form class="settings-form" method="POST" action="/profileSetup">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" class="form-control border-input" name="firstName" placeholder=<%=newUser.firstName%>>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" class="form-control border-input"  name="lastName" placeholder=<%=newUser.lastName%>>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label>Phone Number: </label>
+                                    <input type="text" class="form-control border-input"  name="phoneNumber" placeholder=<%=newUser.phoneNumber%>>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 usernameDiv">
+                                <div class="form-group">
+                                    <label>Username: </label>
+                                    <input type="text" class="form-control border-input" name="userName" value=<%= newUser.username%>>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea class="form-control textarea-limited" name="description" placeholder="This is a text area limited to 150 characters." rows="3" maxlength="150"></textarea>
+                            <h5>
+                                <small>
+                                    <span id="textarea-limited-message" class="pull-right">150 characters left</span>
+                                </small>
+                            </h5>
+                        </div>
+                        <label>Notifications</label>
+                        <ul class="notifications">
+                            <li class="notification-item">
+                                Updates regarding platform changes
+                                <input type="checkbox" data-toggle="switch" checked="" data-on-color="info" data-off-color="info">
+                                <span class="toggle"></span>
+                            </li>
+                            <li class="notification-item">
+                                Updates regarding product changes
+                                <input type="checkbox" data-toggle="switch" checked="" data-on-color="info" data-off-color="info">
+                                <span class="toggle"></span>
+                            </li>
+                            <li class="notification-item">
+                                Weekly newsletter
+                                <input type="checkbox" data-toggle="switch" checked="" data-on-color="info" data-off-color="info">
+                                <span class="toggle"></span>
+                            </li>
+                        </ul>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-wd btn-info btn-round">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer %>

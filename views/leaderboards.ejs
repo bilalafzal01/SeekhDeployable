@@ -1,0 +1,195 @@
+<%  var user = currentUser; %>
+<%  if(user){ %>
+        <% include partials/headerTransparentUserLoggedIn %>
+<%  }else{  %>
+        <% include partials/header %>
+<%  }   %>
+
+<div class="wrapper">
+    <div class="filter"></div>
+    <div class="projects-1 Leaderboards" style="background-image: url('https://images.unsplash.com/photo-1569446419157-93922796cb47?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9');">
+        <div class="container">
+                <div class="row">
+                    <div class="col-md-8 ml-auto mr-auto text-center">
+                        <h2 class="title colorWhite">Leaderboards</h2>
+                        <h5 class="description colorGreyishWhite">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta non error soluta eaque illum numquam illo deserunt nihil dolorum corrupti.</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="project-pills">
+                        <ul class="nav nav-pills nav-pills-danger text-center">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#pill-1" role="tab">All categories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#pill-2" role="tab">Pre Engineering</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#pill-3" role="tab">Pre Medical</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="pill-1" role="tabpanel">
+                        <div class="container">
+                            <div class="row">
+                                <div class="title colorWhite col-md-8 ml-auto mr-auto">
+                                    <h3 class="text-center">Past 1 Week: </h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card card-testimonial">
+                                        <div class="card-icon">
+                                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="card-body">
+                                            <h6 class="card-category">All Categories</h6>
+                                            <div class="card-icon mb-2">
+                                                <h4>Past 1 Week</h4>
+                                            </div>
+                                            <div class="card-descripton">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr class="colorWhite card-description text-center leaderboardHeader">
+                                                                <th>#</th>
+                                                                <th>Name</th>
+                                                                <th>MCQs</th>
+                                                                <th>Since</th>
+                                                                <th>XP</th>
+                                                                <th>Streak</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="text-center">
+                                                <%    for(var i = 1; i <=3; i++){    %>
+                                                            <tr>
+                                                                <td><%= i%></td>
+                                                                <td>Bilal Afzal</td>
+                                                                <td>20</td>
+                                                                <td>25th September</td>
+                                                                <td>99,225</td>
+                                                                <td>2 days</td>
+                                                            </tr>
+                                                <%    } %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="pill-2" role="tabpanel">
+                        <div class="container">
+                            <div class="row">
+                                <div class="title colorWhite col-md-8 ml-auto mr-auto">
+                                    <h3 class="text-center">Past 1 Week: </h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card card-testimonial">
+                                        <div class="card-icon">
+                                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                        </div>
+                                    <div class="card-body">
+                                        <h6 class="card-category">Pre Engineering</h6>
+                                        <div class="card-icon mb-2">
+                                            <h4>Past 1 Week</h4>
+                                        </div>
+                                        <div class="card-descripton">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr class="colorWhite card-description text-center leaderboardHeader">
+                                                            <th>#</th>
+                                                            <th>Name</th>
+                                                            <th>MCQs</th>
+                                                            <th>Since</th>
+                                                            <th>XP</th>
+                                                            <th>Streak</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="text-center">
+                                                    <%    for(var i = 1; i <=3; i++){    %>
+                                                        <tr>
+                                                            <td><%= i%></td>
+                                                            <td>Osama Khan</td>
+                                                            <td>30</td>
+                                                            <td>15th November</td>
+                                                            <td>12,325</td>
+                                                            <td>3 days</td>
+                                                        </tr>
+                                                    <%    } %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="pill-3" role="tabpanel">
+                    <div class="container">
+                        <div class="row">
+                            <div class="title colorWhite col-md-8 ml-auto mr-auto">
+                                <h3 class="text-center">Past 1 Week: </h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-testimonial">
+                                    <div class="card-icon">
+                                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="card-body">
+                                        <h6 class="card-category">Pre Medical</h6>
+                                        <div class="card-icon mb-2">
+                                            <h4>Past 1 Week</h4>
+                                        </div>
+                                        <div class="card-descripton">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr class="colorWhite card-description text-center leaderboardHeader">
+                                                            <th>#</th>
+                                                            <th>Name</th>
+                                                            <th>MCQs</th>
+                                                            <th>Since</th>
+                                                            <th>XP</th>
+                                                            <th>Streak</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="text-center">
+                                                    <%    for(var i = 1; i <=3; i++){    %>
+                                                        <tr>
+                                                            <td><%= i%></td>
+                                                            <td>Ayesha Gul</td>
+                                                            <td>24</td>
+                                                            <td>10th October</td>
+                                                            <td>32,325</td>
+                                                            <td>5 days</td>
+                                                        </tr>
+                                                    <%    } %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer %>

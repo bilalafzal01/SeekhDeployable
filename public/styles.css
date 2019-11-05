@@ -1,0 +1,42 @@
+.fontRaleway{
+    font-family: 'Raleway', sans-serif;
+}
+.registerBox{
+    background-color: white;
+    color: black;
+}
+#loginItem, #userID{
+    color: #f57765;
+    cursor: pointer;
+}
+.card-register{
+    background-color: white;
+}
+.colorWhite{
+    color: white;
+}
+.colorGreyishWhite{
+    color: #dad5d4;
+}
+div.card-body.questionOfTheDayCategory{
+    padding-top: 0px;
+}
+#cardCustomQuestionOfTheDay{
+    margin-top: 1.2rem;
+}
+.leaderboardHeader{
+    color: pink;
+}
+.Leaderboards{
+    padding-top: 5rem;
+}
+.usernameDiv{
+    opacity: 0;
+}
+#featuredCourses{
+    background: rgb(233, 223, 224);  /* fallback for old browsers */
+    /* background: -webkit-linear-gradient(to bottom, #EAEAEA, #DBDBDB, #F2F2F2, #ADA996);  Chrome 10-25, Safari 5.1-6 */
+    /* background: linear-gradient(to top, #EAEAEA, #DBDBDB, #F2F2F2, rgb(207, 203, 184)); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+}

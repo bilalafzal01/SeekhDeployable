@@ -1,0 +1,228 @@
+
+<%  var user = currentUser; %>
+<%  if(user){ %>
+        <% include partials/headerTransparentUserLoggedIn %>
+<%  }else{  %>
+        <% include partials/header %>
+<%  }   %>
+
+    <div class="wrapper fontRaleway">
+        <div class="page-header" data-parallax="true" style="background-image: url('https://images.unsplash.com/photo-1483546416237-76fd26bbcdd1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+            <div class="filter"></div>
+            <div class="content-center">
+              <div class="container">
+                <div class="motto">
+                    <h1 class="title fontRaleway">Welcome to Seekh by Rexia!</h1>
+                    <h3 class="description fontRaleway">Your One Stop Preperation Center</h3>
+                    <br/>
+                    <%  if(!user){ %>
+                        <a href="/register" class="btn btn-neutral btn-round fontRaleway"><i class="fa fa-play"></i>Get Started</a>
+                    <%  }else{  %>
+                        <a href="/dashboard" class="btn btn-neutral btn-round fontRaleway"><i class="fa fa-play"></i>Get Started</a>
+                    <%  }   %>
+                    <button type="button" class="btn btn-outline-neutral btn-round fontRaleway">Learn More</button>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <!-- purana code starts here -->
+        <!-- content come here     -->
+        <div class="wrapper">
+            <div class="section text-center landing-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 ml-auto mr-auto">
+                            <h2 class="title fontRaleway">Features</h2>
+                            <h5 class="description fontRaleway">Lorem ipsum dolor sit amet consectetur adipisicing elit. Error nisi sed in numquam voluptas fuga minus nemo facere itaque, similique eos tenetur eveniet obcaecati totam necessitatibus. Neque nesciunt atque id at nemo, quo, numquam eum facilis, vero similique facere ea.</h5>
+                            <br>
+                            <a href="#paper-kit" class="btn btn-default btn-round fontRaleway">See Details</a>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="row align-items-center">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-8">
+                                    <div class="card" style="width: 16rem;">
+                                        <img class="card-img-top" src="https://images.unsplash.com/photo-1532348374062-fee19177e98f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h3 class="card-title fontRaleway">Mock Tests</h3>
+                                            <p class="card-text fontRaleway">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-default btn-round fontRaleway">Take me there</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-8">
+                                    <div class="card" style="width: 16rem;">
+                                        <img class="card-img-top" src="https://images.unsplash.com/photo-1532348374062-fee19177e98f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h3 class="card-title fontRaleway">Mock Tests</h3>
+                                            <p class="card-text fontRaleway">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-default btn-round fontRaleway">Take me there</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-8">
+                                    <div class="card" style="width: 16rem;">
+                                        <img class="card-img-top" src="https://images.unsplash.com/photo-1532348374062-fee19177e98f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h3 class="card-title fontRaleway">Mock Tests</h3>
+                                            <p class="card-text fontRaleway">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-default btn-round fontRaleway">Take me there</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- success stories -->
+            <div class="testimonials-1 sections-image" style="background-image: url('https://images.unsplash.com/photo-1568870217912-18f8e402efb3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd&w=2000&q=90');">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 ml-auto mr-auto text-center">
+                            <h2 class="title fontRaleway colorWhite">Success Stories</h2>
+                            <h5 class="description colorWhite">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam eum illum doloremque nulla eaque impedit.</h5>        
+                        </div>
+                    </div>
+                    <div class="space-top"></div>
+                    <div class="row">
+                        <% for (var i = 0; i <3; i++){%>
+                        <div class="col-md-4">
+                            <div class="card card-testimonial">
+                                <div class="card-icon">
+                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-description">
+                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore quisquam quasi excepturi deserunt, veritatis aut modi recusandae enim optio ratione.
+                                    </p>
+                                    <div class="card-footer">
+                                        <h4 class="card-title">Bilal Afzal</h4>
+                                        <h6 class="card-category">@bilalafzal</h6>
+                                        <div class="card-avatar">
+                                            <a href="#pablo">
+                                                <img class="img" src="default_avatar.png" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%}%>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-warning btn-round" data-toggle="tooltip" data-placement="bottom" title="Coming soon!" type="button">And Many More!</button>
+                    </div>
+                </div>
+            </div>
+            <div class="features-1">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 ml-auto mr-auto text-center">
+                            <h2 class="title">How we do it?</h2>
+                            <h5 class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere quae quod animi magnam. Illo, hic. Deserunt rem eligendi distinctio quia.</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <%for(var i = 0 ; i <3; i++){%>
+                        <div class="col-md-4">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="nc-icon nc-palette"></i>
+                                </div>
+                                <div class="description">
+                                    <h4 class="info-title">Beautiful UI</h4>
+                                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente fuga magni error possimus dignissimos. Ea!</p>
+                                    <a href="/" class="btn btn-link btn-danger">See more!</a>
+                                </div>
+                            </div>                            
+                        </div>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+            <div class="project-4 section section-dark questionOfTheDay">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 ml-auto mr-auto text-center">
+                            <h2 class="title">Question of the Day!</h2>
+                            <h5 class="description">This gets updated daily!</h5>
+                        </div>
+                    </div>
+                    <div class="space-top"></div>
+                    <div class="row">
+                        <div class="col-md-5 ml-auto">
+                            <!-- image related to question of the day -->
+                            <div class="card" data-background="image" style="background-image: url('https://images.unsplash.com/photo-1484069560501-87d72b0c3669?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60')">
+                                <!-- <i class="fa fa-question fa-4x" aria-hidden="true"></i> -->
+                            </div>
+                        </div>
+                        <div class="col-md-5 mr-auto">
+                            <div class="card card-plain">
+                                <div class="card-body questionOfTheDayCategory" id="cardCustomQuestionOfTheDay">
+                                    <div class="card-category">    Category:    Biology (MDCAT)</div>
+                                    <h5 class="card-description ">Statement: </h5>
+                                    <h3 class="title">If detachable cofactor is an inorganic ion then it is designated as:</h3>
+                                    <div class="answerChoices">
+                                        <div class="choice colorWhite">
+                                            <div class="form-check-radio colorWhite">
+                                                <label class="form-check-label colorWhite">
+                                                    <input type="radio" class="form-check-input" name="exampleRadios" id="exampleRadio1" value="option1">Co Ezyme
+                                                    <span class="form-check-sign"></span>
+                                                </label>
+                                            </div>
+                                            <div class="form-check-radio colorWhite">
+                                                <label class="form-check-label colorWhite">
+                                                    <input type="radio" class="form-check-input" name="exampleRadios" id="exampleRadio1" value="option1">Prosthetic Group
+                                                    <span class="form-check-sign colorWhite"></span>
+                                                </label>
+                                            </div>
+                                            <div class="form-check-radio colorWhite">
+                                                <label class="form-check-label colorWhite">
+                                                    <input type="radio" class="form-check-input" name="exampleRadios" id="exampleRadio1" value="option1">Activator
+                                                    <span class="form-check-sign colorWhite"></span>
+                                                </label>
+                                            </div>
+                                            <div class="form-check-radio colorWhite">
+                                                <label class="form-check-label colorWhite">
+                                                    <input type="radio" class="form-check-input" name="exampleRadios" id="exampleRadio1" value="option1">Holoenzyme
+                                                    <span class="form-check-sign colorWhite"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-round">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Modal Bodies come here -->
+
+    <!--   end modal -->
+<% include partials/footer %>

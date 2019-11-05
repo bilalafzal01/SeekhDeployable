@@ -1,0 +1,88 @@
+<% include partials/header %>
+
+<div class="register-page full-screen">
+<div class="wrapper">
+        <div class="page-header" style="background-image: url('https://images.unsplash.com/photo-1569017445906-e7ca2cbf2bad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&fit=crop&w=1100&q=60')">
+            <div class="filter"></div>
+            <div class="container">
+                <div class="row registerRow">
+                    <div class="col-lg-6 col-md-6 col-12 mr-auto">
+                        <div class="row">
+                            <div class="col-1 col-md-0"></div>
+                            <div class="col-10 col-md-12">
+                                <div class="card card-register mt-5 mt-md-0">
+                                    <h3 class="card-title text-center">Register</h3>
+                                    <div class="social">
+                                        <button href="#paper-kit" class="btn btn-just-icon btn-facebook"><i class="fa fa-facebook"></i></button>
+                                        <button href="#paper-kit" class="btn btn-just-icon btn-google"><i class="fa fa-google"></i></button>
+                                        <button href="#paper-kit" class="btn btn-just-icon btn-twitter"><i class="fa fa-twitter"></i></button>
+                                    </div>
+                                    <div class="division">
+                                        <div class="line l"></div>
+                                        <span>or</span>
+                                        <div class="line r"></div>
+                                    </div>
+                                    <form class="register-form" method="POST" action="register">
+                                        <input type="text" class="form-control" placeholder="Username" name="username" id="username-input">
+                                        <input type="email" class="form-control" placeholder="Email" name="email" id="email-input">
+                                        <input type="password" class="form-control" placeholder="Password" name="password" id="password-input">
+                                        <input type="password" class="form-control" placeholder="Confirm Password">
+                                        <button class="btn btn-block btn-round">Register</button>
+                                    </form>
+                                    <div class="login">
+                                        <p>Already have an account?
+                                        <a data-toggle="modal" data-target="#loginModal">Log in</a>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1 col-md-0"></div>                            
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12 ml-auto">
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-umbrella"></i>
+                            </div>
+                            <div class="description">
+                                <h3> Detail 1 </h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum minus quod pariatur doloremque odit cum natus inventore rem quos delectus?</p>
+                            </div>
+                        </div>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-map-signs"></i>
+                            </div>
+                            <div class="description">
+                                <h3> Detail 2 </h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum minus quod pariatur doloremque odit cum natus inventore rem quos delectus?</p>
+                            </div>
+                        </div>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-user-secret"></i>
+                            </div>
+                            <div class="description">
+                                <h3> Detail 3 </h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum minus quod pariatur doloremque odit cum natus inventore rem quos delectus?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+
+            <div class="demo-footer text-center">
+                <h6>©
+                <script>
+                    document.write(new Date().getFullYear())
+                </script>, made with <i class="fa fa-heart heart"></i> by Rexia</h6>
+            </div>
+          </div>        
+
+          
+</div>
+</div>
+<script src="jquery.min.js" type="text/javascript"></script>
+<script src="registerScript.js"></script>
+<% include partials/footer %>

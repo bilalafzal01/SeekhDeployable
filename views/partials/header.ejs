@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Seekh by Rexia</title>
+
+    
+    <!-- Fonts and icons     -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link href="nucleo-icons.ttf">
+    <link href="nucleo-icons.eot">
+    <link href="nucleo-icons.woff">
+    <link href="nucleo-icons.woff2"> -->
+    
+    <!-- include paperkit 2 css -->
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="paper-kit.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Raleway font -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-use 'user' for accessing the logged in user -  -->
+  <!--    navbar come here          -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-transparent " color-on-scroll="300">
+        <div class="container">
+          <div class="navbar-translate">
+            <a class="navbar-brand" href="/" rel="tooltip" title="Coded by Bilal Afzal" data-placement="bottom">
+                Seekh by Rexia
+            </a>
+            <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-bar bar1"></span>
+              <span class="navbar-toggler-bar bar2"></span>
+              <span class="navbar-toggler-bar bar3"></span>
+            </button>
+          </div>
+          <div class="collapse navbar-collapse justify-content-end" id="navigation" data-color="orange">
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a href="/" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-file-text-o" aria-hidden="true"> </i>
+                  Get Started
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-danger">
+                  <a href="/register" class="dropdown-item">
+                    Register
+                  </a>
+                  <a href="/leaderboards" class="dropdown-item">
+                    Test Yourself
+                  </a>
+                  <a href="/leaderboards" class="dropdown-item">
+                    Demo Work
+                  </a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a href="/leaderboards" class="nav-link"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Leaderboards</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" rel="tooltip" title="Follow us on Twitter" data-placement="bottom" href="/" target="_blank">
+                  <i class="fa fa-twitter"></i>
+                  <p class="d-lg-none">Twitter</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" rel="tooltip" title="Like us on Facebook" data-placement="bottom" href="/" target="_blank">
+                  <i class="fa fa-facebook-square"></i>
+                  <p class="d-lg-none">Facebook</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" rel="tooltip" title="Follow us on Instagram" data-placement="bottom" href="/" target="_blank">
+                  <i class="fa fa-instagram"></i>
+                  <p class="d-lg-none">Instagram</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" rel="tooltip" title="Star on GitHub" data-placement="bottom" href="/" target="_blank">
+                  <i class="fa fa-github"></i>
+                  <p class="d-lg-none">GitHub</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" id="loginItem" data-toggle="modal" data-target="#loginModal"><i class="fa fa-sign-in" aria-hidden="true"></i>Login</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <!-- end navbar  -->
+
+
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-register">
+            <div class="modal-content">
+                <div class="modal-header no-border-header text-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h6 class="text-muted">Welcome</h6>
+                    <h3 class="modal-title text-center">Seekh by Rexia</h3>
+                    <p>Log in to your account</p>
+                </div>
+                <div class="modal-body">
+                  <form action="/login" method="POST">
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" name="email" placeholder="Email" class="form-control" />
+                      </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="Password" class="form-control" />
+                    </div>
+                        <button class="btn btn-block btn-round"> Log in</button>
+                    </div>
+                  </form>
+                <div class="modal-footer no-border-footer">
+                    <span class="text-muted  text-center">Looking <a href="/register">create an account</a> ?</span>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,94 @@
+<!-- user is passed as an object from previous pages -->
+<% var user = currentUser; %>
+<% var course = course; %>
+
+<% include partials/headerLoggedIn %>
+
+<div class="wrapper">
+    <div class="container">
+        <div class="features-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 ml-auto mr-auto text-center">
+                        <h2 class="title">Enroll Yourself, <%=user.firstName%>!</h2>
+                        <h5 class="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis ratione dicta sapiente fuga distinctio. Totam temporibus non fugit nemo sequi?</h5>
+                    </div>
+                </div>
+                <div id="select" class="mt-2">
+                    <div class="row">
+                        <div class="col-8 ml-auto mr-auto">
+                            <div class="form-group">
+                                <select class="selectpicker" data-style="btn btn-round btn-danger" data-menu-style="dropdown-success">
+                                    <option disabled selected>Choose program</option>
+                                    <option value="pre-eng">Pre Engineering</option>
+                                    <option value="pre-med">Pre Medical</option>
+                                    <option value="ics">ICS</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="" id="featuredCourses">
+        <div class="row">
+            <div class="container">
+                <div class="title">
+                    <h2 class="title text-center">Featured Courses</h2>
+                    <h5 class="description text-center">Our best stuff! Chef's Recommendation. xD</h5>
+                    <!-- <br/> -->
+                </div>
+            </div>
+        </div>
+        <div class="row">                    
+            <div class="container">
+                <% course.forEach(function(eachCourse){ %>
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <div class="col-0"></div>
+                        <div class="col-12">
+                            <div class="card card-testimonial" data-background="image" style="background-image: url('https://images.unsplash.com/photo-1570819096937-39261b6314d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60')">
+                                <div class="card-body">
+                                    <h6 class="card-category"><%=eachCourse.dataValues.field%></h6>
+                                    <h3 class="card-title"><%=eachCourse.dataValues.title%></h3>
+                                    <p class="card-description">
+                                        FAST, UET, NUST, GIKI
+                                    </p>
+                                    <br/>
+                                    <a href="" class="btn btn-warning btn-round">
+                                        <i class="fa fa-book" aria-hidden="true"></i> Learn More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-0"></div>
+                    </div>
+                    <div class="col-10 col-md-8 td-product px-5 px-md-0">
+                        <h2><strong><%=eachCourse.dataValues.course_id%>. <%=eachCourse.dataValues.title%></strong></h2>
+                        <h4 class="px-2 px-md-0"><strong>Details:</strong></h4>                            
+                        <p class="description px-2 px-md-0"><%=eachCourse.dataValues.description%></p>
+                        <h5 class="px-2 px-md-0"><strong>Subjects:</strong></h5>                            
+                        <p class="description px-2 px-md-0"><em>Physics, Mathematics, Chemistry, English, IQ</em></p>
+                        
+                        <div class="row flex-md-row-reverse mr-4 px-2 px-md-0">
+                            <button type="button" class="btn btn-danger btn-round mx-2 mx-md-0 btn-lg">Enroll</button>
+                        </div>
+                    </div>                  
+                </div>
+                <%});%>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer %>
+
+<script>
+$(function () {
+    $('select').selectpicker();
+    $('select').on('change',function(){
+        // alert("hahah");
+    });
+});
+</script>
