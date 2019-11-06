@@ -23,6 +23,7 @@ app.use(passport.session());
 app.use(session({secret: 'mySecret', resave: false, saveUninitialized: false}));
 app.set("view engine","ejs");
 
+var tempUsername;
 //routes
 //to get the current user in the session: req.session.user
 
@@ -61,7 +62,6 @@ app.get("/dashboard",(req,res)=>{
   
 });
 
-
 app.post("/register",function(req,res){
   db.User.create({
       username: req.body.username,
@@ -71,7 +71,8 @@ app.post("/register",function(req,res){
       db.User.findOne({
         where: {email: ''+req.body.email}
       }).then(function(newUser){
-        res.render("profileSetup",{user: newUser.dataValues});
+        tempUsername = req.body.username;  
+        res.render("profileSetup",{newUser: newUser.dataValues});
       }).catch(function(){
         console.log("Could not find user!");
       });
@@ -105,13 +106,15 @@ app.get('/profileSetup',(req,res)=>{
 });
 
 app.post('/profileSetup',function(req,res){
-  var tempUser = req.session.user;
+  //var tempUser = req.session.user;
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var desc = req.body.description;
   var phoneNum = req.body.phoneNumber;
+  //console.log("tempuser here is: ");
+  console.log(req.session.user);
   db.User.findOne({
-    where: {username: tempUser.username}
+    where: {username: tempUsername}
   })
   .then(function(userInDB){
     userInDB.update({
@@ -129,6 +132,18 @@ app.post('/profileSetup',function(req,res){
   });
 });
   
+app.get("/courses/:Courseid", function(req,res,next){
+    var id = req.params.Courseid;
+    console.log(req.params);
+    console.log("ID IS: "+ id);
+    
+    db.Courses.findByPk(req.params.Courseid).then((course)=>{
+        res.render("course", {course: course, currentUser: req.session.user});
+    }).catch((err)=>{
+        res.redirect("/");
+    });
+
+}); 
 
 //run server
 db.sequelize.sync().then(function() {
