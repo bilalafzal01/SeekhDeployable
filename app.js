@@ -44,6 +44,7 @@ app.get("/register",function(req,res){
 app.post("/login",passport.authenticate("local"),(req,res)=>{
   req.session.user =  req.user.dataValues;
   tempUser = req.user.dataValues;
+  tempUsername = tempUser.username;
   res.redirect("/dashboard");  
 
 });
@@ -133,16 +134,15 @@ app.post('/profileSetup',function(req,res){
 });
   
 app.get("/courses/:Courseid", function(req,res,next){
-    var id = req.params.Courseid;
-    console.log(req.params);
-    console.log("ID IS: "+ id);
-    
-    db.Courses.findByPk(req.params.Courseid).then((course)=>{
-        res.render("course", {course: course, currentUser: req.session.user});
-    }).catch((err)=>{
+    if(!req.session.user){
         res.redirect("/");
-    });
-
+    }else{
+        db.Courses.findByPk(req.params.Courseid).then((course)=>{
+            res.render("course", {course: course, currentUser: req.session.user});
+        }).catch((err)=>{
+            res.redirect("/");
+        });    
+    }
 }); 
 
 //run server
