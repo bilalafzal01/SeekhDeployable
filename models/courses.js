@@ -10,6 +10,11 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
+        fullForm:{
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: 'NUST Entry Test'
+        },
         meritCriteriaMatric:  {
             type: DataTypes.INTEGER
         },

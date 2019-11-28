@@ -44,3 +44,31 @@ div.card-body.questionOfTheDayCategory{
 .courseSplash{
     background: #f4f4f4;
 }
+
+@media screen and (max-width: 4000px){
+    .courseJumbotron{
+        border-radius: 0;
+        background-size: contain;
+        /* background-size: 100% 160%; */
+        background-size: 100% 160%;
+        background-position: bottom;
+        padding: 7rem 0;
+    }
+}
+
+
+@media screen and (max-width: 768px){
+    .courseJumbotron{
+        background-size: 120% 100%;
+        background-position: right; 
+    }
+}
+
+
+.textShadowBlack{
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.fontWeighted{
+    font-weight: 500;
+}

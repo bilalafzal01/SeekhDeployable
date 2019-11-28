@@ -13,7 +13,7 @@ var isAuthenticated = require("./config/middleware/isAuthenticated");
 var PORT        = process.env.PORT || 8080;
 var db          = require('./models');
 var passport    = require("./config/passport");
-
+var MCQ         = db.MCQ;
 //node app usages
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());
@@ -29,7 +29,17 @@ var tempUsername;
 
 app.get("/",function(req,res){
   var tempUser = req.session.user;
-  res.render("main", {currentUser: tempUser});
+
+  var randomNumber = Math.floor((Math.random() * 2) + 1);
+
+  db.MCQ.findOne({
+    where: {mcqID: randomNumber}
+  }).then(function(mcqOfTheDay){
+    res.render("main", {currentUser: tempUser, mcq: mcqOfTheDay});
+  }).catch(function(err){
+    console.log(err);
+    res.render("main", {currentUser: tempUser});
+  });
 });
 
 app.get("/leaderboards",function(req,res){
@@ -138,12 +148,36 @@ app.get("/courses/:Courseid", function(req,res,next){
         res.redirect("/");
     }else{
         db.Courses.findByPk(req.params.Courseid).then((course)=>{
+          db.EnrolledCourses.findOne({
+            where: {courseID: course.course_id, userID: req.session.user.id}
+          }).then((enrolled)=>{
+            res.render("course", {course: course, currentUser: req.session.user, enrolled: enrolled});
+          }).catch((err)=>{
             res.render("course", {course: course, currentUser: req.session.user});
+          });
         }).catch((err)=>{
             res.redirect("/");
         });    
     }
 }); 
+
+app.get("/enroll/:course",(req,res)=>{
+  let course  = req.params.course;
+  let user    = req.session.user;
+  console.log(user);
+  console.log(course);
+  db.EnrolledCourses.create({
+    userID: user.id,
+    courseID: course
+  }).then(()=>{
+    console.log("successfully enrolled");
+    res.redirect("/");
+  }).catch((err)=>{
+    console.log(err);
+    res.redirect("/register");
+  });
+
+});
 
 //run server
 db.sequelize.sync().then(function() {

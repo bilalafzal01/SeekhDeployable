@@ -1,43 +1,58 @@
 <% var user = currentUser; %>
 <% var course = course; %>
+<% var enrolled = enrolled %>
+
+<% console.log(enrolled); %>
 
 <% include partials/headerLoggedIn %>
-<div class="page-header" data-parallax="true" style="background-image: url('https://images.unsplash.com/photo-1561815820-1004cd9a3b57?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1080')">
+<div class="jumbotron courseJumbotron mb-0" data-parallax="true" style="background-image: url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1080&q=60')">
     <div class="filter"></div>
-    <div class="content-center">
+    <div class="content-center text-light">
         <div class="motto">
-            <h1 class="title-uppercase text-md-left text-center px-5"><%=course.dataValues.title%> - <%=course.dataValues.fullForm%></h1>
-            <h3 class="text-center text-md-left px-5"><%=course.dataValues.description%></h3>
+            <h1 class="title-uppercase text-md-left text-center px-5 textShadowBlack"><%=course.dataValues.title%> - <%=course.dataValues.fullForm%></h1>
+            <h3 class="text-center text-md-left px-5 textShadowBlack"><%=course.dataValues.description%></h3>
             <br/>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12 col-md-4 text-md-left">
-                        <a href="#pablo" class="btn btn-warning btn-round btn-lg">
-                            <i class="fa fa-share-alt" aria-hidden="true"></i> Enroll ME!
-                        </a>            
-                    </div>
-                    <div class="col-12 col-md-8 text-md-left text-center pt-4 pt-md-0">
-                        <h6 class="pl-0">More info about enrollment</h6>      
-                        <h6 class="text-uppercase">
-                            2500 already enrolled!  
-                        </h6>
+                    <div class="col-12 px-5 text-md-left text-center">
+                        <%if(!enrolled){%>
+                            <a href="/enroll/<%=course.dataValues.course_id%>" class="btn btn-danger btn-round btn-lg">
+                                <i class="fa fa-share-alt" aria-hidden="true"></i> Enroll ME!
+                            </a>
+                        <%}else{%>
+                            <a href="/" class="btn btn-danger btn-round btn-lg">
+                                <i class="fa fa-share-alt" aria-hidden="true"></i> Go to Course
+                            </a>
+                        <%}%>
+                        <button type="button" class="btn btn-neutral btn-round btn-lg" data-toggle="popover" data-placement="top" title="" data-content="More info about enrollment." data-original-title="Popover on top">More Info</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
+        <!-- <div class="container">
             <div class="row">
                 <div class="col-md-6 ml-auto mr-auto text-center">
                     
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <div class="wrapper">
     <div class="main">
-        <div class="section section-white courseSplash">
-            
+        <div class="section section-white courseSplash text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class=""><span class="fontWeighted"><%=course.dataValues.title%></span> - Pricing </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="h4">This course is designed for the preperation of <span class="fontWeighted"><%=course.dataValues.fullForm%></span> </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
