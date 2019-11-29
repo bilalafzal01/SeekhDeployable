@@ -1,0 +1,53 @@
+<% var user = currentUser; %>
+<% var course = course; %>
+<% var enrolled = enrolled %>
+
+
+<% var subjects = subjects %>
+<% var i = 0%>
+
+<% include partials/headerLoggedIn %>
+
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 pt-4 offset-1 offset-md-0 col-10 text-dark courseDashboardLeftPanel">
+                <p class="h4 courseNameDashboard mt-0 pb-4 text-center"><small class="px-3 text-dark courseDashboardTitle"><%=course.dataValues.title%> - <%=course.dataValues.fullForm%></small></p>
+                <a href="#" class="active tabsSubjects"><p class="h5 pt-3 pb-2 px-4 text-dark courseDashboardOverview">Overview</p></a>
+                <div class="tabs">
+                    <%subjects.forEach((subject)=>{%>
+                        <%i++;%>
+                        <%if(i==1){%>
+                            <a href="#<%=subject.subjectName%>" class="tabsSubjects"><p class="h5 pt-3 pb-2 px-5 text-dark subjects"><%=subject.subjectName%></p></a>
+                        <%}else if (i == subjects.length){%>
+                            <a href="#maths" class="tabsSubjects"><p class="h5 pt-2 pb-3 px-5 text-dark subjects"><%=subject.subjectName%></p></a>
+                        <%}else{%>
+                            <a href="#maths" class="tabsSubjects"><p class="h5 pt-2 pb-2 px-5 text-dark subjects"><%=subject.subjectName%></p></a>
+                        <%}%>
+                    <%})%>
+                </div>
+                <a href="#" class="tabsSubjects"><p class="h5 pt-3 pb-2 px-4 text-dark courseDashboardOverview">Notes</p></a>
+                <a href="#" class="tabsSubjects"><p class="h5 pt-3 pb-2 px-4 text-dark courseDashboardOverview">Forums</p></a>
+            </div>
+            <div class="col-md-10 col-12 pt-4">
+                <!-- currentProgress div -->
+                <div class="row">
+                    <div class="col-10 offset-1">
+                        <div class="card progressCard">
+                            <div class="card-header courseProgressHeader text-white">
+                                <p class="courseProgressHeader">Continue where you left off</p>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title fontWeight500">subjectName</h5>
+                                <p class="card-text">chapter, topic number</p>
+                                <a href="#" class="btn btn-info">Start</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer %>

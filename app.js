@@ -134,7 +134,7 @@ app.post('/profileSetup',function(req,res){
       description: desc,
       phoneNumber: phoneNum
     });
-    console.log(userInDB.dataValues);
+    // console.log(userInDB.dataValues);
     req.session.user = userInDB;
     res.redirect("/dashboard");
   })
@@ -164,13 +164,12 @@ app.get("/courses/:Courseid", function(req,res,next){
 app.get("/enroll/:course",(req,res)=>{
   let course  = req.params.course;
   let user    = req.session.user;
-  console.log(user);
-  console.log(course);
+  // console.log(user);
+  // console.log(course);
   db.EnrolledCourses.create({
     userID: user.id,
     courseID: course
   }).then(()=>{
-    console.log("successfully enrolled");
     res.redirect("/");
   }).catch((err)=>{
     console.log(err);
@@ -178,6 +177,59 @@ app.get("/enroll/:course",(req,res)=>{
   });
 
 });
+
+app.get("/dashboard/:courseID",(req,res)=>{
+  let course_id  = req.params.courseID;
+  let user    = req.session.user;
+  var subs = [];
+  var i = 0;
+  db.Courses.findOne({
+    where: {course_id: course_id}
+  }).then((course)=>{
+    db.EnrolledCourses.findOne({
+      where: {courseID: course.course_id, userID: req.session.user.id}
+    }).then((enrolled)=>{
+      db.CourseSubject.findAll({
+        where: {courseID: course.course_id}
+      }).then((arrayOfCourseSubjects)=>{
+        console.log("reached here");
+        // console.log(arrayOfCourseSubjects);
+        // console.log("length of array is: " +arrayOfCourseSubjects.length);
+        arrayOfCourseSubjects.forEach((subject)=>{
+          console.log("in for loop! ");
+          // console.log(subject);
+          db.Subject.findOne({
+            where: {subjectID: subject.dataValues.subjectID}
+          }).then((oneSubject)=>{
+            i++;
+            // console.log(oneSubject.dataValues.subjectName);
+            subs.push({subjectID: oneSubject.dataValues.subjectID, subjectName: oneSubject.dataValues.subjectName});
+            console.log(subs);
+            // subs.push(oneSubject.dataValues);
+            if(i == arrayOfCourseSubjects.length){
+              res.render("courseDashboard",{course: course, currentUser: user, enrolled: enrolled, subjects: subs});          
+            }
+          }).catch((err)=>{
+            console.log("no subjects found!");
+            console.log(err);
+          });
+        });
+          // console.log("here now!");   
+      }).catch((err)=>{
+        console.log("could notfind subjects!");
+        res.render("courseDashboard",{course: course, currentUser: user, enrolled: enrolled});
+      });
+    }).catch((error)=>{
+      console.log("user not enrolled");
+      res.redirect("/courses/"+course_id);
+    });
+  }).catch((err)=>{
+    console.log("course not found");
+    res.redirect("/register");
+  });
+
+});
+
 
 //run server
 db.sequelize.sync().then(function() {

@@ -2,8 +2,6 @@
 <% var course = course; %>
 <% var enrolled = enrolled %>
 
-<% console.log(enrolled); %>
-
 <% include partials/headerLoggedIn %>
 <div class="jumbotron courseJumbotron mb-0" data-parallax="true" style="background-image: url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1080&q=60')">
     <div class="filter"></div>
@@ -14,28 +12,22 @@
             <br/>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12 px-5 text-md-left text-center">
+                    <div class="col-12 px-md-5 text-md-left text-center">
                         <%if(!enrolled){%>
                             <a href="/enroll/<%=course.dataValues.course_id%>" class="btn btn-danger btn-round btn-lg">
                                 <i class="fa fa-share-alt" aria-hidden="true"></i> Enroll ME!
                             </a>
                         <%}else{%>
-                            <a href="/" class="btn btn-danger btn-round btn-lg">
+                            <%console.log(course.dataValues.course_id);%>
+                            <a href="/dashboard/<%=course.dataValues.course_id%>" class="btn btn-danger btn-round btn-lg">
                                 <i class="fa fa-share-alt" aria-hidden="true"></i> Go to Course
                             </a>
                         <%}%>
-                        <button type="button" class="btn btn-neutral btn-round btn-lg" data-toggle="popover" data-placement="top" title="" data-content="More info about enrollment." data-original-title="Popover on top">More Info</button>
+                        <a tabindex="0" class="btn btn-neutral btn-round btn-lg mt-2" data-toggle="popover" data-placement="bottom" title="More info" data-content="More info about enrollment." data-original-title="Popover on top">More Info</a>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="container">
-            <div class="row">
-                <div class="col-md-6 ml-auto mr-auto text-center">
-                    
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>
 <div class="wrapper">
@@ -53,6 +45,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="section ">
+
         </div>
     </div>
 </div>

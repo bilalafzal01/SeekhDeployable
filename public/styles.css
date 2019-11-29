@@ -62,6 +62,10 @@ div.card-body.questionOfTheDayCategory{
         background-size: 120% 100%;
         background-position: right; 
     }
+    .subjects{
+        font-weight: 500;
+        font-size: .75rem;
+    }
 }
 
 
@@ -71,4 +75,46 @@ div.card-body.questionOfTheDayCategory{
 
 .fontWeighted{
     font-weight: 500;
+}
+
+.courseDashboardLeftPanel{
+    background: #f0f0f0;
+}
+
+.tabs{
+    /* border-bottom: 1px solid black; */
+}
+.subjects:hover, .tabsSubjects:hover, .courseDashboardOverview:hover, .subjects:active{
+    border-left: 4px solid #f7765f;
+    background: white;
+}
+
+.courseNameDashboard{
+    border-bottom: 1px solid black;
+}
+.courseDashboardOverview{
+    font-weight: 500;
+    font-size: 1.125rem;
+}
+
+.subjects{
+    font-weight: 500;
+    font-size: 1.0625rem;
+}
+
+.courseDashboardTitle{
+    font-weight: 600;
+}
+
+.fontWeight500{
+    font-weight: 500;
+}
+
+.courseProgressHeader{
+    background: rgb(102,97,91);
+    font-weight: 500;
+}
+
+.progressCard{
+    border-radius: 0;
 }
