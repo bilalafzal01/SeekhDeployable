@@ -230,6 +230,56 @@ app.get("/dashboard/:courseID",(req,res)=>{
 
 });
 
+app.get("/course/:courseID/subject/:subjectID", (req,res)=>{
+  let courseID  = req.params.courseID,
+      subjectID = req.params.subjectID;
+  let user  = req.session.user;
+  let i = 0;
+  db.Courses.findOne({
+    where: {course_id: courseID}
+  }).then((course)=>{
+    db.EnrolledCourses.findOne({
+      where: {courseID: course.dataValues.course_id, userID: user.id}
+    }).then((enrolled)=>{
+      db.Subject.findOne({
+        where: {subjectID: subjectID}
+      }).then((subject)=>{
+        db.Chapter.findAll({
+          where: {subjectID: subject.subjectID}
+        }).then((arrayOfChapters)=>{
+          let chaps = [];
+          let topics = [];
+          arrayOfChapters.forEach((chapter)=>{
+            i++;
+            chaps.push({chapterID: chapter.dataValues.chapterID, chapterName: chapter.dataValues.chapterName});
+            db.Topic.findAll({
+              where: {subjectID: subject.subjectID}
+            }).then((arrayOfTopics)=>{
+              arrayOfTopics.forEach((topic)=>{
+                i++;
+                topics.push({topicID: topic.topicID, topicName: topic.topicName, chapterID: topic.chapterID});
+              });
+              if(i == arrayOfChapters.length+arrayOfTopics.length){
+                res.render("subjectDashboard",{subject: subject, chapters: chaps, topics: topics, currentUser: req.session.user});
+              }
+            }).catch((topicERR)=>{
+              console.log(topicERR);
+            });
+          });  
+        }).catch((chapterERR)=>{
+          console.log(chapterERR);
+        });
+      }).catch((subjectERR)=>{
+        console.log(subjectERR);
+      });
+    }).catch((enrollERR)=>{
+      console.log(enrollERR);
+    });
+  }).catch((courseERR)=>{
+    console.log(courseERR);
+  });
+  
+});
 
 //run server
 db.sequelize.sync().then(function() {

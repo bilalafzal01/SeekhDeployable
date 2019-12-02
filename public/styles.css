@@ -68,9 +68,6 @@ div.card-body.questionOfTheDayCategory{
     background: #f0f0f0;
 }
 
-.tabs{
-    /* border-bottom: 1px solid black; */
-}
 .subjects:hover, .tabsSubjects:hover, .courseDashboardOverview:hover, .subjects:active{
     border-left: 4px solid #f7765f;
     background: white;
@@ -183,6 +180,23 @@ div.card-body.questionOfTheDayCategory{
     left: 0;
   }
 
+.topics{
+    font-size: 1rem;
+    font-weight: 400;
+    padding-left: 4.5rem;
+    background: #e7e7e7;
+}
+
+.topics:hover{
+    border-left: 6px solid #f7765f;
+    background: white;
+}
+
+.introduction{
+    padding-bottom: .75rem;
+    border-bottom: 1px solid #dad5d4;
+}
+
 @media screen and (max-width: 768px){
     .courseJumbotron{
         background-size: 120% 100%;
@@ -199,5 +213,8 @@ div.card-body.questionOfTheDayCategory{
     .progress {
         width: 130px;
         height: 130px;
+    }
+    .topics{
+        font-size: .85rem;
     }
 }

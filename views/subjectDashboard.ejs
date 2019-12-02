@@ -1,0 +1,178 @@
+<% var user = currentUser; %>
+<% var subject = subject %>
+<% var chapters = chapters%>
+<% var topics = topics%>
+<% var i = 0, j = 0, k = 0;%>
+
+<% include partials/headerLoggedIn %>
+
+<div>
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- left panel -->
+            <div class="col-md-2 px-0 pt-4 offset-1 offset-md-0 col-10 text-dark courseDashboardLeftPanel">
+                <p class="h4 courseNameDashboard mt-0 pb-4 text-center"><small class="px-3 text-dark courseDashboardTitle"><%=subject.subjectName%></small></p>
+                <a href="#" class="active tabsSubjects"><p class="h5 pt-3 pb-2 px-4 text-dark courseDashboardOverview">Chapters</p></a>
+                <div class="tabs" id="accordion">
+                    <%chapters.forEach((chapter)=>{%>
+                        <div id="chapter<%=chapter.chapterID%>">
+                        <%i++;j++;%>
+                        <%if(i==1){%>
+                            <a href="#<%=chapter.chapterID%>Div" id="div<%=j%>" class="tabsSubjects chaptersTab" data-toggle="collapse" data-target="#collapseChapter<%=chapter.chapterID%>" aria-expanded="true" aria-controls="collapseChapter<%=chapter.chapterID%>"><p class="h5 pt-3 pb-2 px-5 text-dark mb-0 subjects"><%=chapter.chapterName%></p></a>
+                        <%}else if (i == subject.length){%>
+                            <a href="#<%=chapter.chapterID%>Div" id="div<%=j%>" class="tabsSubjects chaptersTab" data-toggle="collapse" data-target="#collapseChapter<%=chapter.chapterID%>" aria-expanded="true" aria-controls="collapseChapter<%=chapter.chapterID%>"><p class="h5 pt-2 pb-2 px-5 text-dark mb-0 subjects"><%=chapter.chapterName%></p></a>
+                        <%}else{%>
+                            <a href="#<%=chapter.chapterID%>Div" id="div<%=j%>" class="tabsSubjects chaptersTab" data-toggle="collapse" data-target="#collapseChapter<%=chapter.chapterID%>" aria-expanded="true" aria-controls="collapseChapter<%=chapter.chapterID%>"><p class="h5 pt-2 pb-3 px-5 text-dark mb-0 subjects"><%=chapter.chapterName%></p></a>
+                        <%}%>
+                        </div>
+
+                        <div id="collapseChapter<%=chapter.chapterID%>" class="collapse" aria-labelledby="chapter<%=chapter.chapterID%>" data-parent="#accordion">
+                            <div class="">
+                                <%topics.forEach((topic)=>{%>
+                                    <%if(topic.chapterID == chapter.chapterID){%>
+                                        <a href="#<%=chapter.chapterID%>Div" id="div<%=j%>" class="" ><p class="h5 my-0 py-2 text-dark topics"><%=topic.topicName%></p></a>
+                                    <%}%>
+                                <%});%>
+                            </div>
+                        </div>
+                    <%})%>
+                </div>
+                <a href="#" class="tabsSubjects"><p class="h5 pt-2 pb-2 px-4 text-dark courseDashboardOverview">Notes</p></a>
+                <a href="#" class="tabsSubjects"><p class="h5 pt-2 pb-3 px-4 text-dark courseDashboardOverview">Forums</p></a>
+            </div>
+
+            <div class="col-md-10 col-12 pt-4">
+                <!-- continue where u left off -->
+                <div class="row">
+                    <div class="col-md-10 offset-md-1 col-12">
+                        <div class="card progressCard">
+                            <div class="card-header courseProgressHeader text-white">
+                                <p class="courseProgressHeader">Continue where you left off</p>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title fontWeight500"><%=subject.subjectName%></h5>
+                                <p class="card-text">chapter, topic number</p>
+                                <a href="#" class="btn btn-info">Start</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- other card -->
+                <%chapters.forEach((chapter)=>{%>
+                <div class="row" id="<%=chapter.chapterID%>Div" class="">
+                <%k++;%>
+                    <div class="col-md-10 offset-md-1 col-12" id="divdiv<%=k%>" class="chaptersDivDetails">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class=""><%=chapter.chapterName%></p>
+                            </div>
+                            <div class="card-body">
+                                <div class="introduction">
+                                    <h5 class="card-title fontWeight500 pt-1 pb-2">Introduction</h5>
+                                    <p class="px-3 py-3">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam quis magnam adipisci doloremque, aliquam delectus sequi impedit ratione explicabo nemo quaerat aliquid quibusdam sint aut modi iure consequatur quia maiores minima dolorum. Nesciunt ad porro nam voluptatum dolores atque autem.</p>
+                                    <div class="row mt-3">
+                                        <div class="col-md-9 offset-1 offset-md-0 col-10 py-2 py-md-0">
+                                            <button class="btn btn-block btn-info"><i class="fa fa-check-circle"></i> Mark as completed</button>
+                                        </div>
+                                        <div class="col-md-3 offset-1 offset-md-0 col-10 py-2 py-md-0">
+                                            <button class="btn btn-block btn-warning"><i class="fa fa-question-circle"></i> Ask a question</button>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="whatYouNeedToKnow introduction">
+                                    <h5 class="card-title fontWeight500 pt-1 py-3">Summary</h5>
+                                    <ul class="py-2">
+                                        <li class="py-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum nihil quam illo optio voluptas repudiandae.</li>
+                                        <li class="py-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum nihil quam illo optio voluptas repudiandae.</li>                                    
+                                        <li class="py-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum nihil quam illo optio voluptas repudiandae.</li>
+                                    </ul>
+                                    <div class="row mt-3">
+                                        <div class="col-md-9 offset-1 offset-md-0 col-10 py-2 py-md-0">
+                                            <button class="btn btn-block btn-info"><i class="fa fa-check-circle"></i> Mark as completed</button>
+                                        </div>
+                                        <div class="col-md-3 offset-1 offset-md-0 col-10 py-2 py-md-0">
+                                            <button class="btn btn-block btn-warning"><i class="fa fa-question-circle"></i> Ask a question</button>
+                                        </div>
+                                    </div>
+                                </div>     
+                                <div class="tipAndTricks introduction">
+                                    <h5 class="card-title fontWeight500 pt-1 py-3">Tips and Tricks</h5>
+                                    <%var index = 0;%>
+                                    <%topics.forEach((topic)=>{%>
+                                        <%if(topic.chapterID == chapter.chapterID){%>
+                                            <%index++;%>
+                                            <h5 class="px-4 fontWeight500 introduction"><%=index%>. <%=topic.topicName%></h6>
+                                                <ul>
+                                                    <li class="py-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam itaque a labore ex harum exercitationem rem eos ea odit.</li>
+                                                    <li class="py-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam itaque a labore ex harum exercitationem rem eos ea odit.</li>
+                                                    <li class="py-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam itaque a labore ex harum exercitationem rem eos ea odit.</li>
+                                                </ul>
+                                        <%}%>
+                                    <%});%>
+                                    <div class="row mt-3">
+                                        <div class="col-md-9 offset-1 offset-md-0 col-10 py-2 py-md-0">
+                                            <button class="btn btn-block btn-info"><i class="fa fa-check-circle"></i> Mark as completed</button>
+                                        </div>
+                                        <div class="col-md-3 offset-1 offset-md-0 col-10 py-2 py-md-0">
+                                            <button class="btn btn-block btn-warning"><i class="fa fa-question-circle"></i> Ask a question</button>
+                                        </div>
+                                    </div>
+                                </div>      
+                                <div class="practice introduction">
+                                    <h5 class="card-title fontWeight500 pt-1 py-3">Practice and More</h5>
+                                    <div class="row mt-3">
+                                        <div class="col-md-9 offset-1 offset-md-0 col-10 py-2 py-md-0">
+                                            <button class="btn btn-block btn-success"><i class="fa fa-line-chart"></i> Practice this chapter</button>
+                                        </div>
+                                        <div class="col-md-3 offset-1 offset-md-0 col-10 py-2 py-md-0">
+                                            <button class="btn btn-block btn-danger"><i class="fa fa-question-circle"></i> Stuck? Need Help?</button>
+                                        </div>
+                                    </div>
+                                </div>                    
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+                <%});%>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer %>
+
+
+<script>
+        $(document).ready(()=>{
+            let chapDivs = $('.chaptersTab');
+            let chapDivDetails = $('.chaptersDivDetails');
+            var numberOfDivs = chapDivs.length;
+            let divDivArray = [];
+
+            console.log(chapDivs);
+            for(var i = 1; i <= numberOfDivs; i++){
+                divDivArray.push($('#divdiv'+i));
+            }
+            console.log(divDivArray);
+
+            chapDivs.forEach((eachChap)=>{
+                eachChap.on('click',(event)=>{
+                    divDivArray.forEach((eachDiv)=>{
+                        eachDiv.addClass('d-none');
+                    });
+                });
+            });
+            // for(var i = 1; i <= numberOfDivs; i++){
+            //     chapDivs[i-1].on('click',(event)=>{
+            //         divDivArray.forEach((each)=>{
+            //             each.addClass('d-none');
+            //         });
+            //         divDivArray[i-1].addClass('d-block');
+            //     });
+            // }
+
+            console.log("chap divs: "+numberOfDivs);
+        });
+</script>
