@@ -111,6 +111,10 @@ app.get("/user_data", function(req, res) {
   }
 });
 
+app.get("/errorPage",(req,res)=>{
+  res.render("errorPage");
+});
+
 app.get('/profileSetup',(req,res)=>{
   var tempUser = req.session.user;
   res.render("profileSetup",{newUser: tempUser});
@@ -263,23 +267,280 @@ app.get("/course/:courseID/subject/:subjectID", (req,res)=>{
                 res.render("subjectDashboard",{subject: subject, chapters: chaps, topics: topics, currentUser: req.session.user});
               }
             }).catch((topicERR)=>{
+              res.redirect("/errorPage");
               console.log(topicERR);
             });
           });  
         }).catch((chapterERR)=>{
+          res.redirect("/errorPage");
           console.log(chapterERR);
         });
       }).catch((subjectERR)=>{
+        res.redirect("/errorPage");
         console.log(subjectERR);
       });
     }).catch((enrollERR)=>{
+      res.redirect("/errorPage");
       console.log(enrollERR);
     });
   }).catch((courseERR)=>{
+    res.redirect("/errorPage");
     console.log(courseERR);
   });
   
 });
+
+//Post Requests For forms
+
+app.get('/formschapters', function(req,res){
+  if(!req.session.user){
+    res.redirect("/errorPage");
+  }else{
+    if(req.session.user.id == 7){
+      res.render('formschapters');
+    }else{
+      res.redirect("/errorPage");
+    }
+  }
+});
+
+app.post('/formschapters', function(req,res){
+  let chapterName = req.body.ChapterName;
+  let subjectName = req.body.subjectName;
+
+  db.Subject.findOne({
+    where: {subjectName: subjectName}
+  }).then((subject)=>{
+    let subjectID = subject.dataValues.subjectID;
+
+    db.Chapter.create({
+      chapterName: chapterName,
+      subjectID:  subjectID
+    }).then(()=>{
+      console.log("created!");
+      res.redirect("/formschapters");
+    }).catch((err)=>{
+      console.log(err);
+      res.redirect("/");
+    });
+  }).catch((subjectERR)=>{
+    console.log(subjectERR);
+  });
+});
+
+app.get('/formscourses', function(req,res){
+  if(!req.session.user){
+    res.redirect("/errorPage");
+  }else{
+    if(req.session.user.id == 7){
+      res.render('formscourses');
+    }else{
+      res.redirect("/errorPage");
+    }
+  }
+});
+app.post('/formscourses', (req,res)=>{
+  db.Courses.create({
+    title: req.body.title,
+    fullForm: req.body.field,
+    meritCriteriaMatric: req.body.meritCriteriaMatric,
+    meritCriteriaFSC: req.body.meritCriteriaFsc,
+    meritCriteriaTest:req.body.meritCriteriaTest,
+    description: req.body.description,
+    field: req.body.field
+  }).then(()=>{
+    console.log("Added to Courses");
+    res.redirect("/formscourses");
+  }).catch((err)=>{
+    console.log(err);
+    res.redirect("/");
+  });
+});
+
+app.get('/formssubjects', function(req,res){
+  if(!req.session.user){
+    res.redirect("/errorPage");
+  }else{
+    if(req.session.user.id == 7){
+      res.render('formssubjects');
+    }else{
+      res.redirect("/errorPage");
+    }
+  }
+});
+
+app.post('/formssubjects', (req,res)=>{
+  console.log("subjectName:" + req.body.subjectName);
+  console.log("subjectName:" + req.body.field);
+  db.Subject.create({
+    subjectName: req.body.subjectName,
+    field: req.body.field
+  }).then(()=>{
+    console.log("created subject!");
+    res.redirect("/formssubjects");
+  }).catch((err)=>{
+    console.log(err);
+    res.redirect("/");
+  });
+});
+
+
+app.get('/formsmcqs', function(req,res){
+  if(!req.session.user){
+    res.redirect("/errorPage");
+  }else{
+    if(req.session.user.id == 7){
+      res.render('formsmcqs');
+    }else{
+      res.redirect("/errorPage");
+    }
+  }
+});
+
+app.post('/formsmcqs', (req,res)=>{
+  let  statement = req.body.statement;
+  let option1 = req.body.option1;
+  let option2 = req.body.option2;
+  let option3 = req.body.option3;
+  let option4 = req.body.option4;
+  let correctAns=req.body.correctAns;
+  let topicName=req.body.topicName;
+  let chapterName=req.body.chapterName;
+  let subjectName=req.body.subjectName;
+  let mcqNumber=req.body.mcqNumber;
+  db.Subject.findOne({
+    where: {subjectName: subjectName}
+  }).then((subject)=>{
+    let subjectID = subject.dataValues.subjectID;
+    db.Chapter.findOne({
+      where:{chapterName:chapterName}
+    }).then((chapterrow)=>{
+      let chapterID=chapterrow.dataValues.chapterID;
+      db.Topic.findOne({
+        where:{topicName:topicName}
+      }).then((topicrow)=>{
+        let topicID=topicrow.dataValues.topicID;
+        db.MCQ.create({
+          statement:statement,
+          option1:option1,
+          option2:option2,
+          option3:option3,
+          option4:option4,
+          correctAns:correctAns,
+          topicID:topicID,
+          chapterID: chapterID,
+          subjectID:  subjectID,
+          mcqNumber:mcqNumber
+        }).then(()=>{
+          console.log("created!");
+          res.redirect("/formsmcqs")})
+          .catch((err)=>{
+            console.log(err);
+            res.redirect("/");
+          });
+        }).catch((topicerr)=>{
+          console.log(topicerr);
+          res.redirect("/");
+        });
+      }).catch((chapterERR)=>{
+        console.log(chapterERR);
+        res.redirect("/");
+      });
+    }).catch((subjecterr)=>{
+      console.log(subjecterr);
+      res.redirect("/");
+    });
+  });
+app.get('/formstopics', function(req,res){
+  if(!req.session.user){
+    res.redirect("/errorPage");
+  }else{
+    if(req.session.user.id == 7){
+      res.render('formstopics');
+    }else{
+      res.redirect("/errorPage");
+    }
+  }
+});
+  
+app.post('/formstopics', (req,res)=>{
+  let topicName=req.body.topicName;
+  let subjectName=req.body.subjectName;
+  let chapterName=req.body.chapterName;
+  db.Subject.findOne({
+    where: {subjectName: subjectName}
+  }).then((subject)=>{
+    let subjectID = subject.dataValues.subjectID;
+    db.Chapter.findOne({
+      where:{chapterName:chapterName}
+    }).then((chapterrow)=>{
+      let chapterID=chapterrow.dataValues.chapterID;
+        db.Topic.create({
+          topicName:topicName,
+          chapterID: chapterID,
+          subjectID:  subjectID
+        }).then(()=>{
+          console.log("created!");
+          res.redirect("/formstopics")})
+          .catch((err)=>{
+            console.log(err);
+            res.redirect("/");
+        });
+      }).catch((chapterERR)=>{
+        console.log(chapterERR);
+        alert("No such chapter name found");
+        res.redirect("/");
+      });
+    }).catch((subjecterr)=>{
+      console.log(subjecterr);
+      alert("No such subject name found");
+      res.redirect("/");
+    });
+});
+  
+app.get('/formscoursessubjects', function(req,res){
+  if(req.session.user.id == 7){
+    res.render('formscoursessubjects');
+  }else{
+    res.redirect("/errorPage");
+  }
+});
+
+app.post('/formscoursessubjects', (req,res)=>{
+  
+  let subjectName=req.body.subjectName;
+  let title=req.body.courseTitle;
+  db.Subject.findOne({
+    where: {subjectName: subjectName}
+  }).then((subjectrow)=>{
+    let subjectID = subjectrow.dataValues.subjectID;
+    db.Courses.findOne({
+        where:{title:title}
+      }).then((courserow)=>{
+        let courseID=courserow.dataValues.courseID;
+          db.CourseSubject.create({
+          subjectID:subjectID,
+          courseID: courseID
+        }).then(()=>{
+          console.log("created!");
+          res.redirect("/formscoursessubjects")})
+          .catch((err)=>{
+            console.log(err);
+            res.redirect("/");
+        });
+      }).catch((titleERR)=>{
+        console.log(titleERR);
+        alert("No such user name found");
+        res.redirect("/");
+      });
+    }).catch((usererr)=>{
+      console.log(usererr);
+      alert("No such subject name found");
+      res.redirect("/");
+    });
+  });
+    
+  
 
 //run server
 db.sequelize.sync().then(function() {

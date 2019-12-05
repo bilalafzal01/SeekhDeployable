@@ -1,0 +1,59 @@
+<% include partials/form %>
+
+<div class="register-page full-screen">
+    
+    <div class="wrapper">
+            <div class="page-header" style="background-image: url('https://images.unsplash.com/photo-1452270378797-c66dcc949a3f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)">
+                <div class="filter"></div>
+                <div class="container">
+                    
+                    <div class="row registerRow">
+                        <div class="col-lg-6 col-md-6 col-12 mr-auto">
+                            <div class="row">
+                                <div class="col-1 col-md-0"></div>
+                                <div class="col-10 col-md-12">
+                                    <div class="card card-register mt-5 mt-md-0">
+                                        <h3 class="card-title text-center">Courses</h3>
+                                        <div class="division">
+                                            <div class="line l"></div>
+                                            <div class="line r"></div>
+                                        </div>
+                                        <form class="register-form" method="POST" action="formscourses">
+                                            <label for="ChapterID" >ChapterID</label>
+                                            <input type="text" class="form-control" placeholder="title" name="title" id ="title" >
+                                            <input type="text" class="form-control" placeholder="fullform" name="fullform" id="fullform">
+                                            <input type="text" class="form-control" placeholder="meritCriteriaFsc" name="meritCriteriaFsc" id="meritCriteriaFsc">
+                                            <input type="text" class="form-control" placeholder="meritCriteriaMatric" name="meritCriteriaMatric" id="meritCriteriaMatric">
+                                            <input type="text" class="form-control" placeholder="meritCriteriaTest" name="meritCriteriaTest" id="meritCriteriaTest">
+                                            <input type="text" class="form-control" placeholder="description" name="description" id="description">
+                                            <input type="text" class="form-control" placeholder="field" name="field" id="field">
+                                            <button class="btn btn-block btn-round" type="submit" id="Save">Save</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-1 col-md-0"></div>                            
+                            </div>
+                        </div>      
+                    </div>
+                </div>
+    
+    
+                <div class="demo-footer text-center">
+                    <h6>©
+                    <script>
+                        document.write(new Date().getFullYear())
+                        document.getElementById("Save").addEventListener("click", function(){
+                                               
+                         });
+                    </script>, made with <i class="fa fa-heart heart"></i> by Rexia</h6>
+                </div>
+              </div>       
+            
+              
+    
+              
+    </div>
+     </div>
+    
+     <% include partials/formsFooter %>
+    

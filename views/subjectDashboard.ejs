@@ -2,7 +2,7 @@
 <% var subject = subject %>
 <% var chapters = chapters%>
 <% var topics = topics%>
-<% var i = 0, j = 0, k = 0;%>
+<% var i = 0, j = 0, k = 0, l = 0;%>
 
 <% include partials/headerLoggedIn %>
 
@@ -16,7 +16,8 @@
                 <a href="#" class="active tabsSubjects"><p class="h5 pt-3 pb-2 px-4 text-dark courseDashboardOverview">Chapters</p></a>
                 <div class="tabs" id="accordion">
                     <%chapters.forEach((chapter)=>{%>
-                        <div id="chapter<%=chapter.chapterID%>">
+                        <%l++;%>
+                        <div id="chapter<%=l%>">
                         <%i++;j++;%>
                         <%if(i==1){%>
                             <a href="#<%=chapter.chapterID%>Div" id="div<%=j%>" class="tabsSubjects chaptersTab" data-toggle="collapse" data-target="#collapseChapter<%=chapter.chapterID%>" aria-expanded="true" aria-controls="collapseChapter<%=chapter.chapterID%>"><p class="h5 pt-3 pb-2 px-5 text-dark mb-0 subjects"><%=chapter.chapterName%></p></a>
@@ -81,7 +82,7 @@
                                         </div>
                                     </div>
                                 </div> 
-                                <div class="whatYouNeedToKnow introduction">
+                                <div class="whatYouNeedToKnow introduction"> 
                                     <h5 class="card-title fontWeight500 pt-1 py-3">Summary</h5>
                                     <ul class="py-2">
                                         <li class="py-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum nihil quam illo optio voluptas repudiandae.</li>
@@ -119,7 +120,7 @@
                                             <button class="btn btn-block btn-warning"><i class="fa fa-question-circle"></i> Ask a question</button>
                                         </div>
                                     </div>
-                                </div>      
+                                </div>   
                                 <div class="practice introduction">
                                     <h5 class="card-title fontWeight500 pt-1 py-3">Practice and More</h5>
                                     <div class="row mt-3">
@@ -130,7 +131,7 @@
                                             <button class="btn btn-block btn-danger"><i class="fa fa-question-circle"></i> Stuck? Need Help?</button>
                                         </div>
                                     </div>
-                                </div>                    
+                                </div>                 
                             </div>
                         </div>    
                     </div>
@@ -150,29 +151,28 @@
             let chapDivDetails = $('.chaptersDivDetails');
             var numberOfDivs = chapDivs.length;
             let divDivArray = [];
-
-            console.log(chapDivs);
+            let chapTabArray = [];
+            
             for(var i = 1; i <= numberOfDivs; i++){
                 divDivArray.push($('#divdiv'+i));
+                if(i == 1){
+                    divDivArray[i-1].addClass('d-block');
+                }else{
+                    divDivArray[i-1].addClass('d-none');
+                }
+                chapTabArray.push($('#chapter'+i));
             }
-            console.log(divDivArray);
-
-            chapDivs.forEach((eachChap)=>{
-                eachChap.on('click',(event)=>{
-                    divDivArray.forEach((eachDiv)=>{
-                        eachDiv.addClass('d-none');
+            
+            $(chapTabArray).each((index)=>{
+                console.log(index);
+                $(chapTabArray[index]).on('click',(event)=>{
+                    $(divDivArray).each((ind)=>{
+                        divDivArray[ind].removeClass('d-block');
+                        divDivArray[ind].addClass('d-none');
                     });
+                    $(divDivArray[index]).addClass('d-block');
                 });
             });
-            // for(var i = 1; i <= numberOfDivs; i++){
-            //     chapDivs[i-1].on('click',(event)=>{
-            //         divDivArray.forEach((each)=>{
-            //             each.addClass('d-none');
-            //         });
-            //         divDivArray[i-1].addClass('d-block');
-            //     });
-            // }
 
-            console.log("chap divs: "+numberOfDivs);
         });
 </script>
