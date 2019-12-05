@@ -231,7 +231,6 @@ app.get("/dashboard/:courseID",(req,res)=>{
     console.log("course not found");
     res.redirect("/register");
   });
-
 });
 
 app.get("/course/:courseID/subject/:subjectID", (req,res)=>{
@@ -264,7 +263,7 @@ app.get("/course/:courseID/subject/:subjectID", (req,res)=>{
                 topics.push({topicID: topic.topicID, topicName: topic.topicName, chapterID: topic.chapterID});
               });
               if(i == arrayOfChapters.length+arrayOfTopics.length){
-                res.render("subjectDashboard",{subject: subject, chapters: chaps, topics: topics, currentUser: req.session.user});
+                res.render("subjectDashboard",{subject: subject, chapters: chaps, topics: topics, currentUser: req.session.user, course: course});
               }
             }).catch((topicERR)=>{
               res.redirect("/errorPage");
@@ -312,7 +311,6 @@ app.post('/formschapters', function(req,res){
     where: {subjectName: subjectName}
   }).then((subject)=>{
     let subjectID = subject.dataValues.subjectID;
-
     db.Chapter.create({
       chapterName: chapterName,
       subjectID:  subjectID
@@ -421,36 +419,36 @@ app.post('/formsmcqs', (req,res)=>{
       }).then((topicrow)=>{
         let topicID=topicrow.dataValues.topicID;
         db.MCQ.create({
-          statement:statement,
-          option1:option1,
-          option2:option2,
-          option3:option3,
-          option4:option4,
-          correctAns:correctAns,
-          topicID:topicID,
-          chapterID: chapterID,
+          statement:  statement,
+          option1:    option1,
+          option2:    option2,
+          option3:    option3,
+          option4:    option4,
+          correctAns: correctAns,
+          topicID:    topicID,
+          chapterID:  chapterID,
           subjectID:  subjectID,
-          mcqNumber:mcqNumber
+          mcqNumber:  mcqNumber
         }).then(()=>{
           console.log("created!");
           res.redirect("/formsmcqs")})
           .catch((err)=>{
             console.log(err);
-            res.redirect("/");
+            res.redirect("/errorPage");
           });
         }).catch((topicerr)=>{
           console.log(topicerr);
-          res.redirect("/");
+          res.redirect("/errorPage");
         });
       }).catch((chapterERR)=>{
         console.log(chapterERR);
-        res.redirect("/");
+        res.redirect("/errorPage");
       });
     }).catch((subjecterr)=>{
       console.log(subjecterr);
-      res.redirect("/");
+      res.redirect("/errorPage");
     });
-  });
+});
 app.get('/formstopics', function(req,res){
   if(!req.session.user){
     res.redirect("/errorPage");
@@ -484,17 +482,17 @@ app.post('/formstopics', (req,res)=>{
           res.redirect("/formstopics")})
           .catch((err)=>{
             console.log(err);
-            res.redirect("/");
+            res.redirect("/errorPage");
         });
       }).catch((chapterERR)=>{
         console.log(chapterERR);
         alert("No such chapter name found");
-        res.redirect("/");
+        res.redirect("/errorPage");
       });
     }).catch((subjecterr)=>{
       console.log(subjecterr);
       alert("No such subject name found");
-      res.redirect("/");
+      res.redirect("/errorPage");
     });
 });
   
@@ -507,40 +505,76 @@ app.get('/formscoursessubjects', function(req,res){
 });
 
 app.post('/formscoursessubjects', (req,res)=>{
-  
   let subjectName=req.body.subjectName;
   let title=req.body.courseTitle;
   db.Subject.findOne({
     where: {subjectName: subjectName}
   }).then((subjectrow)=>{
-    let subjectID = subjectrow.dataValues.subjectID;
-    db.Courses.findOne({
-        where:{title:title}
-      }).then((courserow)=>{
-        let courseID=courserow.dataValues.courseID;
-          db.CourseSubject.create({
-          subjectID:subjectID,
-          courseID: courseID
-        }).then(()=>{
-          console.log("created!");
-          res.redirect("/formscoursessubjects")})
-          .catch((err)=>{
-            console.log(err);
-            res.redirect("/");
-        });
-      }).catch((titleERR)=>{
-        console.log(titleERR);
-        alert("No such user name found");
-        res.redirect("/");
+  let subjectID = subjectrow.dataValues.subjectID;
+  db.Courses.findOne({
+      where:{title:title}
+    }).then((courserow)=>{
+      let courseID=courserow.dataValues.courseID;
+        db.CourseSubject.create({
+        subjectID:subjectID,
+        courseID: courseID
+      }).then(()=>{
+        console.log("created!");
+        res.redirect("/formscoursessubjects")})
+        .catch((err)=>{
+          console.log(err);
+          res.redirect("/errorPage");
       });
-    }).catch((usererr)=>{
-      console.log(usererr);
-      alert("No such subject name found");
-      res.redirect("/");
+    }).catch((titleERR)=>{
+      console.log(titleERR);
+      alert("No such user name found");
+      res.redirect("/errorPage");
     });
+  }).catch((usererr)=>{
+    console.log(usererr);
+    alert("No such subject name found");
+    res.redirect("/errorPage");
   });
+});
     
-  
+app.get("/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage", function(req,res){ 
+  db.Courses.findOne({
+    where: {course_id: req.params.courseID}
+  }).then((course)=>{
+    db.Subject.findOne({
+      where: {subjectID: req.params.subjectID}
+    }).then((subject)=>{
+      db.Chapter.findOne({
+        where: {chapterID: req.params.chapterID}
+      }).then((chapter)=>{
+        db.Topic.findAll({
+          where : {subjectID: req.params.subjectID, chapterID: req.params.chapterID}
+        }).then(function(topicsOfThatChapter){
+          db.MCQ.findAll({
+            where: {subjectID: req.params.subjectID, chapterID: req.params.chapterID}
+          }).then((arrayOfMcqs)=>{
+            res.render("mcqPage", {currentUser: req.session.user, mcqs: arrayOfMcqs, course: course, subject: subject, chapter: chapter, topics: topicsOfThatChapter});
+          }).catch((topicsERR)=>{
+            console.log(topicsERR);
+            res.redirect("/errorPage");
+          });
+        }).catch(function(mcqERR){
+          console.log(mcqERR);
+          res.redirect("/errorPage");
+        });
+      }).catch((chapterERR)=>{
+        console.log(chapterERR);
+        res.redirect("/errorPage");
+      });
+    }).catch((subjectERR)=>{
+      console.log(subjectERR);
+      res.redirect("/errorPage");
+    });
+  }).catch((courseERR)=>{
+    console.log(courseERR);
+    res.redirect("/errorPage");
+  });
+});
 
 //run server
 db.sequelize.sync().then(function() {

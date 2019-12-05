@@ -1,7 +1,9 @@
 <% var user = currentUser; %>
-<% var subject = subject %>
-<% var chapters = chapters%>
-<% var topics = topics%>
+<% var course = course; %>
+<% var subject = subject; %>
+<% var chapters = chapters; %>
+<% var topics = topics; %>
+
 <% var i = 0, j = 0, k = 0, l = 0;%>
 
 <% include partials/headerLoggedIn %>
@@ -125,10 +127,10 @@
                                     <h5 class="card-title fontWeight500 pt-1 py-3">Practice and More</h5>
                                     <div class="row mt-3">
                                         <div class="col-md-9 offset-1 offset-md-0 col-10 py-2 py-md-0">
-                                            <button class="btn btn-block btn-success"><i class="fa fa-line-chart"></i> Practice this chapter</button>
+                                            <a class="btn btn-block btn-success text-white" href="/course/<%=course.dataValues.course_id%>/subject/<%=subject.subjectID%>/chapter/<%=chapter.chapterID%>/mcqPage"><i class="fa fa-line-chart"></i> Practice this chapter</a>
                                         </div>
                                         <div class="col-md-3 offset-1 offset-md-0 col-10 py-2 py-md-0">
-                                            <button class="btn btn-block btn-danger"><i class="fa fa-question-circle"></i> Stuck? Need Help?</button>
+                                            <a class="btn btn-block btn-danger text-white"><i class="fa fa-question-circle"></i> Stuck? Need Help?</a>
                                         </div>
                                     </div>
                                 </div>                 

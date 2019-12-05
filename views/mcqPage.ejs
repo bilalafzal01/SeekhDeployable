@@ -1,0 +1,145 @@
+<% var user = currentUser; %>
+<% var mcqs = mcqs; %>
+<% var course = course; %>
+<% var subject = subject; %>
+<% var chapter = chapter; %>
+<% var topics = topics; %>
+
+<% include partials/headerLoggedIn %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 px-0 pt-4 offset-0 offset-md-0 col-12 text-dark courseDashboardLeftPanel">
+            <p class="h4 courseNameDashboard mt-0 pb-4 text-center"><small class="px-3 text-dark courseDashboardTitle">User - <%=user.firstName%></small></p>
+            <a href="#" class="active tabsSubjects"><p class="h5 pt-3 pb-2 px-4 text-dark courseDashboardOverview">User Record</p></a>
+            <a href="#" class="tabsSubjects chaptersTab">
+                <ul class="h5 pt-3 pb-2 px-5 text-dark mb-0 subjects introduction">
+                    <li class="pt-1 pb-2">Attempted MCQs: <small class="h6 px-2 fontWeight500">300</small></li>
+                    <li class="pt-1 pb-2">Correct MCQs: <small class="h6 px-2 fontWeight500">240</small></li>
+                </ul>
+            </a>
+            <div class="container-fluid pt-4 introduction">
+                <div class="row">
+                    <div class="col-10 offset-1 pt-md-4 pt-2 pb-4">
+                        <div class="progress mx-auto" data-value='75'>
+                            <span class="progress-left">
+                                <span class="progress-bar border-danger"></span>
+                            </span>
+                            <span class="progress-right">
+                                <span class="progress-bar border-danger"></span>
+                            </span>
+                            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                <div class="h2 font-weight-bold">75<sup class="small">%</sup></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-12 pt-4">
+            <div class="container">
+            <!-- subject name, chapter name + go back to previous page -->
+                <div class="row">
+                    <div class="col-12">
+                        <p class="h2 text-center fontWeight500 introduction"><%=subject.dataValues.subjectName%>, <%= chapter.chapterName%></p>
+                    </div>
+                    <div class="col-12 reviseDiv pb-4 mt-4">
+                        <div class="row">
+                            <div class="col-md-6 col-10 offset-1 offset-md-0 px-2">
+                                <p class="h4 text-md-right text-center fontWeight500 pt-2">Want to revise? </p>
+                            </div>
+                            <div class="col-md-6 col-10 offset-1 offset-md-0 px-0">
+                                <p class="h4 text-md-left text-center">
+                                    <a href="/course/<%=course.dataValues.course_id%>/subject/<%=subject.dataValues.subjectID%>" class="btn btn-info">Go back to <%=chapter.chapterName%></a>
+                                </p>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <p class="fontWeight500"><%=chapter.chapterName%></p>
+                                <!-- <p class="">mcqs</p> -->
+                            </div>
+                            <%mcqs.forEach((mcq)=>{%>
+                                <%topics.forEach((topic)=>{%>
+                                    <%if(topic.dataValues.topicID == mcq.dataValues.topicID){%>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12 px-0">
+                                                    <p class="introduction card-header fontWeight500" style="text-transform: uppercase;"><small class="fontWeight500">Topic: </small><%=topic.dataValues.topicName%></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container-fluid">
+                                            <div class="row mcqStatement introduction">
+                                                <div class="col-12 pt-1 pb-3">
+                                                    <p class="h3 font-weight-bold pb-2">Statement: <span class="fontWeight500"><%=mcq.dataValues.statement%>: </span></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 px-0">
+                                                    <div class="answerChoices  mt-2 px-1">
+                                                        <div class="form-check-radio introduction">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="exampleRadios" value="option1"><%=mcq.option1%>
+                                                                <span class="form-check-sign pt-1 pb-2"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check-radio introduction">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="exampleRadios" value="option1"><%=mcq.option2%>
+                                                                <span class="form-check-sign  pt-1 pb-2"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check-radio introduction">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="exampleRadios" value="option1"><%=mcq.option3%>
+                                                                <span class="form-check-sign pt-1 pb-2"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check-radio introduction">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="exampleRadios" value="option1"><%=mcq.option4%>
+                                                                <span class="form-check-sign pt-1 pb-2"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>   
+                                            </div>
+                                        </div>
+                                    <%}%>
+                                <%});%> 
+                            <%});%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% include partials/footer %>
+
+<script>
+    $(document).ready((function() {
+        $(".progress").each(function() {
+            var value = $(this).attr('data-value');
+            var left = $(this).find('.progress-left .progress-bar');
+            var right = $(this).find('.progress-right .progress-bar');
+            if (value > 0) {
+                if (value <= 50) {
+                    right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+                } else {
+                    right.css('transform', 'rotate(180deg)')
+                    left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+                }
+            }
+        })
+            function percentageToDegrees(percentage) {
+            return percentage / 100 * 360
+        }
+    }));  
+</script>
+            

@@ -197,6 +197,10 @@ div.card-body.questionOfTheDayCategory{
     border-bottom: 1px solid #dad5d4;
 }
 
+.reviseDiv{
+    background-color: aliceblue;
+}
+
 @media screen and (max-width: 768px){
     .courseJumbotron{
         background-size: 120% 100%;
