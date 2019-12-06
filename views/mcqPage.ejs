@@ -73,15 +73,15 @@
                                 <%topics.forEach((topic)=>{%>
                                     <%if(topic.dataValues.topicID == mcq.dataValues.topicID){%>
                                         <div class="container-fluid">
-                                                <div class="row">
-                                                    <div class="col-12 px-0">
-                                                        <p class="card-header">Question No: <%=index+1%></p>
-                                                    </div>
-                                                    <div class="col-12 px-0">
-                                                        <p class="introduction card-header fontWeight500" style="text-transform: uppercase;"><small class="fontWeight500">Topic: </small><%=topic.dataValues.topicName%></p>
-                                                    </div>
+                                            <div class="row">
+                                                <div class="col-12 px-0">
+                                                    <p class="card-header">Question No: <%=index+1%></p>
+                                                </div>
+                                                <div class="col-12 px-0">
+                                                    <p class="introduction card-header fontWeight500" style="text-transform: uppercase;"><small class="fontWeight500">Topic: </small><%=topic.dataValues.topicName%></p>
                                                 </div>
                                             </div>
+                                        </div>
                                             <div class="container-fluid">
                                                 <div class="row mcqStatement introduction">
                                                     <div class="col-12 pt-1 pb-3">
@@ -163,9 +163,12 @@
                                                                             </label>
                                                                         </div>
                                                                     <%}%>
-
                                                                 <%});%>
                                                             <%}%>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>    
                                         <%}%>
                                 <%});%>
                             <%});%>
@@ -212,4 +215,3 @@
         }
     }));  
 </script>
-            
