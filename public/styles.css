@@ -201,6 +201,13 @@ div.card-body.questionOfTheDayCategory{
     background-color: aliceblue;
 }
 
+.mcqLabel{
+    width: 100%;
+}
+.backgroundBlue{
+    background-color: aliceblue;
+}
+
 @media screen and (max-width: 768px){
     .courseJumbotron{
         background-size: 120% 100%;

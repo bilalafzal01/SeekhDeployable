@@ -4,7 +4,7 @@
 <% var subject = subject; %>
 <% var chapter = chapter; %>
 <% var topics = topics; %>
-
+<% var check = check; %>
 <% include partials/headerLoggedIn %>
 
 <div class="container-fluid">
@@ -58,61 +58,126 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card" id="mcqCard">
                             <div class="card-header text-center">
                                 <p class="fontWeight500"><%=chapter.chapterName%></p>
                                 <!-- <p class="">mcqs</p> -->
                             </div>
-                            <%mcqs.forEach((mcq)=>{%>
+                            <%if(check == -1){%>
+                                <form action="/course/<%=course.dataValues.course_id%>/subject/<%=subject.dataValues.subjectID%>/chapter/<%=chapter.chapterID%>/mcqPage" method="POST">
+                            <%}else{%>
+                                <div>
+                            <%}%>
+                            
+                            <%mcqs.forEach((mcq, index)=>{%>
                                 <%topics.forEach((topic)=>{%>
                                     <%if(topic.dataValues.topicID == mcq.dataValues.topicID){%>
                                         <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col-12 px-0">
-                                                    <p class="introduction card-header fontWeight500" style="text-transform: uppercase;"><small class="fontWeight500">Topic: </small><%=topic.dataValues.topicName%></p>
+                                                <div class="row">
+                                                    <div class="col-12 px-0">
+                                                        <p class="card-header">Question No: <%=index+1%></p>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <p class="introduction card-header fontWeight500" style="text-transform: uppercase;"><small class="fontWeight500">Topic: </small><%=topic.dataValues.topicName%></p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="container-fluid">
-                                            <div class="row mcqStatement introduction">
-                                                <div class="col-12 pt-1 pb-3">
-                                                    <p class="h3 font-weight-bold pb-2">Statement: <span class="fontWeight500"><%=mcq.dataValues.statement%>: </span></p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12 px-0">
-                                                    <div class="answerChoices  mt-2 px-1">
-                                                        <div class="form-check-radio introduction">
-                                                            <label class="form-check-label">
-                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="exampleRadios" value="option1"><%=mcq.option1%>
-                                                                <span class="form-check-sign pt-1 pb-2"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check-radio introduction">
-                                                            <label class="form-check-label">
-                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="exampleRadios" value="option1"><%=mcq.option2%>
-                                                                <span class="form-check-sign  pt-1 pb-2"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check-radio introduction">
-                                                            <label class="form-check-label">
-                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="exampleRadios" value="option1"><%=mcq.option3%>
-                                                                <span class="form-check-sign pt-1 pb-2"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check-radio introduction">
-                                                            <label class="form-check-label">
-                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="exampleRadios" value="option1"><%=mcq.option4%>
-                                                                <span class="form-check-sign pt-1 pb-2"></span>
-                                                            </label>
+                                            <div class="container-fluid">
+                                                <div class="row mcqStatement introduction">
+                                                    <div class="col-12 pt-1 pb-3">
+                                                        <p class="h3 font-weight-bold pb-2">Statement: <span class="fontWeight500"><%=mcq.dataValues.statement%>: </span></p>
+                                                        <div class="text-center py-2">
+                                                            <img src="https://images.unsplash.com/photo-1502696359287-7e03bbf438bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" width="350rem" style="border-radius: .5rem;">
                                                         </div>
                                                     </div>
-                                                </div>   
-                                            </div>
-                                        </div>
-                                    <%}%>
-                                <%});%> 
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 px-0">
+                                                        <div class="answerChoices mt-2 px-1">
+                                                            <%if(check == -1){%>
+                                                                <div class="form-check-radio introduction">
+                                                                    <label class="form-check-label mcqLabel">
+                                                                        <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>"><%=mcq.option1%>
+                                                                        <span class="form-check-sign pt-1 pb-2"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check-radio introduction">
+                                                                    <label class="form-check-label mcqLabel">
+                                                                        <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>"><%=mcq.option2%>
+                                                                        <span class="form-check-sign pt-1 pb-2"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check-radio introduction">
+                                                                    <label class="form-check-label mcqLabel">
+                                                                        <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>"><%=mcq.option3%>
+                                                                        <span class="form-check-sign pt-1 pb-2"></span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check-radio pb-4 mcqLabel">
+                                                                    <label class="form-check-label">
+                                                                        <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>"><%=mcq.option4%>
+                                                                        <span class="form-check-sign pt-1 pb-2"></span>
+                                                                    </label>
+                                                                </div>         
+                                                            <%}else{%>
+                                                                <%correctMCQsRecord.forEach((correctMCQ)=>{%>
+                                                                    <%if(mcq.mcqID == correctMCQ.dataValues.mcqID){%>
+                                                                        <div class="form-check-radio introduction">
+                                                                            <label class="form-check-label mcqLabel">
+                                                                            <%if(mcq.option1 == mcq.correctAns){%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>" checked disabled><%=mcq.option1%>
+                                                                            <%}else{%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>" disabled><%=mcq.option1%>
+                                                                            <%}%>                                                            
+                                                                                <span class="form-check-sign pt-1 pb-2"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-check-radio introduction">
+                                                                            <label class="form-check-label mcqLabel">
+                                                                            <%if(mcq.option2 == mcq.correctAns){%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>" checked disabled><%=mcq.option2%>
+                                                                            <%}else{%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>" disabled><%=mcq.option2%>
+                                                                            <%}%>                                                            
+                                                                                <span class="form-check-sign pt-1 pb-2"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-check-radio introduction">
+                                                                            <label class="form-check-label mcqLabel">
+                                                                            <%if(mcq.option3 == mcq.correctAns){%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>" checked  disabled><%=mcq.option3%>
+                                                                            <%}else{%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>"  disabled><%=mcq.option3%>
+                                                                            <%}%>                                                            
+                                                                                <span class="form-check-sign pt-1 pb-2"></span>                                                                            
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-check-radio pb-4 mcqLabel">
+                                                                            <label class="form-check-label">
+                                                                            <%if(mcq.option4 == mcq.correctAns){%>  
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>" checked disabled><%=mcq.option4%>
+                                                                            <%}else{%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>"  disabled><%=mcq.option4%>
+                                                                            <%}%>                                                            
+                                                                                <span class="form-check-sign pt-1 pb-2"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    <%}%>
+
+                                                                <%});%>
+                                                            <%}%>
+                                        <%}%>
+                                <%});%>
                             <%});%>
+
+                                <div class="my-4 mx-4">
+                                    <button type="submit" class="btn btn-success btn-block text-white">Submit</button>
+                                </div>                  
+                            <%if(check == -1){%>
+                                </form>
+                            <%}else{%>
+                                </div>
+                            <%}%>
                         </div>
                     </div>
                 </div>
@@ -124,6 +189,11 @@
 
 <script>
     $(document).ready((function() {
+        $('.mcqLabel').click(function() {
+            $('.mcqLabel').removeClass('backgroundBlue');
+            $(this).addClass('backgroundBlue');
+        });
+        
         $(".progress").each(function() {
             var value = $(this).attr('data-value');
             var left = $(this).find('.progress-left .progress-bar');

@@ -553,11 +553,14 @@ app.get("/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage", funct
           db.MCQ.findAll({
             where: {subjectID: req.params.subjectID, chapterID: req.params.chapterID}
           }).then((arrayOfMcqs)=>{
-            res.render("mcqPage", {currentUser: req.session.user, mcqs: arrayOfMcqs, course: course, subject: subject, chapter: chapter, topics: topicsOfThatChapter});
+            let size = arrayOfMcqs.length;
+            let i = -1;
+            res.render("mcqPage", {currentUser: req.session.user, mcqs: arrayOfMcqs, course: course, subject: subject, chapter: chapter, topics: topicsOfThatChapter, check: i});
           }).catch((topicsERR)=>{
             console.log(topicsERR);
             res.redirect("/errorPage");
           });
+
         }).catch(function(mcqERR){
           console.log(mcqERR);
           res.redirect("/errorPage");
@@ -574,6 +577,127 @@ app.get("/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage", funct
     console.log(courseERR);
     res.redirect("/errorPage");
   });
+});
+
+app.post('/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage', (req,res)=>{
+  let arr = [];
+  let arrOfAnswers = [];
+  for(var key in req.body){
+    let str = req.body[key].toString();
+    let indexOfHyphen = str.indexOf('-');
+    arrOfAnswers.push(str.slice(indexOfHyphen+1));
+    // console.log("iteration: "+ );
+    arr.push(str.slice(0,indexOfHyphen));
+  };
+  let arrayOfMCQs = [];
+  arr.forEach((element, index)=>{
+    db.MCQ.findOne({
+      where: {mcqID: parseInt(element)}
+    }).then((mcq)=>{
+      // console.log(mcq);
+      arrayOfMCQs.push(mcq);
+      if(index == arr.length-1){
+        arrayOfMCQs.forEach((answer, ind)=>{
+          db.AttemptedMCQ.create({
+            userID: req.session.user.id, mcqID: answer.dataValues.mcqID
+          }).then(()=>{
+            console.log("attempted mcq!");
+            if(answer.dataValues.correctAns == arrOfAnswers[ind]){
+              db.CorrectMCQRecord.create({
+                userID: req.session.user.id, mcqID: answer.dataValues.mcqID
+              }).then(()=>{
+                console.log("correct mcq!");
+              }).catch((err)=>{
+                console.log(err);
+                res.redirect('/errorPage');
+              });
+            }
+            if(ind == arrayOfMCQs.length-1){
+              let arrayOfCorrectMCQ = [];
+              arrayOfMCQs.forEach((mcq)=>{
+                db.CorrectMCQRecord.findOne({
+                  where: {mcqID: mcq.dataValues.mcqID}
+                }).then((correctMCQRecord)=>{
+                  arrayOfCorrectMCQ.push(correctMCQRecord);
+                  if(arrayOfCorrectMCQ.length == arrayOfMCQs.length){
+                    console.log("here now!");
+                    console.log(arrayOfCorrectMCQ);
+                    
+
+                    db.Courses.findOne({
+                      where: {course_id: req.params.courseID}
+                    }).then((course)=>{
+                      db.Subject.findOne({
+                        where: {subjectID: req.params.subjectID}
+                      }).then((subject)=>{
+                        db.Chapter.findOne({
+                          where: {chapterID: req.params.chapterID}
+                        }).then((chapter)=>{
+                          db.Topic.findAll({
+                            where : {subjectID: req.params.subjectID, chapterID: req.params.chapterID}
+                          }).then(function(topicsOfThatChapter){
+                            db.MCQ.findAll({
+                              where: {subjectID: req.params.subjectID, chapterID: req.params.chapterID}
+                            }).then((arrayOfMCQSinThisCallBack)=>{
+                              let size = arrayOfMCQSinThisCallBack.length;
+                              let i = 1;
+                              res.render("mcqPage", {currentUser: req.session.user, mcqs: arrayOfMCQSinThisCallBack, course: course, subject: subject, chapter: chapter, topics: topicsOfThatChapter, correctMCQsRecord: arrayOfCorrectMCQ, check: i});
+                            }).catch((topicsERR)=>{
+                              console.log(topicsERR);
+                              res.redirect("/errorPage");
+                            });
+                  
+                          }).catch(function(mcqERR){
+                            console.log(mcqERR);
+                            res.redirect("/errorPage");
+                          });
+                        }).catch((chapterERR)=>{
+                          console.log(chapterERR);
+                          res.redirect("/errorPage");
+                        });
+                      }).catch((subjectERR)=>{
+                        console.log(subjectERR);
+                        res.redirect("/errorPage");
+                      });
+                    }).catch((courseERR)=>{
+                      console.log(courseERR);
+                      res.redirect("/errorPage");
+                    });
+
+
+                  }
+                  }).catch((err)=>{
+                  console.log(err);
+                  res.redirect('/errorPage');
+                });
+              });
+            }
+          }).catch((err)=>{
+            console.log(err);
+            res.redirect('/errorPage');
+          });
+        });
+      }
+      db.AttemptedMCQ.create({
+        userID: req.session.user.id, mcqID: mcq.dataValues.mcqID
+      }).then(()=>{
+        console.log("attempted mcq!");
+      }).catch((err)=>{
+        console.log(err);
+        res.redirect('/errorPage');
+      });
+    }).catch((err)=>{
+      console.log(err);
+      res.redirect('/errorPage');
+    });
+  });
+  // var body = req.body;
+
+  // db.MCQ.findAll({
+  //   where: {subjectID: req.params.subjectID, chapterID: req.params.chapterID}
+  // }).then((arrayOfMcqs)=>{
+
+  // }).catch();
 });
 
 //run server
