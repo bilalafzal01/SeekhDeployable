@@ -56,6 +56,19 @@
                         </div>
                     </div>
                 </div>
+                <%if(check == 1){%>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body bg-secondary pt-1 pb-4">
+                                <div class="text-center text-white">
+                                    <p class="h4">You got <span class="fontWeight500 text-success"><%=correctMCQsRecord.length%> / <%=mcqs.length%></span> correct!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%}%>
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="card" id="mcqCard">
@@ -172,10 +185,9 @@
                                         <%}%>
                                 <%});%>
                             <%});%>
-
-                                <div class="my-4 mx-4">
-                                    <button type="submit" class="btn btn-success btn-block text-white">Submit</button>
-                                </div>                  
+                            <div class="my-4 mx-4">
+                                <button type="submit" class="btn btn-success btn-block text-white">Submit</button>
+                            </div>                  
                             <%if(check == -1){%>
                                 </form>
                             <%}else{%>
