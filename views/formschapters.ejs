@@ -1,3 +1,6 @@
+<% var subject = subject; %>
+<% var arrayOfSubjects = arrayOfSubjects; %>
+
 <% include partials/form %>
 
 <div class="register-page full-screen">
@@ -21,7 +24,31 @@
                                         </div>
                                         <form class="register-form" method="POST" action="formschapters">
                                                 <input type="text" class="form-control" placeholder="ChapterName" name="ChapterName" id ="ChapterName" >
-                                                <input type="text" class="form-control" placeholder="subjectName" name="subjectName" id="subjectName">
+                                               
+                                                <select class="form-control" id="subjectName" name="subjectName">
+                                                    <%arrayOfSubjects.forEach((subject)=>{%>
+                                                    <option value="<%=subject.dataValues.subjectName%>"><%=subject.dataValues.subjectName%></option>
+                                                    <%});%>
+                                                </select>
+                                                
+                                                <!-- <div class="dropdown" id="Drop">
+                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                         Subject Names
+                                                        </button>
+
+                                                        <select class="form-control" id="sel1">
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                          </select>
+
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                            <%arrayOfSubjects.forEach((subject)=>{%>
+                                                            <button class="dropdown-item" type="button"  value="<%=subject.dataValues.subjectName%>"><%=subject.dataValues.subjectName%></button>
+                                                            <%});%>
+                                                        </div>
+                                                 </div> -->
                                                 <button class="btn btn-block btn-round" id="Save">Save</button>
                                         </form>
                                     </div>

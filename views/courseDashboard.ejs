@@ -1,7 +1,7 @@
 <% var user = currentUser; %>
 <% var course = course; %>
 <% var enrolled = enrolled %>
-
+<% var checkPointUser = userFound;%>
 <% var subjects = subjects %>
 <% var i = 0%>
 
@@ -43,9 +43,9 @@
                                 <p class="courseProgressHeader">Continue where you left off</p>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title fontWeight500">subjectName</h5>
-                                <p class="card-text">chapter, topic number</p>
-                                <a href="#" class="btn btn-info">Start</a>
+                                <h5 class="card-title fontWeight500">SubjectID: <%=checkPointUser.dataValues.subjectID%></h5>
+                                <p class="card-text">chapterID: <%=checkPointUser.dataValues.chapterID%>, topic number: <%=checkPointUser.dataValues.topicID%></p>
+                                <a href="/course/<%=course.dataValues.course_id%>/subject/<%=checkPointUser.dataValues.subjectID%>/chapter/<%=checkPointUser.dataValues.chapterID%>/mcqPage" class="btn btn-info">Start</a>
                             </div>
                         </div>
                     </div>

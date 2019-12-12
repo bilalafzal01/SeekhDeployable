@@ -1,0 +1,75 @@
+<% var user = currentUser %>
+
+<% include partials/headerLoggedIn %>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 ml-auto mr-auto text-center">
+            <h2 class="title">Get in touch with us</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea cum eligendi quisquam autem ex fuga placeat, deserunt quasi, atque molestias asperiores. Incidunt iste consequatur eius. Tempora, officia temporibus. Distinctio, inventore.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 ml-auto mr-auto text-center">
+          <h3 class="title">
+            <small>Find us on social platforms</small>
+          </h3>
+          <button class="btn btn-just-icon btn-twitter">
+            <i class="fa fa-twitter"></i>
+          </button>
+          <button class="btn btn-just-icon btn-facebook">
+            <i class="fa fa-facebook"></i>
+          </button>
+          <button class="btn btn-just-icon btn-google">
+            <i class="fa fa-google"></i>
+          </button>
+          <button class="btn btn-just-icon btn-instagram">
+            <i class="fa fa-instagram"></i>
+          </button>
+          <button class="btn btn-just-icon btn-youtube">
+            <i class="fa fa-youtube"></i>
+          </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 ml-auto mr-auto text-center">
+            <p class="title h4">
+                Have a query? Ask away!
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10 col-md-8 offset-md-2 offset-md-1">
+            <form action="contactUs" method="POST" class="contact">
+                <div class="row pt-3 pb-3">
+                    <div class="col-md-6">
+                      <input type="text" class="form-control" placeholder="<%=user.firstName%>" value="<%=user.firstName%>" disabled>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" class="form-control" placeholder="<%=user.lastName%>" value="<%=user.lastName%>" disabled>
+                    </div>
+                </div>
+                <div class="row pb-3">
+                    <div class="col-md-2  text-right">
+                        <label for="email" class="h5 fontWeight500 m-0 pt-2">Email: </label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" placeholder="<%=user.email%>" id="email" name="email">
+                    </div>
+                </div>
+                <div class="row pb-3">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" placeholder="Subject">
+                    </div>
+                </div>
+                <textarea class="form-control py-3" placeholder="Message" rows="7"></textarea>
+                <div class="row py-3">
+                    <div class="col-md-6 ml-auto mr-auto">
+                        <button class="btn btn-primary btn-block btn-round">Send </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer %>

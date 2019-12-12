@@ -5,6 +5,7 @@
 <% var chapter = chapter; %>
 <% var topics = topics; %>
 <% var check = check; %>
+<% var numberOfCorrectAnswers = numberOfCorrectAnswers; %>
 <% include partials/headerLoggedIn %>
 
 <div class="container-fluid">
@@ -62,7 +63,7 @@
                         <div class="card">
                             <div class="card-body bg-secondary pt-1 pb-4">
                                 <div class="text-center text-white">
-                                    <p class="h4">You got <span class="fontWeight500 text-success"><%=correctMCQsRecord.length%> / <%=mcqs.length%></span> correct!</p>
+                                    <p class="h4">You got <span class="fontWeight500 text-success"><%=numberOfCorrectAnswers%> / <%=mcqs.length%></span> correct!</p>
                                 </div>
                             </div>
                         </div>
@@ -126,8 +127,8 @@
                                                                         <span class="form-check-sign pt-1 pb-2"></span>
                                                                     </label>
                                                                 </div>
-                                                                <div class="form-check-radio pb-4 mcqLabel">
-                                                                    <label class="form-check-label">
+                                                                <div class="form-check-radio mcqLabel">
+                                                                    <label class="form-check-label pb-4">
                                                                         <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>"><%=mcq.option4%>
                                                                         <span class="form-check-sign pt-1 pb-2"></span>
                                                                     </label>
@@ -138,7 +139,7 @@
                                                                         <div class="form-check-radio introduction">
                                                                             <label class="form-check-label mcqLabel">
                                                                             <%if(mcq.option1 == mcq.correctAns){%>
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>" checked disabled><%=mcq.option1%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2 correct" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>" checked disabled><%=mcq.option1%>
                                                                             <%}else{%>
                                                                                 <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>" disabled><%=mcq.option1%>
                                                                             <%}%>                                                            
@@ -148,7 +149,7 @@
                                                                         <div class="form-check-radio introduction">
                                                                             <label class="form-check-label mcqLabel">
                                                                             <%if(mcq.option2 == mcq.correctAns){%>
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>" checked disabled><%=mcq.option2%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2 correct" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>" checked disabled><%=mcq.option2%>
                                                                             <%}else{%>
                                                                                 <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>" disabled><%=mcq.option2%>
                                                                             <%}%>                                                            
@@ -158,7 +159,7 @@
                                                                         <div class="form-check-radio introduction">
                                                                             <label class="form-check-label mcqLabel">
                                                                             <%if(mcq.option3 == mcq.correctAns){%>
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>" checked  disabled><%=mcq.option3%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2 correct" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>" checked  disabled><%=mcq.option3%>
                                                                             <%}else{%>
                                                                                 <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>"  disabled><%=mcq.option3%>
                                                                             <%}%>                                                            
@@ -168,7 +169,7 @@
                                                                         <div class="form-check-radio pb-4 mcqLabel">
                                                                             <label class="form-check-label">
                                                                             <%if(mcq.option4 == mcq.correctAns){%>  
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>" checked disabled><%=mcq.option4%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2 correct" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>" checked disabled><%=mcq.option4%>
                                                                             <%}else{%>
                                                                                 <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>"  disabled><%=mcq.option4%>
                                                                             <%}%>                                                            
@@ -185,12 +186,16 @@
                                         <%}%>
                                 <%});%>
                             <%});%>
-                            <div class="my-4 mx-4">
-                                <button type="submit" class="btn btn-success btn-block text-white">Submit</button>
-                            </div>                  
+                 
                             <%if(check == -1){%>
+                                    <div class="my-4 mx-4">
+                                        <button type="submit" class="btn btn-success btn-block text-white">Submit</button>
+                                    </div> 
                                 </form>
                             <%}else{%>
+                                    <div class="my-4 mx-4">
+                                        <a href="#" class="btn btn-danger btn-block text-white">Proceed to next chapter</a>
+                                    </div> 
                                 </div>
                             <%}%>
                         </div>
@@ -204,10 +209,13 @@
 
 <script>
     $(document).ready((function() {
-        $('.mcqLabel').click(function() {
-            $('.mcqLabel').removeClass('backgroundBlue');
-            $(this).addClass('backgroundBlue');
-        });
+        console.log("check is: "+check);
+        if(check == -1){
+            $('.mcqLabel').click(function() {
+                $('.mcqLabel').removeClass('backgroundBlue');
+                $(this).addClass('backgroundBlue');
+            });
+        }
         
         $(".progress").each(function() {
             var value = $(this).attr('data-value');
