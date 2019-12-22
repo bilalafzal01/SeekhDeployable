@@ -20,8 +20,16 @@
                                         </div>
                                         <form class="register-form" method="POST" action="formstopics">
                                             <input type="text" class="form-control" placeholder="topicName" name="topicName" id ="topicName">
-                                            <input type="text" class="form-control" placeholder="subjectName" name="subjectName" id="subjectName">
-                                            <input type="text" class="form-control" placeholder="chapterName" name="chapterName" id="chapterName">
+                                            <select class="form-control my-2" id="subjectName" name="subjectName">
+                                                <%subjects.forEach((subject)=>{%>
+                                                <option value="<%=subject.dataValues.subjectName%>"><%=subject.dataValues.subjectName%></option>
+                                                <%});%>
+                                            </select>
+                                            <select class="form-control my-2" id="chapterName" name="chapterName">
+                                                <%chapters.forEach((chapter)=>{%>
+                                                <option value="<%=chapter.dataValues.chapterName%>"><%=chapter.dataValues.chapterName%></option>
+                                                <%});%>
+                                            </select>
                                             <button class="btn btn-block btn-round" id="Save">Save</button>
                                         </form>
                                     </div>

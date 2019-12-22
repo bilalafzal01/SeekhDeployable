@@ -19,8 +19,17 @@
                                             <div class="line r"></div>
                                         </div>
                                         <form class="register-form" method="POST" action="formscoursessubjects">
-                                            <input type="text" class="form-control" placeholder="subjectName" name="subjectName" id ="subjectName" >
-                                            <input type="text" class="form-control" placeholder="Course Title" name="courseTitle" id="courseTitle">
+                                            
+                                            <select class="form-control my-2" id="subjectName" name="subjectName">
+                                                <%subjects.forEach((subject)=>{%>
+                                                <option value="<%=subject.dataValues.subjectName%>"><%=subject.dataValues.subjectName%></option>
+                                                <%});%>
+                                            </select>
+                                            <select class="form-control my-2" id="courseTitle" name="courseTitle">
+                                                <%courses.forEach((course)=>{%>
+                                                <option value="<%=course.dataValues.title%>"><%=course.dataValues.title%></option>
+                                                <%});%>
+                                            </select>
                                             <button class="btn btn-block btn-round" id="Save" type="submit">Save</button>
                                         </form>
                                     </div>

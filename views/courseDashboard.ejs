@@ -36,20 +36,37 @@
                         <p class="h5 fontWeight500">by SEEKH</p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-10 offset-1">
-                        <div class="card progressCard">
-                            <div class="card-header courseProgressHeader text-white">
-                                <p class="courseProgressHeader">Continue where you left off</p>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title fontWeight500">SubjectID: <%=checkPointUser.dataValues.subjectID%></h5>
-                                <p class="card-text">chapterID: <%=checkPointUser.dataValues.chapterID%>, topic number: <%=checkPointUser.dataValues.topicID%></p>
-                                <a href="/course/<%=course.dataValues.course_id%>/subject/<%=checkPointUser.dataValues.subjectID%>/chapter/<%=checkPointUser.dataValues.chapterID%>/mcqPage" class="btn btn-info">Start</a>
+                <%if(!checkPointUser){%>
+                    <div class="row">
+                        <div class="col-10 offset-1">
+                            <div class="card progressCard">
+                                <div class="card-header courseProgressHeader text-white">
+                                    <p class="courseProgressHeader">Test yourself before you jump in!</p>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title fontWeight500">Random Mock Test</h5>
+                                    <p class="card-text">Random Subject/Chapter</p>
+                                    <a href="/course/1/subject/1/chapter/2/mcqPage" class="btn btn-info">Start</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                <%}else{%>
+                    <div class="row">
+                        <div class="col-10 offset-1">
+                            <div class="card progressCard">
+                                <div class="card-header courseProgressHeader text-white">
+                                    <p class="courseProgressHeader">Continue where you left off</p>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title fontWeight500">SubjectID: <%=checkPointUser.dataValues.subjectID%></h5>
+                                    <p class="card-text">chapterID: <%=checkPointUser.dataValues.chapterID%>, topic number: <%=checkPointUser.dataValues.topicID%></p>
+                                    <a href="/course/<%=course.dataValues.course_id%>/subject/<%=checkPointUser.dataValues.subjectID%>/chapter/<%=checkPointUser.dataValues.chapterID%>/mcqPage" class="btn btn-info">Start</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <%}%>
                 <%subjects.forEach((subject)=>{%>
                     <div class="row">
                         <div class="col-10 offset-1">

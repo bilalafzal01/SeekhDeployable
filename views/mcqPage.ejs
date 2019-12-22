@@ -6,6 +6,9 @@
 <% var topics = topics; %>
 <% var check = check; %>
 <% var numberOfCorrectAnswers = numberOfCorrectAnswers; %>
+<% var correctMCQsRecord = correctMCQsRecord;%>
+<% console.log(correctMCQsRecord);%>
+
 <% include partials/headerLoggedIn %>
 
 <div class="container-fluid">
@@ -66,6 +69,13 @@
                                     <p class="h4">You got <span class="fontWeight500 text-success"><%=numberOfCorrectAnswers%> / <%=mcqs.length%></span> correct!</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-left text-dark">
+                            <p class="h5 fontWeight500 introduction">The correct answers are:</p>
                         </div>
                     </div>
                 </div>

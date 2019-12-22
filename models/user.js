@@ -3,23 +3,23 @@
 var bcrypt = require("bcryptjs");
 // Creating our User model
 //Set it as export because we will need it required on the server
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define("User", {
     // The email cannot be null, and must be a proper email before creation
-    id:  {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    username:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        // unique: true
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      // unique: true,
+      unique: true,
       validate: {
         isEmail: true
       }
@@ -29,40 +29,25 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    firstName:{
+    firstName: {
       type: DataTypes.STRING,
       defaultValue: "firstName",
       allowNull: false
     },
-    lastName:{
+    lastName: {
       type: DataTypes.STRING,
       defaultValue: "lastName",
       allowNull: false
     },
-    phoneNumber:{
+    phoneNumber: {
       type: DataTypes.STRING,
       // unique: true,
       defaultValue: "090078601",
-      validate:{
-        isNumeric: true 
+      validate: {
+        isNumeric: true
       }
     },
-    XP:{
-      type: DataTypes.INTEGER,
-      validate:{
-        isNumeric: true
-      },
-      defaultValue: 0
-    },
-    position:{
-      type: DataTypes.INTEGER,
-      validate:{
-        isNumeric: true
-      },
-      // unique: false,
-      defaultValue: 0
-    },
-    description:{
+    description: {
       type: DataTypes.STRING,
       defaultValue: "Hey there! I'm using Seekh by Rexia!",
       allowNull: true
@@ -71,22 +56,21 @@ module.exports = function(sequelize, DataTypes) {
   // Creating a custom method for our User model. 
   //This will check if an unhashed password entered by the 
   //user can be compared to the hashed password stored in our database
-  User.prototype.validPassword = function(password) {
+  User.prototype.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
   };
   // Hooks are automatic methods that run during various phases of the User Model lifecycle
   // In this case, before a User is created, we will automatically hash their password
 
-User.beforeCreate(user => {
+  User.beforeCreate(user => {
     user.password = bcrypt.hashSync(
-        user.password,
-        bcrypt.genSaltSync(10),
-        null
-     );
-   });
-   return User;
+      user.password,
+      bcrypt.genSaltSync(10),
+      null
+    );
+  });
+  return User;
 };
 
 //This is a fix by Samaila Philemon Bala in case you want to use ES6
 //and the above is not working
-

@@ -36,8 +36,8 @@ var tempUsername;
 app.get("/", function (req, res) {
   var tempUser = req.session.user;
 
-  var randomNumber = Math.floor((Math.random() * 2) + 1);
-
+  // var randomNumber = Math.floor((Math.random() * 2) + 1);
+  var randomNumber = 1;
   db.MCQ.findOne({
     where: {
       mcqID: randomNumber
@@ -92,27 +92,42 @@ app.get("/dashboard", (req, res) => {
 });
 
 app.post("/register", function (req, res) {
-  db.User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password
-  }).then(function () {
-    db.User.findOne({
-      where: {
-        email: '' + req.body.email
-      }
-    }).then(function (newUser) {
-      tempUsername = req.body.username;
-      res.render("profileSetup", {
-        newUser: newUser.dataValues
-      });
-    }).catch(function () {
-      console.log("Could not find user!");
-    });
+  db.User.findOne({
+    where: {
+      username: req.body.username
+    }
+  }).then((userFound) => {
+    if (!userFound) {
+      db.User.create({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+      }).then(function () {
+        db.User.findOne({
+          where: {
+            email: '' + req.body.email
+          }
+        }).then(function (newUser) {
+          tempUsername = req.body.username;
+          res.render("profileSetup", {
+            newUser: newUser.dataValues
+          });
+        }).catch(function () {
+          console.log("Could not find user!");
+        });
 
-  }).catch(function (err) {
-    console.log("error here is: " + err);
-    res.json(err);
+      }).catch(function (err) {
+        console.log("error here is: " + err);
+        res.json(err);
+      });
+    } else {
+      console.log("a user with that name exists!");
+      console.log(userFound);
+      res.redirect("/errorPage");
+    }
+  }).catch((noUser) => {
+    console.log(noUser);
+    res.redirect("/errorPage");
   });
 });
 app.get('/logout', function (req, res) {
@@ -174,7 +189,7 @@ app.post('/profileSetup', function (req, res) {
 
 app.get("/courses/:Courseid", function (req, res, next) {
   if (!req.session.user) {
-    res.redirect("/");
+    res.redirect("/errorPage");
   } else {
     db.Courses.findByPk(req.params.Courseid).then((course) => {
       db.EnrolledCourses.findOne({
@@ -195,26 +210,29 @@ app.get("/courses/:Courseid", function (req, res, next) {
         });
       });
     }).catch((err) => {
-      res.redirect("/");
+      res.redirect("/errorPage");
     });
   }
 });
 
 app.get("/enroll/:course", (req, res) => {
-  let course = req.params.course;
-  let user = req.session.user;
-  // console.log(user);
-  // console.log(course);
-  db.EnrolledCourses.create({
-    userID: user.id,
-    courseID: course
-  }).then(() => {
-    res.redirect("/");
-  }).catch((err) => {
-    console.log(err);
-    res.redirect("/register");
-  });
-
+  if (req.session.user) {
+    let course = req.params.course;
+    let user = req.session.user;
+    // console.log(user);
+    // console.log(course);
+    db.EnrolledCourses.create({
+      userID: user.id,
+      courseID: course
+    }).then(() => {
+      res.redirect("/dashboard/" + course);
+    }).catch((err) => {
+      console.log(err);
+      res.redirect("/errorPage");
+    });
+  } else {
+    res.redirect("/errorPage");
+  }
 });
 
 app.get("/dashboard/:courseID", (req, res) => {
@@ -222,88 +240,93 @@ app.get("/dashboard/:courseID", (req, res) => {
   let user = req.session.user;
   var subs = [];
   var i = 0;
-  db.Courses.findOne({
-    where: {
-      course_id: course_id
-    }
-  }).then((course) => {
-    db.EnrolledCourses.findOne({
+  if (req.session.user) {
+    db.Courses.findOne({
       where: {
-        courseID: course.course_id,
-        userID: req.session.user.id
+        course_id: course_id
       }
-    }).then((enrolled) => {
-      db.CourseSubject.findAll({
+    }).then((course) => {
+      db.EnrolledCourses.findOne({
         where: {
-          courseID: course.course_id
+          courseID: course.course_id,
+          userID: req.session.user.id
         }
-      }).then((arrayOfCourseSubjects) => {
-        console.log("reached here");
-        // console.log(arrayOfCourseSubjects);
-        // console.log("length of array is: " +arrayOfCourseSubjects.length);
-        arrayOfCourseSubjects.forEach((subject) => {
-          console.log("in for loop! ");
-          // console.log(subject);
-          db.Subject.findOne({
-            where: {
-              subjectID: subject.dataValues.subjectID
-            }
-          }).then((oneSubject) => {
-            i++;
-            // console.log(oneSubject.dataValues.subjectName);
-            subs.push({
-              subjectID: oneSubject.dataValues.subjectID,
-              subjectName: oneSubject.dataValues.subjectName
-            });
-            console.log(subs);
-            // subs.push(oneSubject.dataValues);
-            if (i == arrayOfCourseSubjects.length) {
-              db.Checkpoint.findOne({
-                where: {userID: req.session.user.id}
-              }).then((userFound)=>{
-                var subjectIDContinue = userFound.dataValues.subjectID,
-                    chapterIDContinue = userFound.dataValues.chapterID,
-                    topicIDContinue   = userFound.dataValues.topicID
-                    res.render("courseDashboard", {
-                      course: course,
-                      currentUser: user,
-                      enrolled: enrolled,
-                      subjects: subs,
-                      userFound: userFound
-                    });
-                }).catch((notFound)=>{
-                res.render("courseDashboard", {
-                  course: course,
-                  currentUser: user,
-                  enrolled: enrolled,
-                  subjects: subs,
-                  userFound: null
-                });
+      }).then((enrolled) => {
+        db.CourseSubject.findAll({
+          where: {
+            courseID: course.course_id
+          }
+        }).then((arrayOfCourseSubjects) => {
+          console.log("reached here");
+          // console.log(arrayOfCourseSubjects);
+          // console.log("length of array is: " +arrayOfCourseSubjects.length);
+          arrayOfCourseSubjects.forEach((subject) => {
+            console.log("in for loop! ");
+            // console.log(subject);
+            db.Subject.findOne({
+              where: {
+                subjectID: subject.dataValues.subjectID
+              }
+            }).then((oneSubject) => {
+              i++;
+              // console.log(oneSubject.dataValues.subjectName);
+              subs.push({
+                subjectID: oneSubject.dataValues.subjectID,
+                subjectName: oneSubject.dataValues.subjectName
               });
-
-            }
-          }).catch((err) => {
-            console.log("no subjects found!");
-            console.log(err);
+              console.log(subs);
+              // subs.push(oneSubject.dataValues);
+              if (i == arrayOfCourseSubjects.length) {
+                db.Checkpoint.findOne({
+                  where: {
+                    userID: req.session.user.id
+                  }
+                }).then((userFound) => {
+                  var subjectIDContinue = userFound.dataValues.subjectID,
+                    chapterIDContinue = userFound.dataValues.chapterID,
+                    topicIDContinue = userFound.dataValues.topicID
+                  res.render("courseDashboard", {
+                    course: course,
+                    currentUser: user,
+                    enrolled: enrolled,
+                    subjects: subs,
+                    userFound: userFound
+                  });
+                }).catch((notFound) => {
+                  res.render("courseDashboard", {
+                    course: course,
+                    currentUser: user,
+                    enrolled: enrolled,
+                    subjects: subs,
+                    userFound: null
+                  });
+                });
+              }
+            }).catch((err) => {
+              console.log("no subjects found!");
+              console.log(err);
+            });
+          });
+          // console.log("here now!");   
+        }).catch((err) => {
+          console.log("could notfind subjects!");
+          res.render("courseDashboard", {
+            course: course,
+            currentUser: user,
+            enrolled: enrolled
           });
         });
-        // console.log("here now!");   
-      }).catch((err) => {
-        console.log("could notfind subjects!");
-        res.render("courseDashboard", {
-          course: course,
-          currentUser: user,
-          enrolled: enrolled
-        });
+      }).catch((error) => {
+        console.log("user not enrolled");
+        res.redirect("/courses/" + course_id);
       });
-    }).catch((error) => {
-      console.log("user not enrolled");
-      res.redirect("/courses/" + course_id);
+    }).catch((err) => {
+      console.log("course not found");
+      res.redirect("/register");
     });
-  }).catch((err) => {
-    console.log("course not found");
-    res.redirect("/register");
-  });
+  } else {
+    res.redirect("/errorPage");
+  }
 });
 
 app.get("/course/:courseID/subject/:subjectID", (req, res) => {
@@ -311,79 +334,83 @@ app.get("/course/:courseID/subject/:subjectID", (req, res) => {
     subjectID = req.params.subjectID;
   let user = req.session.user;
   let i = 0;
-  db.Courses.findOne({
-    where: {
-      course_id: courseID
-    }
-  }).then((course) => {
-    db.EnrolledCourses.findOne({
-      where: {
-        courseID: course.dataValues.course_id,
-        userID: user.id
-      }
-    }).then((enrolled) => {
-      db.Subject.findOne({
-        where: {
-          subjectID: subjectID
-        }
-      }).then((subject) => {
-        db.Chapter.findAll({
-          where: {
-            subjectID: subject.subjectID
-          }
-        }).then((arrayOfChapters) => {
-          let chaps = [];
-          let topics = [];
-          arrayOfChapters.forEach((chapter) => {
-            i++;
-            chaps.push({
-              chapterID: chapter.dataValues.chapterID,
-              chapterName: chapter.dataValues.chapterName
-            });
-            db.Topic.findAll({
-              where: {
-                subjectID: subject.subjectID
-              }
-            }).then((arrayOfTopics) => {
-              arrayOfTopics.forEach((topic) => {
-                i++;
-                topics.push({
-                  topicID: topic.topicID,
-                  topicName: topic.topicName,
-                  chapterID: topic.chapterID
-                });
-              });
-              if (i == arrayOfChapters.length + arrayOfTopics.length) {
-                res.render("subjectDashboard", {
-                  subject: subject,
-                  chapters: chaps,
-                  topics: topics,
-                  currentUser: req.session.user,
-                  course: course
-                });
-              }
-            }).catch((topicERR) => {
-              res.redirect("/errorPage");
-              console.log(topicERR);
-            });
-          });
-        }).catch((chapterERR) => {
-          res.redirect("/errorPage");
-          console.log(chapterERR);
-        });
-      }).catch((subjectERR) => {
-        res.redirect("/errorPage");
-        console.log(subjectERR);
-      });
-    }).catch((enrollERR) => {
-      res.redirect("/errorPage");
-      console.log(enrollERR);
-    });
-  }).catch((courseERR) => {
-    res.redirect("/errorPage");
-    console.log(courseERR);
-  });
 
+  if (req.session.user) {
+    db.Courses.findOne({
+      where: {
+        course_id: courseID
+      }
+    }).then((course) => {
+      db.EnrolledCourses.findOne({
+        where: {
+          courseID: course.dataValues.course_id,
+          userID: user.id
+        }
+      }).then((enrolled) => {
+        db.Subject.findOne({
+          where: {
+            subjectID: subjectID
+          }
+        }).then((subject) => {
+          db.Chapter.findAll({
+            where: {
+              subjectID: subject.subjectID
+            }
+          }).then((arrayOfChapters) => {
+            let chaps = [];
+            let topics = [];
+            arrayOfChapters.forEach((chapter) => {
+              i++;
+              chaps.push({
+                chapterID: chapter.dataValues.chapterID,
+                chapterName: chapter.dataValues.chapterName
+              });
+              db.Topic.findAll({
+                where: {
+                  subjectID: subject.subjectID
+                }
+              }).then((arrayOfTopics) => {
+                arrayOfTopics.forEach((topic) => {
+                  i++;
+                  topics.push({
+                    topicID: topic.topicID,
+                    topicName: topic.topicName,
+                    chapterID: topic.chapterID
+                  });
+                });
+                if (i == arrayOfChapters.length + arrayOfTopics.length) {
+                  res.render("subjectDashboard", {
+                    subject: subject,
+                    chapters: chaps,
+                    topics: topics,
+                    currentUser: req.session.user,
+                    course: course
+                  });
+                }
+              }).catch((topicERR) => {
+                res.redirect("/errorPage");
+                console.log(topicERR);
+              });
+            });
+          }).catch((chapterERR) => {
+            res.redirect("/errorPage");
+            console.log(chapterERR);
+          });
+        }).catch((subjectERR) => {
+          res.redirect("/errorPage");
+          console.log(subjectERR);
+        });
+      }).catch((enrollERR) => {
+        res.redirect("/errorPage");
+        console.log(enrollERR);
+      });
+    }).catch((courseERR) => {
+      res.redirect("/errorPage");
+      console.log(courseERR);
+    });
+  } else {
+    res.redirect("/errorPage");
+  }
 });
 
 //Post Requests For forms
@@ -393,7 +420,7 @@ app.get('/formschapters', function (req, res) {
   if (!req.session.user) {
     res.redirect("/errorPage");
   } else {
-    if (req.session.user.id == 7) {
+    if (req.session.user.id == 1) {
       db.Subject.findAll().then((arrayOfSubjects) => {
         res.render("formschapters", {
           arrayOfSubjects: arrayOfSubjects
@@ -436,7 +463,7 @@ app.get('/formscourses', function (req, res) {
   if (!req.session.user) {
     res.redirect("/errorPage");
   } else {
-    if (req.session.user.id == 7) {
+    if (req.session.user.id == 1) {
       res.render('formscourses');
     } else {
       res.redirect("/errorPage");
@@ -465,7 +492,7 @@ app.get('/formssubjects', function (req, res) {
   if (!req.session.user) {
     res.redirect("/errorPage");
   } else {
-    if (req.session.user.id == 7) {
+    if (req.session.user.id == 1) {
       res.render('formssubjects');
     } else {
       res.redirect("/errorPage");
@@ -490,15 +517,34 @@ app.post('/formssubjects', (req, res) => {
 
 
 app.get('/formsmcqs', function (req, res) {
-  if (!req.session.user) {
-    res.redirect("/errorPage");
-  } else {
-    if (req.session.user.id == 7) {
-      res.render('formsmcqs');
-    } else {
+  db.Subject.findAll().then((subjects) => {
+    db.Chapter.findAll().then((chapters) => {
+      db.Topic.findAll().then((topics) => {
+        if (!req.session.user) {
+          res.redirect("/errorPage");
+        } else {
+          if (req.session.user.id == 1) {
+            res.render('formsmcqs', {
+              subjects: subjects,
+              chapters: chapters,
+              topics: topics
+            });
+          } else {
+            res.redirect("/errorPage");
+          }
+        }
+      }).catch((err) => {
+        console.log(err);
+        res.redirect("/errorPage");
+      });
+    }).catch((err) => {
+      console.log(err);
       res.redirect("/errorPage");
-    }
-  }
+    });
+  }).catch((err) => {
+    console.log(err);
+    res.redirect("/errorPage");
+  });
 });
 
 app.post('/formsmcqs', (req, res) => {
@@ -563,15 +609,25 @@ app.post('/formsmcqs', (req, res) => {
   });
 });
 app.get('/formstopics', function (req, res) {
-  if (!req.session.user) {
-    res.redirect("/errorPage");
-  } else {
-    if (req.session.user.id == 7) {
-      res.render('formstopics');
-    } else {
+  db.Subject.findAll().then((subjects)=>{
+    db.Chapter.findAll().then((chapters)=>{
+      if (!req.session.user) {
+        res.redirect("/errorPage");
+      } else {
+        if (req.session.user.id == 1) {
+          res.render('formstopics', {subjects: subjects, chapters: chapters});
+        } else {
+          res.redirect("/errorPage");
+        }
+      }
+    }).catch((err)=>{
+      console.log(err);
       res.redirect("/errorPage");
-    }
-  }
+    });
+  }).catch((err)=>{
+    console.log(err);
+    res.redirect("/errorPage");
+  });
 });
 
 app.post('/formstopics', (req, res) => {
@@ -615,16 +671,30 @@ app.post('/formstopics', (req, res) => {
 });
 
 app.get('/formscoursessubjects', function (req, res) {
-  if (req.session.user.id == 7) {
-    res.render('formscoursessubjects');
-  } else {
+  db.Courses.findAll().then((courses)=>{
+    db.Subject.findAll().then((subjects)=>{
+      if(req.session.user){
+        if (req.session.user.id == 1) {
+          console.log(courses);
+          res.render('formscoursessubjects',{courses: courses, subjects: subjects});
+        } else {
+          res.redirect("/errorPage");
+        }
+      }else{
+        res.redirect("/errorPage");
+      }
+    }).catch((err)=>{
+      res.redirect("/errorPage");
+    });
+  }).catch((err)=>{
     res.redirect("/errorPage");
-  }
+  });
 });
 
 app.post('/formscoursessubjects', (req, res) => {
   let subjectName = req.body.subjectName;
   let title = req.body.courseTitle;
+  console.log("titiel is: "+ title);
   db.Subject.findOne({
     where: {
       subjectName: subjectName
@@ -637,6 +707,7 @@ app.post('/formscoursessubjects', (req, res) => {
       }
     }).then((courserow) => {
       let courseID = courserow.dataValues.courseID;
+      console.log("courseID: " + courseID + " subjectID: " + subjectID);
       db.CourseSubject.create({
           subjectID: subjectID,
           courseID: courseID
@@ -661,65 +732,68 @@ app.post('/formscoursessubjects', (req, res) => {
 });
 
 app.get("/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage", function (req, res) {
-  db.Courses.findOne({
-    where: {
-      course_id: req.params.courseID
-    }
-  }).then((course) => {
-    db.Subject.findOne({
+  if (req.session.user) {
+    db.Courses.findOne({
       where: {
-        subjectID: req.params.subjectID
+        course_id: req.params.courseID
       }
-    }).then((subject) => {
-      db.Chapter.findOne({
+    }).then((course) => {
+      db.Subject.findOne({
         where: {
-          chapterID: req.params.chapterID
+          subjectID: req.params.subjectID
         }
-      }).then((chapter) => {
-        db.Topic.findAll({
+      }).then((subject) => {
+        db.Chapter.findOne({
           where: {
-            subjectID: req.params.subjectID,
             chapterID: req.params.chapterID
           }
-        }).then(function (topicsOfThatChapter) {
-          db.MCQ.findAll({
+        }).then((chapter) => {
+          db.Topic.findAll({
             where: {
               subjectID: req.params.subjectID,
               chapterID: req.params.chapterID
             }
-          }).then((arrayOfMcqs) => {
-            let size = arrayOfMcqs.length;
-            let i = -1;
-            res.render("mcqPage", {
-              currentUser: req.session.user,
-              mcqs: arrayOfMcqs,
-              course: course,
-              subject: subject,
-              chapter: chapter,
-              topics: topicsOfThatChapter,
-              check: i
+          }).then(function (topicsOfThatChapter) {
+            db.MCQ.findAll({
+              where: {
+                subjectID: req.params.subjectID,
+                chapterID: req.params.chapterID
+              }
+            }).then((arrayOfMcqs) => {
+              let size = arrayOfMcqs.length;
+              let i = -1;
+              res.render("mcqPage", {
+                currentUser: req.session.user,
+                mcqs: arrayOfMcqs,
+                course: course,
+                subject: subject,
+                chapter: chapter,
+                topics: topicsOfThatChapter,
+                check: i
+              });
+            }).catch((topicsERR) => {
+              console.log(topicsERR);
+              res.redirect("/errorPage");
             });
-          }).catch((topicsERR) => {
-            console.log(topicsERR);
+          }).catch(function (mcqERR) {
+            console.log(mcqERR);
             res.redirect("/errorPage");
           });
-
-        }).catch(function (mcqERR) {
-          console.log(mcqERR);
+        }).catch((chapterERR) => {
+          console.log(chapterERR);
           res.redirect("/errorPage");
         });
-      }).catch((chapterERR) => {
-        console.log(chapterERR);
+      }).catch((subjectERR) => {
+        console.log(subjectERR);
         res.redirect("/errorPage");
       });
-    }).catch((subjectERR) => {
-      console.log(subjectERR);
+    }).catch((courseERR) => {
+      console.log(courseERR);
       res.redirect("/errorPage");
     });
-  }).catch((courseERR) => {
-    console.log(courseERR);
+  } else {
     res.redirect("/errorPage");
-  });
+  }
 });
 
 app.post('/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage', (req, res) => {
@@ -772,7 +846,7 @@ app.post('/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage', (req
                   arrayOfCorrectMCQ.push(correctMCQRecord);
                   if (arrayOfCorrectMCQ.length == arrayOfMCQs.length) {
                     console.log("here now!");
-                    // console.log(arrayOfCorrectMCQ);
+                    console.log(arrayOfCorrectMCQ);
                     db.Courses.findOne({
                       where: {
                         course_id: req.params.courseID
@@ -812,6 +886,7 @@ app.post('/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage', (req
                                   chapterID: req.params.chapterID
                                 }).then(() => {
                                   console.log("user checkpoint updated!");
+                                  // setInterval(2000);
                                   res.render("mcqPage", {
                                     currentUser: req.session.user,
                                     mcqs: arrayOfMCQSinThisCallBack,

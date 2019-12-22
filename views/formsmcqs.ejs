@@ -24,9 +24,23 @@
                                             <input type="text" class="form-control" placeholder="Option3" name="option3" id="Option3">
                                             <input type="text" class="form-control" placeholder="Option4" name="option4" id="Option4">
                                             <input type="text" class="form-control" placeholder="correctAns" name="correctAns" id="correctAns">
-                                            <input type="text" class="form-control" placeholder="topicName" name="topicName" id="topicName">
-                                            <input type="text" class="form-control" placeholder="chapterName" name="chapterName" id="chapterName">
-                                            <input type="text" class="form-control" placeholder="subjectName" name="subjectName" id="subjectName">
+                                      
+                                            <select class="form-control my-2" id="subjectName" name="subjectName">
+                                                <%subjects.forEach((subject)=>{%>
+                                                <option value="<%=subject.dataValues.subjectName%>"><%=subject.dataValues.subjectName%></option>
+                                                <%});%>
+                                            </select>
+                                            <select class="form-control my-2" id="chapterName" name="chapterName">
+                                                <%chapters.forEach((chapter)=>{%>
+                                                <option value="<%=chapter.dataValues.chapterName%>"><%=chapter.dataValues.chapterName%></option>
+                                                <%});%>
+                                            </select>
+                                            <select class="form-control my-2" id="topicName" name="topicName">
+                                                <%topics.forEach((topic)=>{%>
+                                                <option value="<%=topic.dataValues.topicName%>"><%=topic.dataValues.topicName%></option>
+                                                <%});%>
+                                            </select>
+
                                             <input type="text" class="form-control" placeholder="mcqNumber" name="mcqNumber" id="mcqNumber">
                                             <button class="btn btn-block btn-round" id="Save">Save</button>
                                         </form>
