@@ -2,81 +2,160 @@
 <% var user = currentUser; %>
 <% var course = course; %>
 
-<% include partials/headerLoggedIn %>
+<% include partials/headerTransparentUserLoggedIn %>
 
 <div class="wrapper">
-    <div class="container">
-        <div class="features-2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 ml-auto mr-auto text-center">
-                        <h2 class="title">Enroll Yourself, <%=user.firstName%>!</h2>
-                        <h5 class="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis ratione dicta sapiente fuga distinctio. Totam temporibus non fugit nemo sequi?</h5>
-                    </div>
-                </div>
-                <div id="select" class="mt-2">
-                    <div class="row">
-                        <div class="col-8 ml-auto mr-auto">
-                            <div class="form-group">
-                                <select class="selectpicker" data-style="btn btn-round btn-danger" data-menu-style="dropdown-success">
-                                    <option disabled selected>Choose program</option>
-                                    <option value="pre-eng">Pre Engineering</option>
-                                    <option value="pre-med">Pre Medical</option>
-                                    <option value="ics">ICS</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="" id="featuredCourses">
+    <div class="container-fluid dashboardLandingDiv">
+        <div class="pt-5"></div>
+        <div class="pt-3"></div>
         <div class="row">
-            <div class="container">
-                <div class="title">
-                    <h2 class="title text-center">Featured Courses</h2>
-                    <h5 class="description text-center">Our best stuff! Chef's Recommendation. xD</h5>
-                    <!-- <br/> -->
-                </div>
+            <div class="col-12 text-center text-white pt-4 pb-3 py-md-5">
+                <h1 class="fontWeight500">Welcome, <%=user.firstName%>!</h1>
+                <p class="h5 fontWeight500 m-2">Your education is your power. So, learn more and more.</p>
             </div>
         </div>
-        <div class="row">                    
-            <div class="container">
-                <% course.forEach(function(eachCourse){ %>
+        <div class="row">
+            <div class="col-12 col-md-2 text-dark leftPanel py-3 order-2 order-md-1 d-none d-md-inline-block" style="background-color: #fffcf5;">
                 <div class="row">
-                    <div class="col-md-4 col-12">
-                        <div class="col-0"></div>
-                        <div class="col-12">
-                            <div class="card card-testimonial" data-background="image" style="background-image: url('https://images.unsplash.com/photo-1570819096937-39261b6314d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60')">
-                                <div class="card-body">
-                                    <h6 class="card-category"><%=eachCourse.dataValues.field%></h6>
-                                    <h3 class="card-title"><%=eachCourse.dataValues.title%></h3>
-                                    <p class="card-description">
-                                        FAST, UET, NUST, GIKI
-                                    </p>
-                                    <br/>
-                                    <a href="/courses/<%= eachCourse.dataValues.course_id %>" class="btn btn-warning btn-round">
-                                        <i class="fa fa-book" aria-hidden="true"></i> Learn More
-                                    </a>
+                    <div class="col-md-4 col-12 text-center">
+                        <img src="default_avatar.png" alt="default_avatar" width="55">
+                    </div>
+                    <div class="col-md-8 col-12 mt-3 mt-md-0">
+                        <h5 class="fontWeight500 my-0 userNameOnLeftPanel"><%=user.firstName%> <a href="#"
+                                class="fa text-dark">&#8942</a></h5>
+                        <p class="memberStatus mt-1 fontWeight500">Gold member</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-10 text-center text-md-left mb-4 order-1 order-md-2" style="margin: auto;">
+                <a href="#" class="btn btn-neutral btn-block my-2">Browse Courses</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-2 text-dark" style="background-color: #fffcf5;">
+                <div class="row">
+                    <div class="col-9">
+                        <p class="h6 ml-md-3 mt-4 pb-3 fontSmall text-center text-md-left"> My Menu</p>
+                    </div>
+                    <div class="col-2 d-md-none mt-2 pb-1">
+                        <button data-toggle="collapse" data-target="#collapsedMenu" class="btn btn-neutral collapseMenuButton"><i class="fa fa-bars"></i></button>
+                    </div>
+                </div>
+                <div class="ml-md-3 collapse" id="collapsedMenu">
+                    <a class="fontWeight500 dimGrayColor text-center text-md-left" href="#">
+                        <p class="mt-4 mb-3"><i class="fa fa-graduation-cap text-dark mr-1"></i><span
+                                class="menuDashboard"> My Courses</span></p>
+                    </a>
+                    <a class="fontWeight500 dimGrayColor text-center text-md-left" href="#">
+                        <p class="mt-3 mb-3"><i class="fa fa-trophy text-dark mr-1"></i><span
+                                class="menuDashboard"> Achievements</span></p>
+                    </a>
+                    <a class="fontWeight500 dimGrayColor text-center text-md-left" href="#">
+                        <p class="mt-3 mb-3"><i class="fa fa-commenting text-dark mr-1"></i><span
+                                class="menuDashboard"> Message</span></p>
+                    </a>
+                    <a class="fontWeight500 dimGrayColor text-center text-md-left" href="#">
+                        <p class="mt-3 mb-3"><i class="fa fa-cog text-dark mr-1"></i><span
+                                class="menuDashboard"> Settings</span></p>
+                    </a>
+                    <a class="fontWeight500 dimGrayColor text-center text-md-left" href="#">
+                        <p class="mt-3 mb-4"><i class="fa fa-question-circle text-dark mr-1"></i><span
+                                class="menuDashboard"> Help Center</span></p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 col-md-10" style="background-color: #f0f0f0;">
+                <div class="row">
+                    <div class="col-11 offset-1 ml-4 text-center text-md-left">
+                        <p class="h3 text-dark fontWeight700 pt-4 pb-3">Running Course</p>
+                        <div class="row">
+                            <div class="col-md-4 col-12 mt-2 mt-md-0">
+                                <div class="card card-pricing">
+                                    <div class="card-body">
+                                        <h6 class="card-category">Trending</h6>
+                                        <div class="">
+                                            <h3 class="card-title fontWeight500 text-white borderRadius10 py-2"
+                                                style="background-color: #3CBBB1;">NET</h3>
+                                        </div>
+                                        <ul>
+                                            <li><i class="fa fa-check text-success" aria-hidden="true"></i> Maths (Part
+                                                I-II)</li>
+                                            <li><i class="fa fa-check text-success" aria-hidden="true"></i> Physics
+                                                (Part I-II)</li>
+                                            <li><i class="fa fa-times text-danger" aria-hidden="true"></i> Chemistry
+                                                (Part I-II)</li>
+                                            <li><i class="fa fa-times text-danger" aria-hidden="true"></i> English (Part
+                                                I-II)</li>
+                                            <li><i class="fa fa-times text-danger" aria-hidden="true"></i> IQ </li>
+                                        </ul>
+                                        <a href="#pablo" class="btn btn-success btn-round card-link"><i class="fa fa-play"></i> Get Started</a>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- <div class="col-md-4 col-12">
+                                <div class="card card-pricing">
+                                    <div class="card-body">
+                                        <h6 class="card-category">More Courses</h6>
+                                        <div class="">
+                                            <h3 class="card-title fontWeight500 text-white borderRadius10 py-2"    style="background-color: #3CBBB1;">More Courses</h3>
+                                        </div>
+                                        <ul>
+                                            <li><i class="fa fa-sort"></i> MDCAT</li>
+                                            <li><i class="fa fa-sort"></i> FUNGCAT</li>
+                                            <li><i class="fa fa-sort"></i> CSS</li>
+                                            <li><i class="fa fa-sort"></i> ECAT</li>
+                                            <li><i class="fa fa-spinner"></i> and many more!</li>
+                                        </ul>
+                                        <p>
+                                            <a href="" class="btn btn-success btn-round card-link">
+                                                <i class="fa fa-plus-circle text-neutral"></i>  
+                                                Browse                                          
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="col-md-4 col-12">
+                                <div class="card card-pricing">
+                                    <div class="card-body">
+                                        <h6 class="card-category mb-4">More Courses</h6>
+                                        <div class="">
+                                            <a href="#" class="text-center text-danger">
+                                                <i class="fa fa-plus-circle plusIcon mr-5"></i>
+                                            </a>
+                                        </div>
+                                        <p class="card-description">Our best courses including: </p>
+                                        <ul>
+                                            <li><i class="fa fa-sort"></i> MDCAT, FUNGCAT</li>
+                                            <li><i class="fa fa-sort"></i> ECAT</li>
+                                            <li><i class="fa fa-spinner"></i> and many more!</li>
+                                        </ul>
+                                        <div class="card-footer">
+                                          <a href="#pablo" class="btn btn-round btn-success">
+                                            <i class="fa fa-book" aria-hidden="true"></i> Show more
+                                          </a>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
                         </div>
-                        <div class="col-0"></div>
                     </div>
-                    <div class="col-10 col-md-8 td-product px-5 px-md-0">
-                        <h2><strong><%=eachCourse.dataValues.course_id%>. <%=eachCourse.dataValues.title%></strong></h2>
-                        <h4 class="px-2 px-md-0"><strong>Details:</strong></h4>                            
-                        <p class="description px-2 px-md-0"><%=eachCourse.dataValues.description%></p>
-                        <h5 class="px-2 px-md-0"><strong>Subjects:</strong></h5>                            
-                        <p class="description px-2 px-md-0"><em>Physics, Mathematics, Chemistry, English, IQ</em></p>
-                        
-                        <div class="row flex-md-row-reverse mr-4 px-2 px-md-0">
-                            <button type="button" class="btn btn-danger btn-round mx-2 mx-md-0 btn-lg">Enroll</button>
-                        </div>
-                    </div>                  
                 </div>
-                <%});%>
+                <div class="row">
+                    <div class="col-10 ml-4 offset-1 text-center text-md-left">
+                        <p class="h3 text-dark fontWeight700 pt-4 pb-3">Achievements</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-10 ml-4 offset-1 text-center text-md-left">
+                        <p class="h3 text-dark fontWeight700 pt-4 pb-3">My Analytics</p> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-10 ml-4 offset-1 text-center text-md-left">
+                        <p class="h3 text-dark fontWeight700 pt-4 pb-3">Community</p> 
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -85,10 +164,16 @@
 <% include partials/footer %>
 
 <script>
-$(function () {
-    $('select').selectpicker();
-    $('select').on('change',function(){
-        // alert("hahah");
+    $(function () {
+        $('select').selectpicker();
+        $('select').on('change', function () {
+            // alert("hahah");
+        });
+        $('.collapseMenuButton').on('active',()=>{
+            $('.collapseMenuButton').css('background-color','#fffcf5');
+        });
+        if($(document).width()>768){
+            $('#collapsedMenu').addClass('show');
+        }
     });
-});
 </script>

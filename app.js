@@ -800,13 +800,15 @@ app.post('/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage', (req
   let arr = [];
   let arrOfAnswers = [];
   let j = 0;
+  let arrayThatHoldsCorrectMCQSid = [];
   for (var key in req.body) {
     let str = req.body[key].toString();
     let indexOfHyphen = str.indexOf('-');
     arrOfAnswers.push(str.slice(indexOfHyphen + 1));
-    // console.log("iteration: "+ );
     arr.push(str.slice(0, indexOfHyphen));
   };
+  // console.log("str is: ");
+  // console.log(arrOfAnswers);
   let arrayOfMCQs = [];
   arr.forEach((element, index) => {
     db.MCQ.findOne({
@@ -829,7 +831,9 @@ app.post('/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage', (req
                 mcqID: answer.dataValues.mcqID
               }).then(() => {
                 j++;
-                console.log("correct mcq!");
+                arrayThatHoldsCorrectMCQSid.push({mcqID: answer.dataValues.mcqID});
+                console.log("aray of correct mqs");
+                console.log(arrayThatHoldsCorrectMCQSid);
               }).catch((err) => {
                 console.log(err);
                 res.redirect('/errorPage');
@@ -896,7 +900,9 @@ app.post('/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage', (req
                                     topics: topicsOfThatChapter,
                                     correctMCQsRecord: arrayOfCorrectMCQ,
                                     check: i,
-                                    numberOfCorrectAnswers: j
+                                    numberOfCorrectAnswers: j,
+                                    arrayThatHoldsCorrectMCQSid: arrayThatHoldsCorrectMCQSid,
+                                    arrayOfAnswers: arrOfAnswers
                                   });
                                 }).catch((err) => {
                                   console.log("/errorPage");

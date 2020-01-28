@@ -208,6 +208,56 @@ div.card-body.questionOfTheDayCategory{
     background-color: aliceblue;
 }
 
+.correct{
+    font-size: 1.25rem;
+}
+.wrongAns{
+    font-size: 1.105rem;
+}
+
+.leftPanel{
+    border-top-right-radius: 20px;
+    /* border-bottom-right-radius: 20px; */
+}
+.userNameOnLeftPanel{
+    border-bottom: 1px solid gray;
+}
+.memberStatus{
+    font-size: .8rem;
+}
+.dashboardLandingDiv{
+    /* background-image: url('https://images.pexels.com/photos/3311533/pexels-photo-3311533.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); */
+    background-image: url('dashboardHeader.png');
+    background-position: center;
+    background-size: contain;
+}
+.fontSmall{
+    font-size: .65rem;
+    opacity: 0.60;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+.dimGrayColor{
+    color: #616060;
+}
+.fontWeight700{
+    font-weight: 700;
+}
+.borderRadius10{
+    border-radius: 10px;
+}
+.borderRadius5{
+    border-radius: 5px;
+}
+.continuePara{
+    color: rgba(0,0,0,0.8);
+    font-size: .75rem;
+}
+.plusIcon{
+    font-size: 5rem;
+}
+.collapseMenuButton{
+    background-color: #fffcf5;
+}
 @media screen and (max-width: 768px){
     .courseJumbotron{
         background-size: 120% 100%;
@@ -227,5 +277,24 @@ div.card-body.questionOfTheDayCategory{
     }
     .topics{
         font-size: .85rem;
+    }
+    .memberStatus{
+        font-size: .75rem;
+    }
+    .dashboardLandingDiv{
+        background-image: url('dashboardHeaderMobileOld.png');
+    }
+    .fontSmall{
+        border-bottom: 0;
+    }
+    .collapseMenuButton{
+        margin-top: .25rem;
+    }
+    .collapseMenuButton,.collapseMenuButton:hover ,.collapseMenuButton:active{
+        background-color: #fffcf5;
+        border: 0;
+    }
+    .menuDashboard{
+        font-size: .8rem;
     }
 }

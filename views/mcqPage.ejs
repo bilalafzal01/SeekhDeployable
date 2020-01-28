@@ -7,7 +7,10 @@
 <% var check = check; %>
 <% var numberOfCorrectAnswers = numberOfCorrectAnswers; %>
 <% var correctMCQsRecord = correctMCQsRecord;%>
-<% console.log(correctMCQsRecord);%>
+<% var arrayThatHoldsCorrectMCQSid = arrayThatHoldsCorrectMCQSid;%>
+<% var arrayOfAnswers = arrayOfAnswers;%>
+
+<!-- <%# console.log(correctMCQsRecord);%> -->
 
 <% include partials/headerLoggedIn %>
 
@@ -149,9 +152,17 @@
                                                                         <div class="form-check-radio introduction">
                                                                             <label class="form-check-label mcqLabel">
                                                                             <%if(mcq.option1 == mcq.correctAns){%>
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2 correct" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>" checked disabled><%=mcq.option1%>
+                                                                            <!-- <span class="correct"> -->
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="1option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>" id="mcqOption1" disabled><%=mcq.option1%>
+                                                                            <!-- </span> -->
+                                                                            <span class="badge badge-success mx-5 correct">Correct</span>
+                                                                            <%}else if(mcq.option1 == arrayOfAnswers[index]){%>
+                                                                            <!-- <span class="wrongAns"> -->
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="2option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>" id="mcqOption1" checked disabled><%=mcq.option1%>
+                                                                            <!-- </span> -->
+                                                                                <span class="badge badge-danger mx-5 wrongAns">Wrong</span>
                                                                             <%}else{%>
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>" disabled><%=mcq.option1%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="3option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>" disabled><%=mcq.option1%>
                                                                             <%}%>                                                            
                                                                                 <span class="form-check-sign pt-1 pb-2"></span>
                                                                             </label>
@@ -159,9 +170,17 @@
                                                                         <div class="form-check-radio introduction">
                                                                             <label class="form-check-label mcqLabel">
                                                                             <%if(mcq.option2 == mcq.correctAns){%>
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2 correct" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>" checked disabled><%=mcq.option2%>
+                                                                            <!-- <span class="correct">   -->
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="4option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>" id="mcqOption2" checked disabled><%=mcq.option2%>
+                                                                            <!-- </span> -->
+                                                                            <span class="badge badge-success mx-5 correct">Correct</span>
+                                                                            <%}else if(mcq.option2 == arrayOfAnswers[index]){%>
+                                                                            <!-- <span class="wrongAns"> -->
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="5option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>" id="mcqOption2" checked disabled><%=mcq.option2%>
+                                                                            <!-- </span> -->
+                                                                            <span class="badge badge-danger mx-5 wrongAns">Wrong</span>
                                                                             <%}else{%>
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>" disabled><%=mcq.option2%>
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="6option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>" disabled><%=mcq.option2%>
                                                                             <%}%>                                                            
                                                                                 <span class="form-check-sign pt-1 pb-2"></span>
                                                                             </label>
@@ -169,20 +188,36 @@
                                                                         <div class="form-check-radio introduction">
                                                                             <label class="form-check-label mcqLabel">
                                                                             <%if(mcq.option3 == mcq.correctAns){%>
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2 correct" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>" checked  disabled><%=mcq.option3%>
+                                                                                <!-- <span class="correct"> -->
+                                                                                    <input type="radio" class="form-check-input pt-1 pb-2" name="7option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>" id="mcqOption3" checked disabled><%=mcq.option3%>
+                                                                                <!-- </span> -->
+                                                                                <span class="badge badge-success mx-5 correct">Correct</span>
+                                                                            <%}else if(mcq.option3 == arrayOfAnswers[index]){%>
+                                                                                <!-- <span class="wrongAns"> -->
+                                                                                    <input type="radio" class="form-check-input pt-1 pb-2" name="8option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>" id="mcqOption3" checked disabled><%=mcq.option3%>
+                                                                                <!-- </span> -->
+                                                                                <span class="badge badge-danger mx-5 wrongAns">Wrong</span>
                                                                             <%}else{%>
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>"  disabled><%=mcq.option3%>
-                                                                            <%}%>                                                            
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="9option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>" disabled><%=mcq.option3%>
+                                                                            <%}%>                                                           
                                                                                 <span class="form-check-sign pt-1 pb-2"></span>                                                                            
                                                                             </label>
                                                                         </div>
                                                                         <div class="form-check-radio pb-4 mcqLabel">
                                                                             <label class="form-check-label">
                                                                             <%if(mcq.option4 == mcq.correctAns){%>  
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2 correct" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>" checked disabled><%=mcq.option4%>
+                                                                                <!-- <span class="correct">                                                                                     -->
+                                                                                    <input type="radio" class="form-check-input pt-1 pb-2" name="10option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>" id="mcqOption4" checked disabled><%=mcq.option4%>
+                                                                                <!-- </span> -->
+                                                                                <span class="badge badge-success mx-5 correct">Correct</span>
+                                                                            <%}else if(mcq.option4 == arrayOfAnswers[index]){%>
+                                                                                <!-- <span class="wrongAns"> -->
+                                                                                    <input type="radio" class="form-check-input pt-1 pb-2" name="11option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>" id="mcqOption4" checked disabled><%=mcq.option4%>
+                                                                                <!-- </span> -->
+                                                                                <span class="badge badge-danger mx-5 wrongAns">Wrong</span>
                                                                             <%}else{%>
-                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>"  disabled><%=mcq.option4%>
-                                                                            <%}%>                                                            
+                                                                                <input type="radio" class="form-check-input pt-1 pb-2" name="12option<%=mcq.dataValues.mcqID%>" value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>" disabled><%=mcq.option4%>
+                                                                            <%}%>                                           
                                                                                 <span class="form-check-sign pt-1 pb-2"></span>
                                                                             </label>
                                                                         </div>
@@ -219,7 +254,10 @@
 
 <script>
     $(document).ready((function() {
-        console.log("check is: "+check);
+        $('div.form-check-radio').on('click', function () {    
+            $(this).find(':radio').prop({checked: true});
+        });
+
         if(check == -1){
             $('.mcqLabel').click(function() {
                 $('.mcqLabel').removeClass('backgroundBlue');
