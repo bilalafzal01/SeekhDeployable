@@ -1,0 +1,119 @@
+<% var user = currentUser; %>
+<% var mcq = mcq; %>
+<% var course = course;%>
+<% var subject = subject; %>
+<% var chapter = chapter; %>
+<% var topics = topics; %>
+<% var test = test; %>
+<% var randomNums = randomNums; %>
+
+<% include partials/headerLoggedIn %>
+
+<div class="container-fluid mcqPageBackground text-dark">
+    <div class="row pt-4">
+        <div class="col-10 offset-1">
+            <p class="p fontWeight500"><%=subject.dataValues.subjectName%> > <%=chapter.dataValues.chapterName%></p>
+        </div>
+    </div>
+
+    <!-- <div class="row mt-4" class="mcqRow">
+        <div class="col-12 col-md-10 offset-md-1 mcqRow text-center">
+            <p class="h2 fontWeight500 mcqStatement"><%=mcq.dataValues.statement%></p>
+        </div>
+    </div> -->
+    <div class="row pt-2">
+        <div class="col-md-8 col-12 offset-md-1 px-5 mcqRow mb-md-4">
+            <p class="h5 pt-4 fontWeight500">Question: <%=randomNums[0]%> / <%=randomNums.length%> </p>
+            <!-- <p class="">Statement: </p>   -->
+            <div class="mt-0">
+                <p class="h3 mt-0 fontWeight500 mcqStatement py-3"><%=mcq.dataValues.statement%>: <span
+                        class="badge badge-warning">NET 2017</span></p>
+            </div>
+            <div class="mcqAnswersDiv">
+                <form action="" method="POST">
+                    <div>
+                        <div class="mcqOption mt-4 mb-2 mcqOption1">
+                            <input type="radio" id="mcqOption<%=mcq.dataValues.option1%>"
+                                name="mcq<%=mcq.dataValues.mcqID%>" class="mcqOptionRadio1 ml-3">
+                            <label for="mcqOption<%=mcq.dataValues.option1%>" class="mcqOptionLabel"><span
+                                    class="fontWeight500 pl-2 pr-3">A.</span> <%= mcq.dataValues.option1%></label>
+                        </div>
+                        <div class="mcqOption mt-2 mb-2 mcqOption2">
+                            <input type="radio" id="mcqOption<%=mcq.dataValues.option2%>"
+                                name="mcq<%=mcq.dataValues.mcqID%>" class="mcqOptionRadio2 ml-3">
+                            <label for="mcqOption<%=mcq.dataValues.option2%>"><span class="fontWeight500 pl-2 pr-3">B.
+                                </span> <%= mcq.dataValues.option2%></label>
+                        </div>
+                        <div class="mcqOption mt-2 mb-2 mcqOption3">
+                            <input type="radio" id="mcqOption<%=mcq.dataValues.option3%>"
+                                name="mcq<%=mcq.dataValues.mcqID%>" class="mcqOptionRadio3 ml-3">
+                            <label for="mcqOption<%=mcq.dataValues.option3%>"><span class="fontWeight500 pl-2 pr-3">C.
+                                </span> <%= mcq.dataValues.option3%></label>
+                        </div>
+                        <div class="mcqOption mt-2 mb-4 mcqOption4">
+                            <input type="radio" id="mcqOption<%=mcq.dataValues.option4%>"
+                                name="mcq<%=mcq.dataValues.mcqID%>" class="mcqOptionRadio4 ml-3">
+                            <label for="mcqOption<%=mcq.dataValues.option4%>"><span class="fontWeight500 pl-2 pr-3">D.
+                                </span> <%= mcq.dataValues.option4%></label>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <!-- btn btn-group bg-white mcqNavigationButtons -->
+                        <div class="col-12 text-center text-md-left">
+                            <a href="#" class="btn btn-warning text-white">Prev</a>
+                            <a href="#" class="btn btn-info text-white">Skip</a>
+                            <a href="#" class="btn btn-success text-white">Next</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2 col-10 offset-1 offset-md-0 mt-3 mt-md-0">
+            <div class="card hintCard">
+                <div class="card-body text-center">
+                    <h6 class="card-category text-dark"><%=subject.dataValues.subjectName%></h6>
+                    <a href="#">
+                        <div class="card-icon">
+                            <i class="fa fa-envelope-o"></i>
+                        </div>
+                        <p class="btn btn-danger btn-round text-white card-description">Reveal Hint</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer %>
+
+<script>
+    $(document).ready(function () {
+        // $('.mcqOptionRadio').on('click',()=>{
+        //     $('.mcqOption1').addClass('mcqOptionRadioChecked');
+        // });
+        $(".mcqOptionRadio1").on("click", function () {
+            $('.mcqOption1').addClass('mcqOptionRadioChecked');
+            $('.mcqOption2').removeClass('mcqOptionRadioChecked');
+            $('.mcqOption3').removeClass('mcqOptionRadioChecked');
+            $('.mcqOption4').removeClass('mcqOptionRadioChecked');
+        });
+        $(".mcqOptionRadio2").on("click", function () {
+            $('.mcqOption2').addClass('mcqOptionRadioChecked');
+            $('.mcqOption1').removeClass('mcqOptionRadioChecked');
+            $('.mcqOption3').removeClass('mcqOptionRadioChecked');
+            $('.mcqOption4').removeClass('mcqOptionRadioChecked');
+        });
+        $(".mcqOptionRadio3").on("click", function () {
+            $('.mcqOption3').addClass('mcqOptionRadioChecked');
+            $('.mcqOption1').removeClass('mcqOptionRadioChecked');
+            $('.mcqOption2').removeClass('mcqOptionRadioChecked');
+            $('.mcqOption4').removeClass('mcqOptionRadioChecked');
+        });
+        $(".mcqOptionRadio4").on("click", function () {
+            $('.mcqOption4').addClass('mcqOptionRadioChecked');
+            $('.mcqOption1').removeClass('mcqOptionRadioChecked');
+            $('.mcqOption2').removeClass('mcqOptionRadioChecked');
+            $('.mcqOption3').removeClass('mcqOptionRadioChecked');
+        });
+    });
+</script>

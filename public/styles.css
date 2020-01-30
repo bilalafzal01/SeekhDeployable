@@ -1,52 +1,65 @@
-.fontRaleway{
+.fontRaleway {
     font-family: 'Raleway', sans-serif;
 }
-.registerBox{
+
+.registerBox {
     background-color: white;
     color: black;
 }
-#loginItem, #userID{
+
+#loginItem,
+#userID {
     color: #f57765;
     cursor: pointer;
 }
-.card-register{
+
+.card-register {
     background-color: white;
 }
-.colorWhite{
+
+.colorWhite {
     color: white;
 }
-.colorGreyishWhite{
+
+.colorGreyishWhite {
     color: #dad5d4;
 }
-div.card-body.questionOfTheDayCategory{
+
+div.card-body.questionOfTheDayCategory {
     padding-top: 0px;
 }
-#cardCustomQuestionOfTheDay{
+
+#cardCustomQuestionOfTheDay {
     margin-top: 1.2rem;
 }
-.leaderboardHeader{
+
+.leaderboardHeader {
     color: pink;
 }
-.Leaderboards{
+
+.Leaderboards {
     padding-top: 5rem;
 }
-.usernameDiv{
+
+.usernameDiv {
     opacity: 0;
 }
-#featuredCourses{
-    background: rgb(233, 223, 224);  /* fallback for old browsers */
+
+#featuredCourses {
+    background: rgb(233, 223, 224);
+    /* fallback for old browsers */
     /* background: -webkit-linear-gradient(to bottom, #EAEAEA, #DBDBDB, #F2F2F2, #ADA996);  Chrome 10-25, Safari 5.1-6 */
     /* background: linear-gradient(to top, #EAEAEA, #DBDBDB, #F2F2F2, rgb(207, 203, 184)); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 
 }
 
-.courseSplash{
+.courseSplash {
     background: #f4f4f4;
 }
 
-@media screen and (max-width: 4000px){
-    .courseJumbotron{
+@media screen and (max-width: 4000px) {
+    .courseJumbotron {
         border-radius: 0;
         background-size: contain;
         /* background-size: 100% 160%; */
@@ -56,69 +69,74 @@ div.card-body.questionOfTheDayCategory{
     }
 }
 
-.textShadowBlack{
+.textShadowBlack {
     text-shadow: 2px 2px 4px #000000;
 }
 
-.fontWeighted{
+.fontWeighted {
     font-weight: 500;
 }
 
-.courseDashboardLeftPanel{
+.courseDashboardLeftPanel {
     background: #f0f0f0;
 }
 
-.subjects:hover, .tabsSubjects:hover, .courseDashboardOverview:hover, .subjects:active{
+.subjects:hover,
+.tabsSubjects:hover,
+.courseDashboardOverview:hover,
+.subjects:active {
     border-left: 4px solid #f7765f;
     background: white;
 }
 
-.courseNameDashboard{
+.courseNameDashboard {
     border-bottom: 1px solid black;
 }
-.courseDashboardOverview{
+
+.courseDashboardOverview {
     font-weight: 500;
     font-size: 1.125rem;
 }
 
-.subjects{
+.subjects {
     font-weight: 500;
     font-size: 1.0625rem;
 }
 
-.courseDashboardTitle{
+.courseDashboardTitle {
     font-weight: 600;
 }
 
-.fontWeight500{
+.fontWeight500 {
     font-weight: 500;
 }
 
-.courseProgressHeader{
-    background: rgb(102,97,91);
+.courseProgressHeader {
+    background: rgb(102, 97, 91);
     font-weight: 500;
 }
 
-.progressCard{
+.progressCard {
     border-radius: 0;
 }
 
-.partsColSubject{
-    border-right: 1px solid rgb(0,0,0,0.2);
+.partsColSubject {
+    border-right: 1px solid rgb(0, 0, 0, 0.2);
 }
 
-.fontWeight200{
+.fontWeight200 {
     font-weight: 200;
 }
+
 /* for progress bar circlular */
 .progress {
     width: 150px;
     height: 150px;
     background: none;
     position: relative;
-  }
-  
-  .progress::after {
+}
+
+.progress::after {
     content: "";
     width: 100%;
     height: 100%;
@@ -127,22 +145,22 @@ div.card-body.questionOfTheDayCategory{
     position: absolute;
     top: 0;
     left: 0;
-  }
-  
-  .progress > span {
+}
+
+.progress>span {
     width: 50%;
     height: 100%;
     overflow: hidden;
     position: absolute;
     top: 0;
     z-index: 1;
-  }
-  
-  .progress .progress-left {
+}
+
+.progress .progress-left {
     left: 0;
-  }
-  
-  .progress .progress-bar {
+}
+
+.progress .progress-bar {
     width: 100%;
     height: 100%;
     background: none;
@@ -150,151 +168,216 @@ div.card-body.questionOfTheDayCategory{
     border-style: solid;
     position: absolute;
     top: 0;
-  }
-  
-  .progress .progress-left .progress-bar {
+}
+
+.progress .progress-left .progress-bar {
     left: 100%;
     border-top-right-radius: 80px;
     border-bottom-right-radius: 80px;
     border-left: 0;
     -webkit-transform-origin: center left;
     transform-origin: center left;
-  }
-  
-  .progress .progress-right {
+}
+
+.progress .progress-right {
     right: 0;
-  }
-  
-  .progress .progress-right .progress-bar {
+}
+
+.progress .progress-right .progress-bar {
     left: -100%;
     border-top-left-radius: 80px;
     border-bottom-left-radius: 80px;
     border-right: 0;
     -webkit-transform-origin: center right;
     transform-origin: center right;
-  }
-  
-  .progress .progress-value {
+}
+
+.progress .progress-value {
     position: absolute;
     top: 0;
     left: 0;
-  }
+}
 
-.topics{
+.topics {
     font-size: 1rem;
     font-weight: 400;
     padding-left: 4.5rem;
     background: #e7e7e7;
 }
 
-.topics:hover{
+.topics:hover {
     border-left: 6px solid #f7765f;
     background: white;
 }
 
-.introduction{
+.introduction {
     padding-bottom: .75rem;
     border-bottom: 1px solid #dad5d4;
 }
 
-.reviseDiv{
+.reviseDiv {
     background-color: aliceblue;
 }
 
-.mcqLabel{
+.mcqLabel {
     width: 100%;
 }
-.backgroundBlue{
+
+.backgroundBlue {
     background-color: aliceblue;
 }
 
-.correct{
+.correct {
     font-size: 1.25rem;
 }
-.wrongAns{
+
+.wrongAns {
     font-size: 1.105rem;
 }
 
-.leftPanel{
+.leftPanel {
     border-top-right-radius: 20px;
     /* border-bottom-right-radius: 20px; */
 }
-.userNameOnLeftPanel{
+
+.userNameOnLeftPanel {
     border-bottom: 1px solid gray;
 }
-.memberStatus{
+
+.memberStatus {
     font-size: .8rem;
 }
-.dashboardLandingDiv{
+
+.dashboardLandingDiv {
     /* background-image: url('https://images.pexels.com/photos/3311533/pexels-photo-3311533.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); */
-    background-image: url('dashboardHeader.png');
+    background-image: url('dashboardAltered.png');
     background-position: center;
     background-size: contain;
 }
-.fontSmall{
+
+.fontSmall {
     font-size: .65rem;
     opacity: 0.60;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
-.dimGrayColor{
+
+.dimGrayColor {
     color: #616060;
 }
-.fontWeight700{
+
+.fontWeight700 {
     font-weight: 700;
 }
-.borderRadius10{
+
+.borderRadius10 {
     border-radius: 10px;
 }
-.borderRadius5{
+
+.borderRadius5 {
     border-radius: 5px;
 }
-.continuePara{
-    color: rgba(0,0,0,0.8);
+
+.continuePara {
+    color: rgba(0, 0, 0, 0.8);
     font-size: .75rem;
 }
-.plusIcon{
+
+.plusIcon {
     font-size: 5rem;
 }
-.collapseMenuButton{
+
+.collapseMenuButton {
     background-color: #fffcf5;
 }
-@media screen and (max-width: 768px){
-    .courseJumbotron{
+
+.mcqPageBackground {
+    background-color: #e7e7e7;
+}
+
+.mcqStatement {
+    /* color: #396188; */
+    /* color: #616060; */
+    color: #000000;
+    border-bottom: 1.25px solid #616060;
+    margin-bottom: 1.5rem;
+    font-family: "Helvetica Neue", Arial, Helvetica;
+}
+
+.mcqRow {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, .15);
+    -webkit-box-shadow: 0 6px 10px -4px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 6px 10px -4px rgba(0, 0, 0, .15);
+}
+
+.mcqOption {
+    font-family: "Helvetica Neue", Arial, Helvetica;
+    font-size: 1.25rem;
+}
+
+.mcqOptionRadioChecked{
+    padding-top: .3rem;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, .15);
+    background-color: #396188;
+    border-radius: 5px;
+    color: white;
+}
+
+.mcqOptionLabel::before{
+    background-color: #f57765;
+}
+
+
+@media screen and (max-width: 768px) {
+    .courseJumbotron {
         background-size: 120% 100%;
-        background-position: right; 
+        background-position: right;
     }
-    .subjects{
+
+    .subjects {
         font-weight: 500;
         font-size: .9rem;
     }
-    .partsColSubject{
+
+    .partsColSubject {
         border-right: none;
-        border-bottom: 1px solid rgba(0,0,0,0.2);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     }
+
     .progress {
         width: 130px;
         height: 130px;
     }
-    .topics{
+
+    .topics {
         font-size: .85rem;
     }
-    .memberStatus{
+
+    .memberStatus {
         font-size: .75rem;
     }
-    .dashboardLandingDiv{
-        background-image: url('dashboardHeaderMobileOld.png');
+
+    .dashboardLandingDiv {
+        background-image: url('mobileDashboard.png');
     }
-    .fontSmall{
+
+    .fontSmall {
         border-bottom: 0;
     }
-    .collapseMenuButton{
+
+    .collapseMenuButton {
         margin-top: .25rem;
     }
-    .collapseMenuButton,.collapseMenuButton:hover ,.collapseMenuButton:active{
+
+    .collapseMenuButton,
+    .collapseMenuButton:hover,
+    .collapseMenuButton:active {
         background-color: #fffcf5;
         border: 0;
     }
-    .menuDashboard{
+
+    .menuDashboard {
         font-size: .8rem;
     }
 }

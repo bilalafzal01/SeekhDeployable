@@ -515,7 +515,6 @@ app.post('/formssubjects', (req, res) => {
   });
 });
 
-
 app.get('/formsmcqs', function (req, res) {
   db.Subject.findAll().then((subjects) => {
     db.Chapter.findAll().then((chapters) => {
@@ -608,23 +607,27 @@ app.post('/formsmcqs', (req, res) => {
     res.redirect("/errorPage");
   });
 });
+
 app.get('/formstopics', function (req, res) {
-  db.Subject.findAll().then((subjects)=>{
-    db.Chapter.findAll().then((chapters)=>{
+  db.Subject.findAll().then((subjects) => {
+    db.Chapter.findAll().then((chapters) => {
       if (!req.session.user) {
         res.redirect("/errorPage");
       } else {
         if (req.session.user.id == 1) {
-          res.render('formstopics', {subjects: subjects, chapters: chapters});
+          res.render('formstopics', {
+            subjects: subjects,
+            chapters: chapters
+          });
         } else {
           res.redirect("/errorPage");
         }
       }
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err);
       res.redirect("/errorPage");
     });
-  }).catch((err)=>{
+  }).catch((err) => {
     console.log(err);
     res.redirect("/errorPage");
   });
@@ -671,22 +674,25 @@ app.post('/formstopics', (req, res) => {
 });
 
 app.get('/formscoursessubjects', function (req, res) {
-  db.Courses.findAll().then((courses)=>{
-    db.Subject.findAll().then((subjects)=>{
-      if(req.session.user){
+  db.Courses.findAll().then((courses) => {
+    db.Subject.findAll().then((subjects) => {
+      if (req.session.user) {
         if (req.session.user.id == 1) {
           console.log(courses);
-          res.render('formscoursessubjects',{courses: courses, subjects: subjects});
+          res.render('formscoursessubjects', {
+            courses: courses,
+            subjects: subjects
+          });
         } else {
           res.redirect("/errorPage");
         }
-      }else{
+      } else {
         res.redirect("/errorPage");
       }
-    }).catch((err)=>{
+    }).catch((err) => {
       res.redirect("/errorPage");
     });
-  }).catch((err)=>{
+  }).catch((err) => {
     res.redirect("/errorPage");
   });
 });
@@ -694,7 +700,7 @@ app.get('/formscoursessubjects', function (req, res) {
 app.post('/formscoursessubjects', (req, res) => {
   let subjectName = req.body.subjectName;
   let title = req.body.courseTitle;
-  console.log("titiel is: "+ title);
+  console.log("titiel is: " + title);
   db.Subject.findOne({
     where: {
       subjectName: subjectName
@@ -731,6 +737,7 @@ app.post('/formscoursessubjects', (req, res) => {
   });
 });
 
+// old mcq page (db proj)
 app.get("/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage", function (req, res) {
   if (req.session.user) {
     db.Courses.findOne({
@@ -831,7 +838,9 @@ app.post('/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage', (req
                 mcqID: answer.dataValues.mcqID
               }).then(() => {
                 j++;
-                arrayThatHoldsCorrectMCQSid.push({mcqID: answer.dataValues.mcqID});
+                arrayThatHoldsCorrectMCQSid.push({
+                  mcqID: answer.dataValues.mcqID
+                });
                 console.log("aray of correct mqs");
                 console.log(arrayThatHoldsCorrectMCQSid);
               }).catch((err) => {
@@ -977,6 +986,102 @@ app.post('/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage', (req
     });
   });
 });
+
+//new mcq pages
+app.get("/course/:courseID/subject/:subjectID/chapter/:chapterID/test", (req, res) => {
+  db.Test.create({
+    userID: req.session.user.id,
+    courseID: req.params.courseID,
+    chapterID: req.params.chapterID,
+    subjectID: req.params.subjectID
+  }).then((test) => {
+    db.Courses.findOne({
+      where: {
+        course_id: req.params.courseID
+      }
+    }).then((course) => {
+      db.Subject.findOne({
+        where: {
+          subjectID: req.params.subjectID
+        }
+      }).then((subject) => {
+        db.Chapter.findOne({
+          where: {
+            chapterID: req.params.chapterID
+          }
+        }).then((chapter) => {
+          db.Topic.findAll({
+            where: {
+              subjectID: req.params.subjectID,
+              chapterID: req.params.chapterID
+            }
+          }).then((topics) => {
+            db.MCQ.findAll({
+              where: {
+                subjectID: req.params.subjectID,
+                chapterID: req.params.chapterID
+              }
+            }).then((mcqs) => {
+              //All the mcqs are returned in an array. Get 'x' random numbers from the mcqIDs that are returned in each object. Push them in an array and then redirect the route to the url with first mcqID
+              let randomNums = [1, 2];
+              app.set('courseTEST', course);
+              app.set('subjectTEST', subject);
+              app.set('chapterTEST', chapter);
+              app.set('testTEST', test);
+              app.set('randomNums', randomNums);
+              res.redirect('/course/' + req.params.courseID + '/subject/' + req.params.subjectID + '/chapter/' + req.params.chapterID + '/test/' + test.dataValues.testID + '/mcq/' + randomNums[0]);
+            }).catch((mcqERR) => {
+              console.log(mcqERR);
+              res.redirect('/errorPage');
+            });
+          }).catch((topicERR) => {
+            console.log(topicERR);
+            res.redirect('/errorPage');
+          });
+        }).catch((chapterERR) => {
+          console.log(chapterERR);
+          res.redirect('/errorPage');
+        });
+      }).catch((subjectERR) => {
+        console.log(subjectERR);
+        res.redirect('/errorPage');
+      });
+    }).catch((courseERR) => {
+      console.log(courseERR);
+      res.redirect("/errorPage");
+    });
+  }).catch((err) => {
+    console.log(err);
+    res.redirect("/errorPage");
+  });
+});
+
+app.get('/course/:courseID/subject/:subjectID/chapter/:chapterID/test/:testID/mcq/:mcqID', (req, res) => {
+  if (req.session.user) {
+    db.MCQ.findOne({
+      where: {
+        mcqID: req.params.mcqID
+      }
+    }).then((mcq) => {
+      console.log(app.get('randomNums'));
+      res.render('testPage', {
+        currentUser: req.session.user,
+        mcq: mcq,
+        course: app.get('courseTEST'),
+        subject: app.get('subjectTEST'),
+        chapter: app.get('chapterTEST'),
+        topics: app.get('topicTEST'),
+        test: app.get('testTEST'),
+        randomNums: app.get('randomNums')
+      });
+    }).catch((mcqERR) => {
+      console.log(mcqERR);
+      res.redirect("/errorPage");
+    });
+  } else {
+    res.redirect("/errorPage");
+  }
+})
 
 app.get('/contactUs', (req, res) => {
   if (req.session.user) {

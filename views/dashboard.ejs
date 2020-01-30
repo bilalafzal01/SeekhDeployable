@@ -33,7 +33,7 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-2 text-dark" style="background-color: #fffcf5;">
-                <div class="row">
+                <div class="row" id="stickToTop">
                     <div class="col-9">
                         <p class="h6 ml-md-3 mt-4 pb-3 fontSmall text-center text-md-left"> My Menu</p>
                     </div>
@@ -165,9 +165,9 @@
 
 <script>
     $(function () {
+        console.log($(document).width());
         $('select').selectpicker();
         $('select').on('change', function () {
-            // alert("hahah");
         });
         $('.collapseMenuButton').on('active',()=>{
             $('.collapseMenuButton').css('background-color','#fffcf5');
@@ -177,3 +177,5 @@
         }
     });
 </script>
+
+
