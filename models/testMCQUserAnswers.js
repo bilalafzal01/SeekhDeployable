@@ -1,7 +1,7 @@
 "use strict";
 module.exports = function (sequelize, DataTypes) {
-    var test = sequelize.define("Test", {
-        testID: {
+    var testMCQUserAnswer = sequelize.define("TestMCQUserAnswer", {
+        testMCQUserAnswerID: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
@@ -13,43 +13,32 @@ module.exports = function (sequelize, DataTypes) {
             references: {
                 model: 'users',
                 key: 'id'
-            }   
-        },
-        courseID: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'courses',
-                key: 'course_id'
             }
         },
-        chapterID: {
+        testID: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 1,
             references: {
-                model: 'chapters',
-                key: 'chapterID'
+                model: 'tests',
+                key: 'testID'
             }
         },
-        subjectID: {
+        mcqID: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 1,
             references: {
-                model: 'subjects',
-                key: 'subjectID'
+                model: 'mcqs',
+                key: 'mcqID'
             }
         },
-        mcqIDs: {
+        userAnswer: {
             type: DataTypes.STRING,
-            defaultValue: null
-        },
-        currentMCQID: {
-            type: DataTypes.STRING,
-            defaultValue: null
+            allowNull: false,
+            defaultValue: "defaultAnswer"
         }
     });
 
-    return test;
+    return testMCQUserAnswer;
 };

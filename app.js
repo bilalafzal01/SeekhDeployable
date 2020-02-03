@@ -988,6 +988,9 @@ app.post('/course/:courseID/subject/:subjectID/chapter/:chapterID/mcqPage', (req
 });
 
 //new mcq pages
+
+// this route makes a test in database with an array that contains the IDs of mcqs that are gonna appear in that test.
+// the route then redirects to the next URL which displays 1 individual mcq page.
 app.get("/course/:courseID/subject/:subjectID/chapter/:chapterID/test", (req, res) => {
   db.Test.create({
     userID: req.session.user.id,
@@ -1024,12 +1027,30 @@ app.get("/course/:courseID/subject/:subjectID/chapter/:chapterID/test", (req, re
             }).then((mcqs) => {
               //All the mcqs are returned in an array. Get 'x' random numbers from the mcqIDs that are returned in each object. Push them in an array and then redirect the route to the url with first mcqID
               let randomNums = [1, 2];
-              app.set('courseTEST', course);
-              app.set('subjectTEST', subject);
-              app.set('chapterTEST', chapter);
-              app.set('testTEST', test);
-              app.set('randomNums', randomNums);
-              res.redirect('/course/' + req.params.courseID + '/subject/' + req.params.subjectID + '/chapter/' + req.params.chapterID + '/test/' + test.dataValues.testID + '/mcq/' + randomNums[0]);
+              db.Test.findOne({
+                where: {
+                  testID: test.dataValues.testID
+                }
+              }).then((testNew) => {
+                testNew.update({
+                  mcqIDs: randomNums.toString(),
+                  currentMCQID: randomNums[0].toString()
+                }).then(() => {
+                  console.log("test updated");
+                  app.set('courseTEST', course);
+                  app.set('subjectTEST', subject);
+                  app.set('chapterTEST', chapter);
+                  app.set('testTEST', testNew);
+                  app.set('randomNums', randomNums);
+                  res.redirect('/course/' + req.params.courseID + '/subject/' + req.params.subjectID + '/chapter/' + req.params.chapterID + '/test/' + test.dataValues.testID + '/mcq/' + randomNums[0]);
+                }).catch((testUpdateERR) => {
+                  console.log(testUpdateERR);
+                  res.redirect('/errorPage');
+                });
+              }).catch((testNewErr) => {
+                console.log(testNewErr);
+                res.redirect('/errorPage');
+              });
             }).catch((mcqERR) => {
               console.log(mcqERR);
               res.redirect('/errorPage');
@@ -1056,6 +1077,7 @@ app.get("/course/:courseID/subject/:subjectID/chapter/:chapterID/test", (req, re
   });
 });
 
+// displays 1 individual mcq page
 app.get('/course/:courseID/subject/:subjectID/chapter/:chapterID/test/:testID/mcq/:mcqID', (req, res) => {
   if (req.session.user) {
     db.MCQ.findOne({
@@ -1063,16 +1085,43 @@ app.get('/course/:courseID/subject/:subjectID/chapter/:chapterID/test/:testID/mc
         mcqID: req.params.mcqID
       }
     }).then((mcq) => {
-      console.log(app.get('randomNums'));
-      res.render('testPage', {
-        currentUser: req.session.user,
-        mcq: mcq,
-        course: app.get('courseTEST'),
-        subject: app.get('subjectTEST'),
-        chapter: app.get('chapterTEST'),
-        topics: app.get('topicTEST'),
-        test: app.get('testTEST'),
-        randomNums: app.get('randomNums')
+      db.Test.findOne({
+        where: {
+          testID: req.params.testID
+        }
+      }).then((test) => {
+        var prevMCQID, nextMCQID;
+        let mcqIDarray = Array.from(test.dataValues.mcqIDs);
+        let comma = ",";
+        //remove commas
+        mcqIDarray = mcqIDarray.filter(item => item !== comma);
+        var currentMCQIdx = mcqIDarray.indexOf(test.dataValues.currentMCQID);
+        if (currentMCQIdx == 0) {
+          prevMCQID = null;
+          nextMCQID = mcqIDarray[currentMCQIdx + 1];
+        } else if (currentMCQIdx == mcqIDarray.length - 1) {
+          prevMCQID = mcqIDarray[currentMCQIdx - 1];
+          nextMCQID = null;
+        } else {
+          prevMCQID = mcqIDarray[currentMCQIdx - 1];
+          nextMCQID = mcqIDarray[currentMCQIdx + 1];
+        }
+        res.render('testPage', {
+          currentUser: req.session.user,
+          mcq: mcq,
+          course: app.get('courseTEST'),
+          subject: app.get('subjectTEST'),
+          chapter: app.get('chapterTEST'),
+          topics: app.get('topicTEST'),
+          test: test,
+          randomNums: app.get('randomNums'),
+          currentMCQIdx: currentMCQIdx,
+          prevMCQID: prevMCQID,
+          nextMCQID: nextMCQID
+        });
+      }).catch((testERR) => {
+        console.log(testERR);
+        res.redirect("/errorPage");
       });
     }).catch((mcqERR) => {
       console.log(mcqERR);
@@ -1081,7 +1130,212 @@ app.get('/course/:courseID/subject/:subjectID/chapter/:chapterID/test/:testID/mc
   } else {
     res.redirect("/errorPage");
   }
-})
+});
+
+// POST route which saves the user answers in the 'TestMCQUserAnswer' table. Then redirects to the above URL if the mcq has any nextMCQID. 
+// if not then redirect to result page url
+app.post("/course/:courseID/subject/:subjectID/chapter/:chapterID/test/:testID/mcq/:mcqID", (req, res) => {
+  let wholeAns = req.body.mcq;
+  let answer, mcqID;
+  let str = wholeAns.toString();
+  let indexOfHyphen = str.indexOf('-');
+  answer = str.slice(indexOfHyphen + 1);
+  mcqID = str.slice(0, indexOfHyphen);
+  let nextMCQidx = req.params.nextMCQidx;
+
+  db.Test.findOne({
+    where: {
+      testID: req.params.testID
+    }
+  }).then((test) => {
+
+    let mcqIDs = Array.from(test.dataValues.mcqIDs);
+    // mcqIDs.indexOf(req.params.mcqID);
+    console.log(mcqIDs);
+    let comma = ",";
+    //remove commas
+    mcqIDs = mcqIDs.filter(item => item !== comma);
+    let firstMCQID = mcqIDs[0];
+    var currentMCQIdx = mcqIDs.indexOf(test.dataValues.currentMCQID);
+    let nextMCQID = mcqIDs[currentMCQIdx + 1];
+
+    test.update({
+      currentMCQID: nextMCQID
+    }).then(() => {
+      console.log("test has been updated!");
+      db.TestMCQUserAnswer.create({
+        userID: req.session.user.id,
+        testID: req.params.testID,
+        mcqID: req.params.mcqID,
+        userAnswer: answer
+      }).then((answerSaved) => {
+        app.set('testTEST', test);
+        // check if there is any next mcq. if yes then we render it to the above GET URL, if not then we have to show a result page. 
+        if (nextMCQID) {
+          res.redirect('/course/' + req.params.courseID + '/subject/' + req.params.subjectID + '/chapter/' + req.params.chapterID + '/test/' + req.params.testID + '/mcq/' + nextMCQID);
+        } else {
+          var numberOfCorrectAnswers = 0;
+          //generate report
+          db.TestMCQUserAnswer.findAll({
+            where: {
+              testID: test.dataValues.testID,
+              userID: req.session.user.id
+            }
+          }).then((testUserAnswers) => {
+            var p1 = new Promise((resolve, reject) => {
+              testUserAnswers.forEach((testUserAnswer, index) => {
+                db.MCQ.findOne({
+                  where: {
+                    mcqID: testUserAnswer.dataValues.mcqID
+                  }
+                }).then((returnedMCQ) => {
+                  if (returnedMCQ.dataValues.correctAns == testUserAnswer.dataValues.userAnswer) {
+                    numberOfCorrectAnswers++;
+                  } else {
+                    db.WrongAnswer.create({
+                      userID: req.session.user.id,
+                      mcqID: returnedMCQ.dataValues.mcqID,
+                      userAnswer: testUserAnswer.dataValues.userAnswer
+                    }).then((wrongAns) => {
+
+                    }).catch((wrongAnsErr) => {
+                      console.log(wrongAnsErr);
+                      res.redirect('/errorPage');
+                    });
+                  }
+                }).catch((mcqReturnERR) => {
+                  console.log(mcqReturnERR);
+                  res.redirect('/errorPage');
+                });
+                setTimeout(() => {
+                  resolve(numberOfCorrectAnswers);
+                }, 50);
+              });
+            });
+            p1.then((numberOfCorrectAnswers) => {
+              console.log("number of correct ans: " + numberOfCorrectAnswers);
+              //error
+              db.TestResultReport.create({
+                userID: req.session.user.id,
+                subjectID: req.params.subjectID,
+                chapterID: req.params.chapterID,
+                testID: req.params.testID,
+                numberOfQuestions: testUserAnswers.length,
+                numberOfCorrectQuestions: numberOfCorrectAnswers
+              }).then(() => {
+                console.log("report created!");
+                res.redirect('/course/' + req.params.courseID + '/subject/' + req.params.subjectID + '/chapter/' + req.params.chapterID + '/test/' + req.params.testID + '/resultPage/' + firstMCQID);
+              }).catch((testResultReportERR) => {
+                console.log(testResultReportERR);
+                res.redirect('/errorPage');
+              });
+            }).catch((p1NotDone) => {
+              console.log(p1NotDone);
+              res.redirect("/errorPage");
+            });
+          }).catch((testMCQUserAnswerERR) => {
+            console.log(testMCQUserAnswerERR);
+            res.redirect('/errorPage');
+          });
+        }
+      }).catch((testMCQUserAnsERR) => {
+        console.log(testMCQUserAnsERR);
+        res.redirect("/errorPage");
+      });
+    }).catch((testERR) => {
+      console.log(testERR);
+      res.redirect("/errorPage");
+    });
+  }).catch((testERR) => {
+    console.log(testERR);
+    res.redirect("/errorPage");
+  });
+});
+
+//intermediate route to generate result report
+
+// Test Result page 
+app.get('/course/:courseID/subject/:subjectID/chapter/:chapterID/test/:testID/resultPage/:mcqID', (req, res) => {
+  if (req.session.user) {
+    db.Courses.findOne({
+      where: {
+        course_id: req.params.courseID
+      }
+    }).then((course) => {
+      db.Subject.findOne({
+        where: {
+          subjectID: req.params.subjectID
+        }
+      }).then((subject) => {
+        db.Chapter.findOne({
+          where: {
+            chapterID: req.params.chapterID
+          }
+        }).then((chapter) => {
+          db.Test.findOne({
+            where: {
+              testID: req.params.testID
+            }
+          }).then((test) => {
+            db.TestMCQUserAnswer.findAll({
+              where: {
+                testID: test.dataValues.testID,
+                userID: req.session.user.id
+              }
+            }).then((testUserAnswers) => {
+              db.TestResultReport.findOne({
+                where: {
+                  userID: req.session.user.id,
+                  testID: test.dataValues.testID
+                }
+              }).then((testReport) => {
+                db.MCQ.findOne({
+                  where: {
+                    mcqID: req.params.mcqID
+                  }
+                }).then((mcq) => {
+                  res.render('resultPage', {
+                    currentUser: req.session.user,
+                    course: course,
+                    subject: subject,
+                    chapter: chapter,
+                    test: test,
+                    testUserAnswers: testUserAnswers,
+                    testReport: testReport,
+                    mcq: mcq
+                  });
+                }).catch((mcqERR) => {
+                  console.log(mcqERR);
+                  res.redirect('/errorPage');
+                });
+              }).catch((testReportERR) => {
+                console.log(testReportERR);
+                res.redirect('/errorPage');
+              });
+            }).catch((testMCQUserAnswerERR) => {
+              console.log(testMCQUserAnswerERR);
+              res.redirect('/errorPage');
+            });
+          }).catch((testERR) => {
+            console.log(testERR);
+            res.redirect('/errorPage');
+          });
+        }).catch((chapterERR) => {
+          console.log(chapterERR);
+          res.redirect('/errorPage');
+        });
+      }).catch((subjectERR) => {
+        console.log(subjectERR);
+        res.redirect('/errorPage');
+      });
+    }).catch((courseERR) => {
+      console.log(courseERR);
+      res.redirect('/errorPage');
+    });
+  } else {
+    res.redirect('/errorPage');
+  }
+});
 
 app.get('/contactUs', (req, res) => {
   if (req.session.user) {

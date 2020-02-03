@@ -316,18 +316,67 @@ div.card-body.questionOfTheDayCategory {
     font-size: 1.25rem;
 }
 
-.mcqOptionRadioChecked{
+.mcqOptionRadioChecked {
     padding-top: .3rem;
     box-shadow: 0 6px 10px -4px rgba(0, 0, 0, .15);
     background-color: #396188;
     border-radius: 5px;
     color: white;
+    transition: all 0.25s ease-in;
 }
 
-.mcqOptionLabel::before{
-    background-color: #f57765;
+.bgColorNavyBlue {
+    background-color: #2a2c41;
 }
 
+.colorNavyBlue {
+    color: #2a2c41;
+}
+
+.bgColorWhitish {
+    color: #f4f4f8;
+}
+
+.colorWhitish {
+    color: #f4f4f8;
+}
+
+.colorYellowish {
+    color: #fdbf50;
+}
+
+.bgColorGreyish {
+    background-color: #eeeeee;
+}
+
+.fontRobotoMono {
+    font-family: 'Roboto Mono', monospace;
+}
+
+.openSansFont {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.borderBottom {
+    border-bottom: 1px solid rgba(187, 180, 180, 0.5);
+}
+
+.borderBottomDark {
+    border-bottom: 1px solid rgba(187, 180, 180, 0.9);
+}
+
+.tickCrossFontSize {
+    font-size: 1.2rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: .5rem;
+    padding-right: 1.6rem;
+}
+
+.resultTable {
+    width: 100%;
+    /* border: 2px solid rgba(0, 0, 0, 0.5); */
+}
 
 @media screen and (max-width: 768px) {
     .courseJumbotron {
@@ -379,5 +428,9 @@ div.card-body.questionOfTheDayCategory {
 
     .menuDashboard {
         font-size: .8rem;
+    }
+
+    .mcqRowSmallScreen {
+        border-radius: 0;
     }
 }

@@ -1,7 +1,7 @@
 "use strict";
 module.exports = function (sequelize, DataTypes) {
-    var test = sequelize.define("Test", {
-        testID: {
+    var testResultReport = sequelize.define("TestResultReport", {
+        testResultReportID: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
@@ -13,23 +13,6 @@ module.exports = function (sequelize, DataTypes) {
             references: {
                 model: 'users',
                 key: 'id'
-            }   
-        },
-        courseID: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'courses',
-                key: 'course_id'
-            }
-        },
-        chapterID: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            defaultValue: 1,
-            references: {
-                model: 'chapters',
-                key: 'chapterID'
             }
         },
         subjectID: {
@@ -41,15 +24,35 @@ module.exports = function (sequelize, DataTypes) {
                 key: 'subjectID'
             }
         },
-        mcqIDs: {
-            type: DataTypes.STRING,
-            defaultValue: null
+        chapterID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 1,
+            references: {
+                model: 'chapters',
+                key: 'chapterID'
+            }
         },
-        currentMCQID: {
-            type: DataTypes.STRING,
-            defaultValue: null
+        testID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 1,
+            references: {
+                model: 'tests',
+                key: 'testID'
+            }
+        },
+        numberOfQuestions: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 5
+        },
+        numberOfCorrectQuestions: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0
         }
     });
 
-    return test;
+    return testResultReport;
 };

@@ -6,6 +6,9 @@
 <% var topics = topics; %>
 <% var test = test; %>
 <% var randomNums = randomNums; %>
+<% var currentMCQIdx = currentMCQIdx; %>
+<% var prevMCQID = prevMCQID; %>
+<% var nextMCQID = nextMCQID; %>
 
 <% include partials/headerLoggedIn %>
 
@@ -16,53 +19,66 @@
         </div>
     </div>
 
-    <!-- <div class="row mt-4" class="mcqRow">
-        <div class="col-12 col-md-10 offset-md-1 mcqRow text-center">
-            <p class="h2 fontWeight500 mcqStatement"><%=mcq.dataValues.statement%></p>
-        </div>
-    </div> -->
     <div class="row pt-2">
         <div class="col-md-8 col-12 offset-md-1 px-5 mcqRow mb-md-4">
-            <p class="h5 pt-4 fontWeight500">Question: <%=randomNums[0]%> / <%=randomNums.length%> </p>
+            <p class="h5 pt-4 fontWeight500">Question: <%=currentMCQIdx+1%> / <%=randomNums.length%> </p>
             <!-- <p class="">Statement: </p>   -->
             <div class="mt-0">
                 <p class="h3 mt-0 fontWeight500 mcqStatement py-3"><%=mcq.dataValues.statement%>: <span
                         class="badge badge-warning">NET 2017</span></p>
             </div>
             <div class="mcqAnswersDiv">
-                <form action="" method="POST">
+                <form
+                    action="/course/<%=course.dataValues.course_id%>/subject/<%=subject.dataValues.subjectID%>/chapter/<%=chapter.dataValues.chapterID%>/test/<%=test.dataValues.testID%>/mcq/<%=mcq.dataValues.mcqID%>?nextMCQID=<%=nextMCQID%>&prevMCQID<%=prevMCQID%>"
+                    method="POST">
                     <div>
                         <div class="mcqOption mt-4 mb-2 mcqOption1">
-                            <input type="radio" id="mcqOption<%=mcq.dataValues.option1%>"
-                                name="mcq<%=mcq.dataValues.mcqID%>" class="mcqOptionRadio1 ml-3">
+                            <input type="radio" id="mcqOption<%=mcq.dataValues.option1%>" name="mcq"
+                                class="mcqOptionRadio1 ml-3 mcqOptionInput"
+                                value="<%=mcq.dataValues.mcqID%>-<%=mcq.option1%>">
                             <label for="mcqOption<%=mcq.dataValues.option1%>" class="mcqOptionLabel"><span
                                     class="fontWeight500 pl-2 pr-3">A.</span> <%= mcq.dataValues.option1%></label>
                         </div>
                         <div class="mcqOption mt-2 mb-2 mcqOption2">
-                            <input type="radio" id="mcqOption<%=mcq.dataValues.option2%>"
-                                name="mcq<%=mcq.dataValues.mcqID%>" class="mcqOptionRadio2 ml-3">
-                            <label for="mcqOption<%=mcq.dataValues.option2%>"><span class="fontWeight500 pl-2 pr-3">B.
+                            <input type="radio" id="mcqOption<%=mcq.dataValues.option2%>" name="mcq"
+                                class="mcqOptionRadio2 ml-3 mcqOptionInput"
+                                value="<%=mcq.dataValues.mcqID%>-<%=mcq.option2%>">
+                            <label for="mcqOption<%=mcq.dataValues.option2%>" class="mcqOptionLabel"><span
+                                    class="fontWeight500 pl-2 pr-3">B.
                                 </span> <%= mcq.dataValues.option2%></label>
                         </div>
                         <div class="mcqOption mt-2 mb-2 mcqOption3">
-                            <input type="radio" id="mcqOption<%=mcq.dataValues.option3%>"
-                                name="mcq<%=mcq.dataValues.mcqID%>" class="mcqOptionRadio3 ml-3">
-                            <label for="mcqOption<%=mcq.dataValues.option3%>"><span class="fontWeight500 pl-2 pr-3">C.
+                            <input type="radio" id="mcqOption<%=mcq.dataValues.option3%>" name="mcq"
+                                class="mcqOptionRadio3 ml-3 mcqOptionInput"
+                                value="<%=mcq.dataValues.mcqID%>-<%=mcq.option3%>">
+                            <label for="mcqOption<%=mcq.dataValues.option3%>" class="mcqOptionLabel"><span
+                                    class="fontWeight500 pl-2 pr-3">C.
                                 </span> <%= mcq.dataValues.option3%></label>
                         </div>
                         <div class="mcqOption mt-2 mb-4 mcqOption4">
-                            <input type="radio" id="mcqOption<%=mcq.dataValues.option4%>"
-                                name="mcq<%=mcq.dataValues.mcqID%>" class="mcqOptionRadio4 ml-3">
-                            <label for="mcqOption<%=mcq.dataValues.option4%>"><span class="fontWeight500 pl-2 pr-3">D.
+                            <input type="radio" id="mcqOption<%=mcq.dataValues.option4%>" name="mcq"
+                                class="mcqOptionRadio4 ml-3 mcqOptionInput"
+                                value="<%=mcq.dataValues.mcqID%>-<%=mcq.option4%>">
+                            <label for="mcqOption<%=mcq.dataValues.option4%>" class="mcqOptionLabel"><span
+                                    class="fontWeight500 pl-2 pr-3">D.
                                 </span> <%= mcq.dataValues.option4%></label>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <!-- btn btn-group bg-white mcqNavigationButtons -->
                         <div class="col-12 text-center text-md-left">
+                            <% if(prevMCQID){ %>
                             <a href="#" class="btn btn-warning text-white">Prev</a>
+                            <% }else{ %>
+                            <a href="#" class="btn btn-warning text-white" disabled>Prev</a>
+                            <% } %>
                             <a href="#" class="btn btn-info text-white">Skip</a>
-                            <a href="#" class="btn btn-success text-white">Next</a>
+                            <% if(nextMCQID){ %>
+                            <button type="submit" class="btn btn-success text-white">Next</button>
+                            <!-- <a type="submit" href="/course/<%=course.dataValues.course_id%>/subject/<%=subject.dataValues.subjectID%>/chapter/<%=chapter.dataValues.chapterID%>/test/<%=test.dataValues.testID%>/mcq/<%=mcq.dataValues.mcqID%>" class="btn btn-success text-white">Next</a> -->
+                            <% }else{ %>
+                            <button type="submit" class="btn btn-success text-white">Submit</button>
+                            <% } %>
                         </div>
                     </div>
                 </form>

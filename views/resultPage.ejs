@@ -1,0 +1,190 @@
+<% var user = currentUser; %>
+<% var mcq = mcq; %>
+<% var course = course;%>
+<% var subject = subject; %>
+<% var chapter = chapter; %>
+<% var test = test; %>
+<% var mcq = mcq; %>
+<% var testReport = testReport; %>
+<% var testUserAnswers = testUserAnswers; %>
+
+<% include partials/headerLoggedIn %>
+<% let currentMCQIndex = 0; %>
+
+<% testUserAnswers.forEach((testUserAnswer,index)=>{if(testUserAnswer.dataValues.mcqID===mcq.dataValues.mcqID){currentMCQIndex=index+1;}}); %>
+
+<div class="container-fluid bgColorWhitish">
+    <div class="row pt-4">
+        <div class="col-10 offset-1">
+            <p class="p fontWeight500 colorNavyBlue"><a href="#"
+                    class="colorNavyBlue"><%=subject.dataValues.subjectName%></a> > <a href="#"
+                    class="colorNavyBlue"><%=chapter.dataValues.chapterName%></a></p>
+        </div>
+    </div>
+    <div class="row pt-2 pb-3 ">
+        <div class="colorNavyBlue col-md-8 offset-md-1 mcqRow mcqRowSmallScreen pb-2 colorWhitish bgColorNavyBlue">
+            <div class="px-3">
+                <div class="row userNameOnLeftPanel">
+                    <div class="col-md-6 col-12">
+                        <p class="h3 pb-2 fontWeight500 fontRobotoMono"><%=user.firstName%>'s Test Report</p>
+                    </div>
+                    <div class="col-md-6 col-12 text-md-right text-left">
+                        <p class="h3 pb-2 fontWeight500 fontRobotoMono">Date: <span
+                                class="fontWeight500"><%=testReport.dataValues.createdAt.toString().slice(3,15)%></span>
+                        </p>
+                    </div>
+                </div>
+                <p class="h5 fontWeight700 pt-4 fontRobotoMono colorYellowish">Subject: <span
+                        class="fontWeight500 colorWhitish"><%=subject.dataValues.subjectName%></span></p>
+                <p class="h5 fontWeight700 fontRobotoMono colorYellowish">Chapter: <span
+                        class="fontWeight500 colorWhitish"><%=chapter.dataValues.chapterName%></span></p>
+                <p class="h5 fontWeight700 fontRobotoMono colorYellowish">Correct: <span
+                        class="fontWeight500 colorWhitish"><%=testReport.dataValues.numberOfCorrectQuestions%>/<%=testReport.dataValues.numberOfQuestions%></span>
+                </p>
+                <p class="h5 fontWeight700 fontRobotoMono colorYellowish">Percentage: <span
+                        class="fontWeight500 colorWhitish"><%=(testReport.dataValues.numberOfCorrectQuestions/testReport.dataValues.numberOfQuestions)*100%>%</span>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-2 col-12 mt-2 mt-md-0 d-none d-md-inline-block">
+            <div class="card hintCard bgColorNavyBlue colorWhitish">
+                <div class="card-body text-center">
+                    <h6 class="h2 fontWeight700 card-category text-white borderBottomDark pb-2">Quick Links</h6>
+                    <div class="py-2 mt-3">
+                        <span class="borderBottom pb-2">
+                            <a href="/dashboard" class="text-white"><i class="fa fa-bandcamp mr-1"></i>Dashboard</a>
+                        </span>
+                    </div>
+                    <div class="py-2">
+                        <span class="borderBottom pb-2">
+                            <a href="#" class="text-white"><i class="fa fa-user mr-1"></i>My Profile</a>
+                        </span>
+                    </div>
+                    <div class="py-2 mb-3">
+                        <span class="borderBottom pb-2">
+                            <a href="#" class="text-white"><i class="fa fa-commenting mr-1"></i>Forums</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-10 col-12 offset-md-1 mcqRow mcqRowSmallScreen bgColorGreyish">
+            <div class="text-dark px-2">
+                <p class="h4 fontWeight700 fontRobotoMono"><span class="borderBottom pb-1 colorNavyBlue">Question
+                        <%=currentMCQIndex%>
+                        of <%=testUserAnswers.length%>:</span> </p>
+            </div>
+            <div class="text-dark px-md-5 px-3">
+                <p class="h4 mt-4 openSansFont"><%=mcq.dataValues.statement%></p>
+            </div>
+            <div class="row my-3">
+                <div class="col-10 offset-1">
+                    <table border="0" class="resultTable">
+                        <tr class="text-center text-dark borderBottomDark">
+                            <th class="h5 fontWeight700 openSansFont colorNavyBlue py-2">Answers</th>
+                            <th class="h5 fontWeight700 openSansFont colorNavyBlue">Your answer</th>
+                            <th class="h5 fontWeight700 openSansFont colorNavyBlue">Correct</th>
+                        </tr>
+                        <tr class="borderBottom">
+                            <td class="text-dark text-center py-3 fontWeight500"><%=mcq.dataValues.option1%></td>
+                            <%if(mcq.dataValues.option1==testUserAnswers[currentMCQIndex-1].dataValues.userAnswer){%>
+                            <%if(mcq.dataValues.option1==mcq.dataValues.correctAns){%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-check text-white bg-success tickCrossFontSize"></i></td>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-times text-white bg-danger tickCrossFontSize"></i></td>
+                            <%}%>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i class="fa fa-square-o tickCrossFontSize"></i></td>
+                            <%}%>
+                            <%if(mcq.dataValues.option1==mcq.dataValues.correctAns){%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-check text-white bg-success tickCrossFontSize"></i></td>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i class="fa fa-square-o tickCrossFontSize"></i></td>
+                            <%}%>
+                        </tr>
+                        <tr class="borderBottom">
+                            <td class="text-dark text-center py-3 fontWeight500"><%=mcq.dataValues.option2%></td>
+                            <%if(mcq.dataValues.option2==testUserAnswers[currentMCQIndex-1].dataValues.userAnswer){%>
+                            <%if(mcq.dataValues.option2==mcq.dataValues.correctAns){%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-check text-white bg-success tickCrossFontSize"></i></td>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-times text-white bg-danger tickCrossFontSize"></i></td>
+                            <%}%>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i class="fa fa-square-o tickCrossFontSize"></i></td>
+                            <%}%>
+                            <%if(mcq.dataValues.option2==mcq.dataValues.correctAns){%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-check text-white bg-success tickCrossFontSize"></i></td>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i class="fa fa-square-o tickCrossFontSize"></i></td>
+                            <%}%>
+                        </tr>
+                        <tr class="borderBottom">
+                            <td class="text-dark text-center py-3 fontWeight500"><%=mcq.dataValues.option3%></td>
+                            <%if(mcq.dataValues.option3==testUserAnswers[currentMCQIndex-1].dataValues.userAnswer){%>
+                            <%if(mcq.dataValues.option3==mcq.dataValues.correctAns){%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-check text-white bg-success tickCrossFontSize"></i></td>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-times text-white bg-danger tickCrossFontSize"></i></td>
+                            <%}%>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i class="fa fa-square-o tickCrossFontSize"></i></td>
+                            <%}%>
+                            <%if(mcq.dataValues.option3==mcq.dataValues.correctAns){%>
+                            <td class="text-dark text-center"><i class="fa fa-check tickCrossFontSize"></i></td>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i class="fa fa-square-o tickCrossFontSize"></i></td>
+                            <%}%>
+                        </tr>
+                        <tr class="borderBottom">
+                            <td class="text-dark text-center py-3 fontWeight500"><%=mcq.dataValues.option4%></td>
+                            <%if(mcq.dataValues.option4==testUserAnswers[currentMCQIndex-1].dataValues.userAnswer){%>
+                            <%if(mcq.dataValues.option4==mcq.dataValues.correctAns){%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-check text-white bg-success tickCrossFontSize"></i></td>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-times text-white bg-danger tickCrossFontSize"></i></td>
+                            <%}%>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i class="fa fa-square-o tickCrossFontSize"></i></td>
+                            <%}%>
+                            <%if(mcq.dataValues.option4==mcq.dataValues.correctAns){%>
+                            <td class="text-dark text-center"><i
+                                    class="fa fa-check text-white bg-success tickCrossFontSize"></i></td>
+                            <%}else{%>
+                            <td class="text-dark text-center"><i class="fa fa-square-o tickCrossFontSize"></i></td>
+                            <%}%>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 offset-1 text-right">
+            <a href="">
+                <p class="text-dark">See a problem? Report this Question!</p>
+            </a>
+        </div>
+    </div>
+    
+</div>
+
+<% include partials/footer%>
+
+<script>
+$(document).ready(() => {
+    $('title').text('Result Page');
+});
+</script>
