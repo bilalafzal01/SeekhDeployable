@@ -60,9 +60,14 @@
                             <a href="#" class="text-white"><i class="fa fa-user mr-1"></i>My Profile</a>
                         </span>
                     </div>
-                    <div class="py-2 mb-3">
+                    <div class="py-2">
                         <span class="borderBottom pb-2">
                             <a href="#" class="text-white"><i class="fa fa-commenting mr-1"></i>Forums</a>
+                        </span>
+                    </div>
+                    <div class="py-2 mb-3">
+                        <span class="borderBottom pb-2">
+                            <a href="#" class="text-white"><i class="fa fa-close mr-1"></i>Wrong Attempts</a>
                         </span>
                     </div>
                 </div>
@@ -173,18 +178,42 @@
     </div>
     <div class="row">
         <div class="col-md-10 offset-1 text-right">
-            <a href="">
+            <a href="#">
                 <p class="text-dark">See a problem? Report this Question!</p>
             </a>
         </div>
     </div>
-    
+    <div class="row mt-3 mt-md-0">
+        <div class="col-md-10 offset-1">
+            <div class="row mb-2">
+                <div class="col-md-1 col-3 d-flex">
+                    <p class="h3 fontRobotoMono text-dark m-0 nextItem">Next: </p>
+                </div>
+                <div class="col-md-11 col-8">
+                    <%testUserAnswers.forEach((testUserAnswer,index)=>{%>
+                            <%if(testUserAnswer.dataValues.correctOrWrong == 1){%>
+                            <a href="/course/<%=course.dataValues.course_id%>/subject/<%=subject.dataValues.subjectID%>/chapter/<%=chapter.dataValues.chapterID%>/test/<%=test.dataValues.testID%>/resultPage/<%=testUserAnswer.dataValues.mcqID%>"
+                                class="d-inline-block btn btn-success">
+                                <p class="fontRobotoMono fontWeight700"><%=index+1%></p>
+                            </a>
+                            <%}else{%>
+                            <a href="/course/<%=course.dataValues.course_id%>/subject/<%=subject.dataValues.subjectID%>/chapter/<%=chapter.dataValues.chapterID%>/test/<%=test.dataValues.testID%>/resultPage/<%=testUserAnswer.dataValues.mcqID%>"
+                                class="d-inline-block btn btn-danger">
+                                <p class="fontRobotoMono fontWeight700"><%=index+1%></p>
+                            </a>
+                            <%}%>
+
+                    <%});%>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <% include partials/footer%>
 
 <script>
-$(document).ready(() => {
-    $('title').text('Result Page');
-});
+    $(document).ready(() => {
+        $('title').text('Result Page');
+    });
 </script>

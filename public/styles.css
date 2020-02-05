@@ -378,6 +378,10 @@ div.card-body.questionOfTheDayCategory {
     /* border: 2px solid rgba(0, 0, 0, 0.5); */
 }
 
+.nextItem{
+    align-self: center;
+}
+
 @media screen and (max-width: 768px) {
     .courseJumbotron {
         background-size: 120% 100%;
