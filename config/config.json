@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "165099@nEEDKEYS",
+    "password": "SqlPasswordSql",
     "database": "seekhbyrexiav3",
     "host": "127.0.0.1",
     "dialect": "mysql",
